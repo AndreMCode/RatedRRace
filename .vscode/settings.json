@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Prototype 4400.sln"
+    "dotnet.defaultSolution": "Prototype4400.sln"
 }
