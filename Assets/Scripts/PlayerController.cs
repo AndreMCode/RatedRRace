@@ -3,27 +3,44 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
+
+// Remove the following line after adding animated sprites
 [RequireComponent(typeof(GameObject))]
+
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rb;
+    [Header("Player Attributes")]
+    public float jumpForce = 16f;
+    public float jumpCancelFactor = -0.4f;
+    public bool canCancelJump = false;
+    public bool isSliding = false;
+    [Header("Ground Checking")]
     public Transform groundCheck;
     public LayerMask groundLayer;
-    public float jumpForce = 10f;
-    public float jumpCancelFactor;
-    public float groundCheckRadius;
+    public float groundCheckRadius = 0.4f;
     public bool grounded;
-    public bool isSliding;
-    public bool canCancelJump;
+
+    // Leniency for pressing jump early
+    [Header("Jump Buffering")]
+    public float groundProximityDistance = 1.8f; // Full height
+    public float jumpBufferTime = 0.25f;
+    public bool bufferedJump = false;
+    private float bufferedJumpTimer = 0f;
+    // Leniency for pressing slide early
+    [Header("Slide Buffering")]
+    public float slideBufferTime = 0.25f;
+    public bool bufferedSlide = false;
+    private float bufferedSlideTimer = 0f;
 
     private BoxCollider2D boxCol;
+    [Header("Slide Collider Settings")]
     public Vector2 defaultSize;
     public Vector2 defaultOffset;
-    [Header("Slide Collider Settings")]
-    public Vector2 slideSize = new(1f, 0.5f);
-    public Vector2 slideOffset = new(0f, -0.25f);
+    public Vector2 slideSize = new(0.8f, 0.9f);
+    public Vector2 slideOffset = new(0f, -0.05f);
     public float slideTime = 0.8f;
-    public float slideCooldown = 1f;
+    public float slideCooldown = 0.4f;
     private float slideEnd;
 
     // Temporary sprite objects for visualizing player height
@@ -51,59 +68,141 @@ public class PlayerController : MonoBehaviour
         HandleSlidePress();
     }
 
+    void FixedUpdate()
+    {
+        // Show ray for debugging
+        Debug.DrawRay(groundCheck.position, Vector2.down * groundProximityDistance, Color.red);
+    }
+
     void CheckEnvironment()
     {
+        // GROUND CHECK
         grounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+
+        // Jump if landing with a buffered jump
+        if (grounded && bufferedJump)
+        {
+            ApplyJump();
+            bufferedJump = false;
+            bufferedJumpTimer = 0f;
+        }
+
+        // Slide if landing with a buffered slide
+        if (grounded && bufferedSlide)
+        {
+            if ((Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) && !isSliding && Time.time >= slideEnd + slideCooldown)
+            {
+                BeginSlide();
+            }
+            bufferedSlide = false;
+            bufferedSlideTimer = 0f;
+        }
+
+        // Update buffered jump timer and clear if expired
+        if (bufferedJump)
+        {
+            bufferedJumpTimer += Time.deltaTime;
+            if (bufferedJumpTimer >= jumpBufferTime)
+            {
+                bufferedJump = false;
+                bufferedJumpTimer = 0f;
+            }
+        }
+
+        // Update buffered slide timer and clear if expired
+        if (bufferedSlide)
+        {
+            bufferedSlideTimer += Time.deltaTime;
+            if (bufferedSlideTimer >= slideBufferTime)
+            {
+                bufferedSlide = false;
+                bufferedSlideTimer = 0f;
+            }
+        }
+
         //animator.SetBool("IsGrounded", grounded);
     }
 
     void HandleJumpPress()
     {
-        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
-        && grounded)
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
-            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            canCancelJump = true;
+            if (grounded)
+            {
+                ApplyJump();
+                return;
+            }
 
-            //animator.SetBool("IsJumping", canCancelJump);
+            // If not grounded, check proximity to the ground and buffer the jump
+            RaycastHit2D hit = Physics2D.Raycast(groundCheck.position, Vector2.down, groundProximityDistance, groundLayer);
+            if (hit.collider != null)
+            {
+                bufferedJump = true;
+                bufferedJumpTimer = 0f;
+            }
         }
+    }
+
+    private void ApplyJump()
+    {
+        // Zero any vertical force before applying jump force
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
+        rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        canCancelJump = true;
+
+        //animator.SetBool("IsJumping", canCancelJump);
     }
 
     void HandleJumpCancel()
     {
-        if ((Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow))
+        if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.UpArrow)
         && canCancelJump
         && rb.linearVelocity.y > 0)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * jumpCancelFactor);
             canCancelJump = false;
+
             //animator.SetBool("IsJumping", canCancelJump);
         }
         else if (canCancelJump && rb.linearVelocity.y < 0)
         {
             canCancelJump = false;
+
             //animator.SetBool("IsJumping", canCancelJump);
         }
     }
 
     void HandleSlidePress()
     {
-        if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
-        && grounded
-        && !isSliding
-        && Time.time >= slideEnd + slideCooldown)
+        if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
-            isSliding = true;
-            boxCol.size = slideSize;
-            boxCol.offset = slideOffset;
+            if (grounded && !isSliding && Time.time >= slideEnd + slideCooldown)
+            {
+                BeginSlide();
+                return;
+            }
 
-            StartCoroutine(SlideTimer());
-
-            // Temporary until we have animated sprites
-            tallHeight.enabled = false;
-            shortHeight.enabled = true;
-            //Debug.Log("Slide triggered!");
+            // If not grounded, check proximity and buffer the slide
+            RaycastHit2D hit = Physics2D.Raycast(groundCheck.position, Vector2.down, groundProximityDistance, groundLayer);
+            if (hit.collider != null)
+            {
+                bufferedSlide = true;
+                bufferedSlideTimer = 0f;
+            }
         }
+    }
+
+    private void BeginSlide()
+    {
+        isSliding = true;
+        boxCol.size = slideSize;
+        boxCol.offset = slideOffset;
+
+        StartCoroutine(SlideTimer());
+
+        // Temporary until we have animated sprites
+        tallHeight.enabled = false;
+        shortHeight.enabled = true;
     }
 
     private IEnumerator SlideTimer()
@@ -132,7 +231,6 @@ public class PlayerController : MonoBehaviour
         // Temporary until we have animated sprites
         tallHeight.enabled = true;
         shortHeight.enabled = false;
-        //Debug.Log("Slide canceled!");
     }
 
     // *** USED FOR DEV/DEBUG PURPOSES ***

@@ -5,6 +5,7 @@ public class ObstacleTravel : MonoBehaviour
 {
     public float baseSpeed = 7f;
     public float scalar = 1f;
+    public float xBound = -10f;
 
     private Coroutine speedLerpRoutine;
 
@@ -15,7 +16,12 @@ public class ObstacleTravel : MonoBehaviour
 
     void Update()
     {
-            transform.Translate(baseSpeed * scalar * Time.deltaTime * Vector3.left);
+        transform.Translate(baseSpeed * scalar * Time.deltaTime * Vector3.left);
+
+        if (transform.position.x < xBound)
+        {
+            Destroy(gameObject);
+        }
     }
 
     void OnEnable()
@@ -57,6 +63,6 @@ public class ObstacleTravel : MonoBehaviour
         if (speedLerpRoutine != null)
             StopCoroutine(speedLerpRoutine);
 
-        speedLerpRoutine = StartCoroutine(LerpToNewSpeed(scalar, newScalar, 1f)); 
+        speedLerpRoutine = StartCoroutine(LerpToNewSpeed(scalar, newScalar, 1f));
     }
 }

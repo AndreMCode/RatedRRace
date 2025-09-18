@@ -1101,16 +1101,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1826c3713bf713049ac5fec7e78b078d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jumpForce: 16
+  jumpCancelFactor: -0.4
+  canCancelJump: 0
+  isSliding: 0
   groundCheck: {fileID: 824983915}
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  jumpForce: 16
-  jumpCancelFactor: -0.4
   groundCheckRadius: 0.4
   grounded: 0
-  isSliding: 0
-  canCancelJump: 0
+  groundProximityDistance: 1.8
+  jumpBufferTime: 0.25
+  bufferedJump: 0
+  slideBufferTime: 0.25
+  bufferedSlide: 0
   defaultSize: {x: 0.8, y: 1.8}
   defaultOffset: {x: 0, y: 0.4}
   slideSize: {x: 0.8, y: 0.9}
