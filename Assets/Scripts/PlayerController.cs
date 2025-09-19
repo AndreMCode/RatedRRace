@@ -9,6 +9,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] Animator animator;
+    private bool isRunning = false;
+
     private Rigidbody2D rb;
     [Header("Player Attributes")]
     public float jumpForce = 16f;
@@ -53,6 +56,8 @@ public class PlayerController : MonoBehaviour
         boxCol = GetComponent<BoxCollider2D>();
         slideEnd = Time.time - slideCooldown;
 
+        animator.SetBool("IsRunning", isRunning);
+
         // Temporary until we have animated sprites
         tallHeight = GameObject.Find("Tall").GetComponent<SpriteRenderer>();
         shortHeight = GameObject.Find("Short").GetComponent<SpriteRenderer>();
@@ -70,8 +75,25 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Show ray for debugging
+        // Debug ray
         Debug.DrawRay(groundCheck.position, Vector2.down * groundProximityDistance, Color.red);
+    }
+
+    void OnEnable()
+    {
+        Messenger.AddListener(GameEvent.START_RUN, SetRunning);
+    }
+
+    void OnDisable()
+    {
+        Messenger.RemoveListener(GameEvent.START_RUN, SetRunning);
+    }
+
+    void SetRunning()
+    {
+        isRunning = true;
+
+        animator.SetBool("IsRunning", isRunning);
     }
 
     void CheckEnvironment()
@@ -120,7 +142,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        //animator.SetBool("IsGrounded", grounded);
+        animator.SetBool("IsGrounded", grounded);
     }
 
     void HandleJumpPress()
@@ -150,7 +172,7 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         canCancelJump = true;
 
-        //animator.SetBool("IsJumping", canCancelJump);
+        animator.SetBool("IsJumping", canCancelJump);
     }
 
     void HandleJumpCancel()
@@ -162,13 +184,13 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * jumpCancelFactor);
             canCancelJump = false;
 
-            //animator.SetBool("IsJumping", canCancelJump);
+            animator.SetBool("IsJumping", canCancelJump);
         }
         else if (canCancelJump && rb.linearVelocity.y < 0)
         {
             canCancelJump = false;
 
-            //animator.SetBool("IsJumping", canCancelJump);
+            animator.SetBool("IsJumping", canCancelJump);
         }
     }
 
@@ -235,29 +257,29 @@ public class PlayerController : MonoBehaviour
 
     // *** USED FOR DEV/DEBUG PURPOSES ***
 
-    // void OnDrawGizmosSelected()
-    // {
-    //     if (groundCheck != null)
-    //         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
-    // }
+    void OnDrawGizmosSelected()
+    {
+        if (groundCheck != null)
+            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+    }
 
-    // void OnDrawGizmos()
-    // {
-    //     if (!boxCol) return;
+    void OnDrawGizmos()
+    {
+        if (!boxCol) return;
 
-    //     Gizmos.color = Color.green;
-    //     DrawColliderGizmo(defaultSize, defaultOffset);   // standing
+        Gizmos.color = Color.green;
+        DrawColliderGizmo(defaultSize, defaultOffset);   // standing
 
-    //     Gizmos.color = Color.cyan;
-    //     DrawColliderGizmo(slideSize, slideOffset);       // sliding
-    // }
+        Gizmos.color = Color.cyan;
+        DrawColliderGizmo(slideSize, slideOffset);       // sliding
+    }
 
-    // void DrawColliderGizmo(Vector2 size, Vector2 offset)
-    // {
-    //     // BoxCollider2D is centered around transform.position + offset
-    //     Vector2 worldPos = (Vector2)transform.position + offset;
+    void DrawColliderGizmo(Vector2 size, Vector2 offset)
+    {
+        // BoxCollider2D is centered around transform.position + offset
+        Vector2 worldPos = (Vector2)transform.position + offset;
 
-    //     Gizmos.matrix = Matrix4x4.TRS(worldPos, transform.rotation, Vector3.one);
-    //     Gizmos.DrawWireCube(Vector3.zero, size);
-    // }
+        Gizmos.matrix = Matrix4x4.TRS(worldPos, transform.rotation, Vector3.one);
+        Gizmos.DrawWireCube(Vector3.zero, size);
+    }
 }
