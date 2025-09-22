@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     public LayerMask groundLayer;
     public float groundCheckRadius = 0.4f;
     public bool grounded;
+    private float groundLevel;
 
     // Leniency for pressing jump early
     [Header("Jump Buffering")]
@@ -54,6 +55,11 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         boxCol = GetComponent<BoxCollider2D>();
+
+        // groundLevel used to "snap" position to ground before applying a jump
+        // therefore should be properly set in Scene first
+        groundLevel = transform.position.y;
+
         slideEnd = Time.time - slideCooldown;
 
         animator.SetBool("IsRunning", isRunning);
@@ -82,16 +88,27 @@ public class PlayerController : MonoBehaviour
     void OnEnable()
     {
         Messenger.AddListener(GameEvent.START_RUN, SetRunning);
+        Messenger.AddListener(GameEvent.PLAYER_DIED, PlayerDied);
     }
 
     void OnDisable()
     {
         Messenger.RemoveListener(GameEvent.START_RUN, SetRunning);
+        Messenger.RemoveListener(GameEvent.PLAYER_DIED, PlayerDied);
     }
 
     void SetRunning()
     {
         isRunning = true;
+
+        animator.SetBool("IsRunning", isRunning);
+    }
+
+    void PlayerDied()
+    {
+        isRunning = false;
+
+        // Death sequence goes here
 
         animator.SetBool("IsRunning", isRunning);
     }
@@ -169,7 +186,9 @@ public class PlayerController : MonoBehaviour
     {
         // Zero any vertical force before applying jump force
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
-        rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        transform.position = new Vector2(transform.position.x, groundLevel);
+        rb.linearVelocityY = Mathf.Sqrt(2 * jumpForce * Mathf.Abs(Physics2D.gravity.y) * rb.gravityScale);
+        // rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         canCancelJump = true;
 
         animator.SetBool("IsJumping", canCancelJump);

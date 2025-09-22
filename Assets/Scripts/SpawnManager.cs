@@ -20,16 +20,15 @@ public class SpawnManager : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(InitialCountdown());
         // StartCoroutine(TestAdjust());
     }
 
     void Update()
     {
+        distanceTraveled = transform.position.x - distanceTracker.transform.position.x - 16.0f; // The offset distance between the spawner and the player
+        
         if (running)
         {
-            distanceTraveled = transform.position.x - distanceTracker.transform.position.x - 16.0f; // The offset distance between the spawner and the player
-
             if (gameLevel == 0)
             {
                 // endless run algorithm
@@ -44,6 +43,7 @@ public class SpawnManager : MonoBehaviour
                     Vector3 spawnPos = new(10.0f, evt.yPosition, 0);
                     GameObject nextObstacle = Instantiate(evt.obstaclePrefab, spawnPos, evt.obstaclePrefab.transform.rotation);
                     ObstacleTravel obstacleSettings = nextObstacle.GetComponent<ObstacleTravel>();
+                    obstacleSettings.traveling = true;
                     obstacleSettings.baseSpeed = runSpeed;
                     obstacleSettings.scalar = runSpeedScalar;
                     nextSpawnIndex++;
@@ -59,6 +59,7 @@ public class SpawnManager : MonoBehaviour
                     Vector3 spawnPos = new(10.0f, evt.yPosition, 0);
                     GameObject nextObstacle = Instantiate(evt.obstaclePrefab, spawnPos, evt.obstaclePrefab.transform.rotation);
                     ObstacleTravel obstacleSettings = nextObstacle.GetComponent<ObstacleTravel>();
+                    obstacleSettings.traveling = true;
                     obstacleSettings.baseSpeed = runSpeed;
                     obstacleSettings.scalar = runSpeedScalar;
                     nextSpawnIndex++;
@@ -74,6 +75,7 @@ public class SpawnManager : MonoBehaviour
                     Vector3 spawnPos = new(10.0f, evt.yPosition, 0);
                     GameObject nextObstacle = Instantiate(evt.obstaclePrefab, spawnPos, evt.obstaclePrefab.transform.rotation);
                     ObstacleTravel obstacleSettings = nextObstacle.GetComponent<ObstacleTravel>();
+                    obstacleSettings.traveling = true;
                     obstacleSettings.baseSpeed = runSpeed;
                     obstacleSettings.scalar = runSpeedScalar;
                     nextSpawnIndex++;
@@ -84,16 +86,30 @@ public class SpawnManager : MonoBehaviour
 
     void OnEnable()
     {
+        Messenger.AddListener(GameEvent.START_RUN, StartRun);
         Messenger<int>.AddListener(GameEvent.SET_LEVEL, InitializeLevel);
         Messenger<float>.AddListener(GameEvent.SET_RUN_SPEED, InitializeRunSpeed);
         Messenger<float>.AddListener(GameEvent.SET_RUN_SCALAR, InitializeRunScalar);
+        Messenger.AddListener(GameEvent.PLAYER_DIED, StopRunning);
     }
 
     void OnDisable()
     {
+        Messenger.RemoveListener(GameEvent.START_RUN, StartRun);
         Messenger<int>.RemoveListener(GameEvent.SET_LEVEL, InitializeLevel);
         Messenger<float>.RemoveListener(GameEvent.SET_RUN_SPEED, InitializeRunSpeed);
         Messenger<float>.RemoveListener(GameEvent.SET_RUN_SCALAR, InitializeRunScalar);
+        Messenger.RemoveListener(GameEvent.PLAYER_DIED, StopRunning);
+    }
+
+    private void StartRun()
+    {
+        running = true;
+    }
+
+    private void StopRunning()
+    {
+        running = false;
     }
 
     private void InitializeLevel(int number)
@@ -111,18 +127,9 @@ public class SpawnManager : MonoBehaviour
         runSpeedScalar = value;
     }
 
-    private IEnumerator InitialCountdown()
-    {
-        yield return new WaitForSeconds(3f);
-
-        // Current listeners: DistanceTracker, BGManager
-        Messenger.Broadcast(GameEvent.START_RUN);
-        running = true;
-    }
-
     private IEnumerator TestAdjust()
     { // used to test mid-game speed adjustment
-        yield return new WaitForSeconds(6f);
+        yield return new WaitForSeconds(9f);
 
         Messenger<float>.Broadcast(GameEvent.ADJ_RUN_SPEED, 2f);
     }

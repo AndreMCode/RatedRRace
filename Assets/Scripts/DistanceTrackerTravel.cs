@@ -16,7 +16,7 @@ public class DistanceTrackerTravel : MonoBehaviour
 
     void Update()
     {
-            if (running) transform.Translate(runSpeed * runSpeedScalar * Time.deltaTime * Vector3.left);
+        if (running) transform.Translate(runSpeed * runSpeedScalar * Time.deltaTime * Vector3.left);
     }
 
     void OnEnable()
@@ -25,6 +25,7 @@ public class DistanceTrackerTravel : MonoBehaviour
         Messenger<float>.AddListener(GameEvent.SET_RUN_SPEED, InitializeRunSpeed);
         Messenger<float>.AddListener(GameEvent.SET_RUN_SCALAR, InitializeRunScalar);
         Messenger<float>.AddListener(GameEvent.ADJ_RUN_SPEED, ReactToGameSpeedChange);
+        Messenger.AddListener(GameEvent.PLAYER_DIED, PlayerDied);
     }
 
     void OnDisable()
@@ -33,11 +34,17 @@ public class DistanceTrackerTravel : MonoBehaviour
         Messenger<float>.RemoveListener(GameEvent.SET_RUN_SPEED, InitializeRunSpeed);
         Messenger<float>.RemoveListener(GameEvent.SET_RUN_SCALAR, InitializeRunScalar);
         Messenger<float>.RemoveListener(GameEvent.ADJ_RUN_SPEED, ReactToGameSpeedChange);
+        Messenger.RemoveListener(GameEvent.PLAYER_DIED, PlayerDied);
     }
 
     private void SetRunning()
     {
         running = true;
+    }
+
+    private void PlayerDied()
+    {
+        StartCoroutine(LerpToNewSpeed(runSpeedScalar, 0f, runSpeedScalar));
     }
 
     private void InitializeRunSpeed(float value)
@@ -52,8 +59,6 @@ public class DistanceTrackerTravel : MonoBehaviour
 
     private IEnumerator LerpToNewSpeed(float startScalar, float targetScalar, float duration)
     {
-        // adjustingSpeed = true;
-
         float elapsed = 0f;
         while (elapsed < duration)
         {
@@ -63,14 +68,16 @@ public class DistanceTrackerTravel : MonoBehaviour
         }
 
         runSpeedScalar = targetScalar; // snap exactly to target
-        // adjustingSpeed = false;
     }
 
     private void ReactToGameSpeedChange(float newScalar)
     {
         // stop any previous lerp so they don’t stack
         if (speedLerpRoutine != null)
+        {
             StopCoroutine(speedLerpRoutine);
+            speedLerpRoutine = null;
+        }
 
         speedLerpRoutine = StartCoroutine(LerpToNewSpeed(runSpeedScalar, newScalar, 1f)); 
     }
