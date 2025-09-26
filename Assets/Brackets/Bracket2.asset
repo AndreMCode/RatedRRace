@@ -14,29 +14,54 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sequence:
   - triggerDistance: 0
-    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
-    yPosition: -3.5
-  - triggerDistance: 10
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
-    yPosition: -2
-  - triggerDistance: 15
-    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
-    yPosition: -3.5
-  - triggerDistance: 20
+    yPosition: 0.4
+    speedOffsetScalar: 1
+  - triggerDistance: 8
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
-    yPosition: -2
-  - triggerDistance: 22.5
-    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
-    yPosition: -3.5
-  - triggerDistance: 25
+    yPosition: 0.4
+    speedOffsetScalar: 1
+  - triggerDistance: 16
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
-    yPosition: -2
-  - triggerDistance: 30
-    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
-    yPosition: -3.5
-  - triggerDistance: 35
+    yPosition: 1.5
+    speedOffsetScalar: 1
+  - triggerDistance: 32
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
-    yPosition: -3
+    yPosition: 1.5
+    speedOffsetScalar: 1
   - triggerDistance: 36
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
-    yPosition: -2
+    yPosition: 0
+    speedOffsetScalar: 1
+  - triggerDistance: 38
+    obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
+    yPosition: 0.4
+    speedOffsetScalar: 1
+  - triggerDistance: 48
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 0
+    speedOffsetScalar: 1
+  - triggerDistance: 50
+    obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
+    yPosition: 0.4
+    speedOffsetScalar: 1
+  - triggerDistance: 52
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 0
+    speedOffsetScalar: 1
+  - triggerDistance: 64
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 0
+    speedOffsetScalar: 1.5
+  - triggerDistance: 64
+    obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
+    yPosition: 0.4
+    speedOffsetScalar: 1
+  - triggerDistance: 68
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 1.5
+    speedOffsetScalar: 1
+  - triggerDistance: 68
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 2.4
+    speedOffsetScalar: 1

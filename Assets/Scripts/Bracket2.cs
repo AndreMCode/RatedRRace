@@ -9,6 +9,7 @@ public class Bracket2 : ScriptableObject
         public float triggerDistance;
         public GameObject obstaclePrefab;
         public float yPosition;
+        public float speedOffsetScalar = 1;
     }
 
     public SpawnEvent[] sequence;

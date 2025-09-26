@@ -9,6 +9,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] GameObject spriteHandle;
     [SerializeField] Animator animator;
     private bool isRunning = false;
 
@@ -21,9 +22,10 @@ public class PlayerController : MonoBehaviour
     [Header("Ground Checking")]
     public Transform groundCheck;
     public LayerMask groundLayer;
+    public BoxCollider2D groundCollider;
     public float groundCheckRadius = 0.4f;
     public bool grounded;
-    private float groundLevel;
+    public float groundLevel;
 
     // Leniency for pressing jump early
     [Header("Jump Buffering")]
@@ -57,8 +59,12 @@ public class PlayerController : MonoBehaviour
         boxCol = GetComponent<BoxCollider2D>();
 
         // groundLevel used to "snap" position to ground before applying a jump
-        // therefore should be properly set in Scene first
-        groundLevel = transform.position.y;
+        if (groundCollider != null)
+        {
+            groundLevel = groundCollider.bounds.max.y;
+            // Relay groundLevel to spawner
+            Messenger<float>.Broadcast(GameEvent.SET_GROUND_HEIGHT, groundLevel);
+        }
 
         slideEnd = Time.time - slideCooldown;
 
@@ -77,6 +83,20 @@ public class PlayerController : MonoBehaviour
         HandleJumpPress();
         HandleJumpCancel();
         HandleSlidePress();
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            if (tallHeight.enabled || shortHeight.enabled)
+            {
+                tallHeight.enabled = false;
+                shortHeight.enabled = false;
+            }
+            else
+            {
+                tallHeight.enabled = true;
+                shortHeight.enabled = true;
+            }
+        }
     }
 
     void FixedUpdate()
@@ -121,7 +141,7 @@ public class PlayerController : MonoBehaviour
         // Jump if landing with a buffered jump
         if (grounded && bufferedJump)
         {
-            ApplyJump();
+            ApplyJump(groundLevel, jumpForce);
             bufferedJump = false;
             bufferedJumpTimer = 0f;
         }
@@ -168,7 +188,7 @@ public class PlayerController : MonoBehaviour
         {
             if (grounded)
             {
-                ApplyJump();
+                ApplyJump(groundLevel, jumpForce);
                 return;
             }
 
@@ -182,15 +202,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void ApplyJump()
+    public void ApplyJump(float baseHeight, float strength)
     {
         // Zero any vertical force before applying jump force
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
-        transform.position = new Vector2(transform.position.x, groundLevel);
-        rb.linearVelocityY = Mathf.Sqrt(2 * jumpForce * Mathf.Abs(Physics2D.gravity.y) * rb.gravityScale);
-        // rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        // Snap y-transform to jump base
+        transform.position = new Vector2(transform.position.x, baseHeight);
+        // Sqrt ensures max jump height is consistent
+        rb.linearVelocityY = Mathf.Sqrt(2 * strength * Mathf.Abs(Physics2D.gravity.y) * rb.gravityScale);
+
         canCancelJump = true;
 
+        // Snap position of sprite handle to jump base
+        spriteHandle.transform.position = transform.position;
         animator.SetBool("IsJumping", canCancelJump);
     }
 

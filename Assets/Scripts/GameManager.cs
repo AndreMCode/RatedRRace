@@ -3,7 +3,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     // Manage game settings: level, "run" speed, "health" modifiers,
-    public int level = 1; // for testing from inspector, privatize later
+    private int level = 1;
     public float baseRunSpeed = 5f;
     public float runSpeedScalar = 1f;
 
@@ -13,8 +13,8 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        // Retrieve from saved value once UIMainMenu is complete
-        // level = PlayerPrefs.GetInt("SelectedBracket", 1);
+        // Retrieve selected bracket
+        level = PlayerPrefs.GetInt("SelectedBracket", 1);
 
         Messenger<int>.Broadcast(GameEvent.SET_LEVEL, level);
         Messenger<int>.Broadcast(GameEvent.SET_AUDIO_TRACK, level); // Level number is also track number for now
@@ -31,6 +31,12 @@ public class GameManager : MonoBehaviour
         {
             // Temporary for prototype
             ReloadScene();
+        }
+
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            // Temporary for prototype
+            UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
         }
     }
 

@@ -1,11 +1,15 @@
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(PlayerController))]
+
 public class PlayerHealth : MonoBehaviour
 {
+    [SerializeField] GameObject spriteHandle;
     private Rigidbody2D rb;
     private BoxCollider2D boxCol;
+    private PlayerController playerController;
     private readonly int baseHealth = 1;
     private int health;
 
@@ -13,6 +17,7 @@ public class PlayerHealth : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         boxCol = GetComponent<BoxCollider2D>();
+        playerController = GetComponent<PlayerController>();
         // Apply powerup modifiers (bubble) in GameManager
     }
 
@@ -46,16 +51,23 @@ public class PlayerHealth : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Box"))
         {
-            if (boxCol.bounds.min.y >= collision.transform.position.y && rb.linearVelocityY < 0f)
+            BoxCollider2D box = collision.GetComponent<BoxCollider2D>();
+
+            // Since the sprite handle position on approach is always some distance behind the rigidbody
+            // (it's being lerped for smooth framerate), its position serves as a check in cases when
+            // the rigidbody is detected after passing through a collider by continuous collision detection
+            if (box != null && spriteHandle.transform.position.y > box.bounds.max.y)
             {
+                float baseHeight = collision.GetComponent<BoxCollider2D>().bounds.max.y;
+                playerController.ApplyJump(baseHeight, playerController.jumpForce / 2);
+
                 // Player is above box, destroy box
-                Debug.Log("Destroyed box from above!");
+                // Debug.Log("Destroyed box from above! PlayerCol min: " + boxCol.bounds.min.y + " Box min: " + box.bounds.min.y + " Box max: " + box.bounds.max.y + " Box cutoff point: " + cutoffPoint);
                 Destroy(collision.gameObject);
             }
             else
             {
                 // Player hit box from side or below, lose health
-                Debug.Log("Crashed into box from the side!");
                 Destroy(collision.gameObject);
                 health -= 1;
             }

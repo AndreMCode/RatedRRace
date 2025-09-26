@@ -1,8 +1,10 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class SpriteSmoother : MonoBehaviour
 {
-    [SerializeField] private Transform spriteTransform; // Drag the SpriteHolder child here
+    // Sprite should be detatched from Player object
+    [SerializeField] private Transform spriteTransform;
     [SerializeField] private float interpolationSpeed = 15f;
 
     private Rigidbody2D rb;

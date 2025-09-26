@@ -4,6 +4,7 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     public bool running = false;
+    private float groundLevel = 0f;
 
     // Game variables received by GameManager
     public int gameLevel = -1;
@@ -40,12 +41,13 @@ public class SpawnManager : MonoBehaviour
                        distanceTraveled >= bracket1.sequence[nextSpawnIndex].triggerDistance)
                 {
                     var evt = bracket1.sequence[nextSpawnIndex];
-                    Vector3 spawnPos = new(10.0f, evt.yPosition, 0);
+                    Vector3 spawnPos = new(10.0f, groundLevel + evt.yPosition, 0);
                     GameObject nextObstacle = Instantiate(evt.obstaclePrefab, spawnPos, evt.obstaclePrefab.transform.rotation);
                     ObstacleTravel obstacleSettings = nextObstacle.GetComponent<ObstacleTravel>();
                     obstacleSettings.traveling = true;
                     obstacleSettings.baseSpeed = runSpeed;
                     obstacleSettings.scalar = runSpeedScalar;
+                    obstacleSettings.offsetScalar = evt.speedOffsetScalar;
                     nextSpawnIndex++;
                 }
             }
@@ -56,12 +58,13 @@ public class SpawnManager : MonoBehaviour
                        distanceTraveled >= bracket2.sequence[nextSpawnIndex].triggerDistance)
                 {
                     var evt = bracket2.sequence[nextSpawnIndex];
-                    Vector3 spawnPos = new(10.0f, evt.yPosition, 0);
+                    Vector3 spawnPos = new(10.0f, groundLevel + evt.yPosition, 0);
                     GameObject nextObstacle = Instantiate(evt.obstaclePrefab, spawnPos, evt.obstaclePrefab.transform.rotation);
                     ObstacleTravel obstacleSettings = nextObstacle.GetComponent<ObstacleTravel>();
                     obstacleSettings.traveling = true;
                     obstacleSettings.baseSpeed = runSpeed;
                     obstacleSettings.scalar = runSpeedScalar;
+                    obstacleSettings.offsetScalar = evt.speedOffsetScalar;
                     nextSpawnIndex++;
                 }
             }
@@ -72,12 +75,13 @@ public class SpawnManager : MonoBehaviour
                        distanceTraveled >= bracket3.sequence[nextSpawnIndex].triggerDistance)
                 {
                     var evt = bracket3.sequence[nextSpawnIndex];
-                    Vector3 spawnPos = new(10.0f, evt.yPosition, 0);
+                    Vector3 spawnPos = new(10.0f, groundLevel + evt.yPosition, 0);
                     GameObject nextObstacle = Instantiate(evt.obstaclePrefab, spawnPos, evt.obstaclePrefab.transform.rotation);
                     ObstacleTravel obstacleSettings = nextObstacle.GetComponent<ObstacleTravel>();
                     obstacleSettings.traveling = true;
                     obstacleSettings.baseSpeed = runSpeed;
                     obstacleSettings.scalar = runSpeedScalar;
+                    obstacleSettings.offsetScalar = evt.speedOffsetScalar;
                     nextSpawnIndex++;
                 }
             }
@@ -90,6 +94,7 @@ public class SpawnManager : MonoBehaviour
         Messenger<int>.AddListener(GameEvent.SET_LEVEL, InitializeLevel);
         Messenger<float>.AddListener(GameEvent.SET_RUN_SPEED, InitializeRunSpeed);
         Messenger<float>.AddListener(GameEvent.SET_RUN_SCALAR, InitializeRunScalar);
+        Messenger<float>.AddListener(GameEvent.SET_GROUND_HEIGHT, SetGroundHeight);
         Messenger.AddListener(GameEvent.PLAYER_DIED, StopRunning);
     }
 
@@ -99,6 +104,7 @@ public class SpawnManager : MonoBehaviour
         Messenger<int>.RemoveListener(GameEvent.SET_LEVEL, InitializeLevel);
         Messenger<float>.RemoveListener(GameEvent.SET_RUN_SPEED, InitializeRunSpeed);
         Messenger<float>.RemoveListener(GameEvent.SET_RUN_SCALAR, InitializeRunScalar);
+        Messenger<float>.RemoveListener(GameEvent.SET_GROUND_HEIGHT, SetGroundHeight);
         Messenger.RemoveListener(GameEvent.PLAYER_DIED, StopRunning);
     }
 
@@ -125,6 +131,11 @@ public class SpawnManager : MonoBehaviour
     private void InitializeRunScalar(float value)
     {
         runSpeedScalar = value;
+    }
+
+    private void SetGroundHeight(float value)
+    {
+        groundLevel = value;
     }
 
     private IEnumerator TestAdjust()
