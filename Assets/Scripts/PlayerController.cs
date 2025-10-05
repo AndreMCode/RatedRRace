@@ -12,10 +12,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject spriteHandle;
     [SerializeField] Animator animator;
     private bool isRunning = false;
+    private bool canSlide = false;
+    private bool canDive = false;
 
     private Rigidbody2D rb;
     [Header("Player Attributes")]
-    public float jumpForce = 16f;
+    public float jumpForce = 3.14f;
     public float jumpCancelFactor = -0.4f;
     public bool canCancelJump = false;
     public bool isSliding = false;
@@ -29,12 +31,14 @@ public class PlayerController : MonoBehaviour
 
     // Leniency for pressing jump early
     [Header("Jump Buffering")]
-    public float groundProximityDistance = 1.8f; // Full height
+    public float groundProximityJumpFactor = 1f;
     public float jumpBufferTime = 0.25f;
     public bool bufferedJump = false;
+    private float groundProximityDistance;
     private float bufferedJumpTimer = 0f;
     // Leniency for pressing slide early
     [Header("Slide Buffering")]
+    public float groundProximitySlideFactor = 1f;
     public float slideBufferTime = 0.25f;
     public bool bufferedSlide = false;
     private float bufferedSlideTimer = 0f;
@@ -57,6 +61,9 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         boxCol = GetComponent<BoxCollider2D>();
+
+        // Use the height of the player collider as the base ground proximity distance for the jump buffer
+        groundProximityDistance = defaultSize.y;
 
         // groundLevel used to "snap" position to ground before applying a jump
         if (groundCollider != null)
@@ -82,7 +89,7 @@ public class PlayerController : MonoBehaviour
         CheckEnvironment();
         HandleJumpPress();
         HandleJumpCancel();
-        HandleSlidePress();
+        HandleSlideDivePress();
 
         if (Input.GetKeyDown(KeyCode.P))
         {
@@ -102,19 +109,23 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         // Debug ray
-        Debug.DrawRay(groundCheck.position, Vector2.down * groundProximityDistance, Color.red);
+        Debug.DrawRay(transform.position, Vector2.down * groundProximityDistance, Color.red);
     }
 
     void OnEnable()
     {
         Messenger.AddListener(GameEvent.START_RUN, SetRunning);
         Messenger.AddListener(GameEvent.PLAYER_DIED, PlayerDied);
+        Messenger<bool>.AddListener(GameEvent.SET_ABILITY_SLIDE, CanSlide);
+        Messenger<bool>.AddListener(GameEvent.SET_ABILITY_DIVE, CanDive);
     }
 
     void OnDisable()
     {
         Messenger.RemoveListener(GameEvent.START_RUN, SetRunning);
         Messenger.RemoveListener(GameEvent.PLAYER_DIED, PlayerDied);
+        Messenger<bool>.RemoveListener(GameEvent.SET_ABILITY_SLIDE, CanSlide);
+        Messenger<bool>.RemoveListener(GameEvent.SET_ABILITY_DIVE, CanDive);
     }
 
     void SetRunning()
@@ -122,6 +133,16 @@ public class PlayerController : MonoBehaviour
         isRunning = true;
 
         animator.SetBool("IsRunning", isRunning);
+    }
+
+    void CanSlide(bool status)
+    {
+        canSlide = status;
+    }
+
+    void CanDive(bool status)
+    {
+        canDive = status;
     }
 
     void PlayerDied()
@@ -193,7 +214,7 @@ public class PlayerController : MonoBehaviour
             }
 
             // If not grounded, check proximity to the ground and buffer the jump
-            RaycastHit2D hit = Physics2D.Raycast(groundCheck.position, Vector2.down, groundProximityDistance, groundLayer);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, groundProximityDistance * groundProximityJumpFactor, groundLayer);
             if (hit.collider != null)
             {
                 bufferedJump = true;
@@ -213,8 +234,8 @@ public class PlayerController : MonoBehaviour
 
         canCancelJump = true;
 
-        // Snap position of sprite handle to jump base
-        spriteHandle.transform.position = transform.position;
+        // Snap position of sprite handle to jump base only when jumping from ground level
+        if (baseHeight == groundLevel) spriteHandle.transform.position = transform.position;
         animator.SetBool("IsJumping", canCancelJump);
     }
 
@@ -237,24 +258,36 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void HandleSlidePress()
+    void HandleSlideDivePress()
     {
-        if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+        if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && grounded && canSlide)
         {
-            if (grounded && !isSliding && Time.time >= slideEnd + slideCooldown)
+            if (!isSliding && Time.time >= slideEnd + slideCooldown)
             {
                 BeginSlide();
                 return;
             }
+        }
 
+        if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && !grounded && canSlide)
+        {
             // If not grounded, check proximity and buffer the slide
-            RaycastHit2D hit = Physics2D.Raycast(groundCheck.position, Vector2.down, groundProximityDistance, groundLayer);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, groundProximityDistance * groundProximitySlideFactor, groundLayer);
             if (hit.collider != null)
             {
                 bufferedSlide = true;
                 bufferedSlideTimer = 0f;
             }
+            else if (canDive)
+            {
+                ApplyDive();
+            }
         }
+    }
+
+    private void ApplyDive()
+    {
+        rb.linearVelocityY = -Mathf.Sqrt(4 * jumpForce * Mathf.Abs(Physics2D.gravity.y) * rb.gravityScale);
     }
 
     private void BeginSlide()

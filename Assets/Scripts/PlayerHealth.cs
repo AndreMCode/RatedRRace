@@ -12,6 +12,7 @@ public class PlayerHealth : MonoBehaviour
     private PlayerController playerController;
     private readonly int baseHealth = 1;
     private int health;
+    private bool isAlive = true;
 
     void Start()
     {
@@ -23,12 +24,12 @@ public class PlayerHealth : MonoBehaviour
 
     void Update()
     {
-        if (health == 0)
+        if (isAlive && health <= 0)
         {
             // End of run calls, etc:
             Messenger.Broadcast(GameEvent.PLAYER_DIED);
 
-            health -= 1; // prevent further calls
+            isAlive = false;
         }
     }
 

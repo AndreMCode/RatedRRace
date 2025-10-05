@@ -9,6 +9,9 @@ public class GameManager : MonoBehaviour
 
     public int defense = 0;
 
+    private bool canSlide = false;
+    private bool canDive = false;
+
     // PlayerPrefs for more permanent settings. This script will retrieve SelectedBracket and other game variables
 
     void Start()
@@ -16,7 +19,21 @@ public class GameManager : MonoBehaviour
         // Retrieve selected bracket
         level = PlayerPrefs.GetInt("SelectedBracket", 1);
 
+        if (level > 1)
+        {
+            canSlide = true;
+            runSpeedScalar = 1.2f;
+        }
+
+        if (level > 2)
+        {
+            canDive = true;
+            runSpeedScalar = 1.5f;
+        }
+
         Messenger<int>.Broadcast(GameEvent.SET_LEVEL, level);
+        Messenger<bool>.Broadcast(GameEvent.SET_ABILITY_SLIDE, canSlide);
+        Messenger<bool>.Broadcast(GameEvent.SET_ABILITY_DIVE, canDive);
         Messenger<int>.Broadcast(GameEvent.SET_AUDIO_TRACK, level); // Level number is also track number for now
         Messenger<float>.Broadcast(GameEvent.SET_RUN_SPEED, baseRunSpeed);
         Messenger<float>.Broadcast(GameEvent.SET_RUN_SCALAR, runSpeedScalar);

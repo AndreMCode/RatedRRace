@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   traveling: 0
-  baseSpeed: 7
+  baseSpeed: 5
   offsetScalar: 1
   scalar: 1
   xBound: -10

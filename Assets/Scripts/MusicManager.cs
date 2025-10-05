@@ -34,7 +34,8 @@ public class MusicManager : MonoBehaviour
         // Check track number against array bounds
         if (trackNumber < 0 || trackNumber >= bgmTracks.Length) return;
 
-        currentTrack = bgmTracks[trackNumber];
+        currentTrack = bgmTracks[trackNumber - 1];
+        Debug.Log("current track: " + currentTrack.name);
     }
 
     void PlayBGAudio()
