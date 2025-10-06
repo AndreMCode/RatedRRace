@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] GameObject spriteHandle;
     [SerializeField] Animator animator;
+    private bool isAlive = true;
     private bool isRunning = false;
     private bool canSlide = false;
     private bool canDive = false;
@@ -86,10 +87,13 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        CheckEnvironment();
-        HandleJumpPress();
-        HandleJumpCancel();
-        HandleSlideDivePress();
+        if (isAlive)
+        {
+            CheckEnvironment();
+            HandleJumpPress();
+            HandleJumpCancel();
+            HandleSlideDivePress();
+        }
 
         if (Input.GetKeyDown(KeyCode.P))
         {
@@ -147,11 +151,18 @@ public class PlayerController : MonoBehaviour
 
     void PlayerDied()
     {
+        if (canCancelJump) ApplyJumpCancel();
         isRunning = false;
+        isAlive = false;
 
         // Death sequence goes here
 
         animator.SetBool("IsRunning", isRunning);
+
+        // Temp
+        Vector3 scale = spriteHandle.transform.localScale;
+        scale.y = 1.0f;
+        spriteHandle.transform.localScale = scale;
     }
 
     void CheckEnvironment()
@@ -245,7 +256,7 @@ public class PlayerController : MonoBehaviour
         && canCancelJump
         && rb.linearVelocity.y > 0)
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * jumpCancelFactor);
+            ApplyJumpCancel();
             canCancelJump = false;
 
             animator.SetBool("IsJumping", canCancelJump);
@@ -256,6 +267,11 @@ public class PlayerController : MonoBehaviour
 
             animator.SetBool("IsJumping", canCancelJump);
         }
+    }
+
+    void ApplyJumpCancel()
+    {
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * jumpCancelFactor);
     }
 
     void HandleSlideDivePress()
@@ -301,6 +317,10 @@ public class PlayerController : MonoBehaviour
         // Temporary until we have animated sprites
         tallHeight.enabled = false;
         shortHeight.enabled = true;
+
+        Vector3 scale = spriteHandle.transform.localScale;
+        scale.y = 0.5f;
+        spriteHandle.transform.localScale = scale;
     }
 
     private IEnumerator SlideTimer()
@@ -329,6 +349,10 @@ public class PlayerController : MonoBehaviour
         // Temporary until we have animated sprites
         tallHeight.enabled = true;
         shortHeight.enabled = false;
+
+        Vector3 scale = spriteHandle.transform.localScale;
+        scale.y = 1.0f;
+        spriteHandle.transform.localScale = scale;
     }
 
     // *** USED FOR DEV/DEBUG PURPOSES ***

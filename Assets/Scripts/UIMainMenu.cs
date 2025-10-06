@@ -1,11 +1,14 @@
 using UnityEngine;
 using System.Collections;
+using UnityEditor;
 
 public class UIMainMenu : MonoBehaviour
 {
+    public AudioSource menuBGM;
     private static WaitForSeconds _waitForSeconds0_5 = new(0.5f);
     [SerializeField] GameObject mainMenu;
     [SerializeField] GameObject playMenu;
+    [SerializeField] GameObject buffsMenu;
     [SerializeField] GameObject shopButton;
     // [SerializeField] GameObject shopMenu;
     [SerializeField] GameObject settingsMenu;
@@ -15,6 +18,11 @@ public class UIMainMenu : MonoBehaviour
 
     void Start()
     {
+        if (menuBGM != null)
+        {
+            menuBGM.Play();
+        }
+
         DisplayMainMenu();
     }
 
@@ -23,8 +31,30 @@ public class UIMainMenu : MonoBehaviour
 
     }
 
+    private IEnumerator FadeOutTracks(float fadeDuration)
+    {
+        if (menuBGM != null)
+        {
+            float startVolume = menuBGM.volume;
+            float elapsedTime = 0f;
+
+            while (elapsedTime < fadeDuration)
+            {
+                elapsedTime += Time.deltaTime;
+                float newVolume = Mathf.Lerp(startVolume, 0, elapsedTime / fadeDuration);
+
+                menuBGM.volume = newVolume;
+
+                yield return null;
+            }
+
+            menuBGM.Stop();
+        }
+    }
+
     private IEnumerator LoadRunMode()
     {
+        StartCoroutine(FadeOutTracks(0.4f));
         yield return _waitForSeconds0_5;
         UnityEngine.SceneManagement.SceneManager.LoadScene("RunMode");
     }
@@ -42,11 +72,8 @@ public class UIMainMenu : MonoBehaviour
 
             Debug.Log("Bracket accessible");
             PlayerPrefs.SetInt("SelectedBracket", 1);
-            playMenu.SetActive(false);
 
-            // Store other powerup quantities in playerprefs to be applied in the run
-
-            StartCoroutine(LoadRunMode());
+            DisplayBuffsMenu();
         }
         else
         {
@@ -60,11 +87,8 @@ public class UIMainMenu : MonoBehaviour
         {
             Debug.Log("Bracket accessible");
             PlayerPrefs.SetInt("SelectedBracket", 2);
-            playMenu.SetActive(false);
-
-            // Store other powerup quantities in playerprefs to be applied in the run
-
-            StartCoroutine(LoadRunMode());
+            
+            DisplayBuffsMenu();
         }
         else
         {
@@ -78,11 +102,8 @@ public class UIMainMenu : MonoBehaviour
         {
             Debug.Log("Bracket accessible");
             PlayerPrefs.SetInt("SelectedBracket", 3);
-            playMenu.SetActive(false);
-
-            // Store other powerup quantities in playerprefs to be applied in the run
-
-            StartCoroutine(LoadRunMode());
+            
+            DisplayBuffsMenu();
         }
         else
         {
@@ -96,11 +117,8 @@ public class UIMainMenu : MonoBehaviour
         {
             Debug.Log("Bracket accessible");
             PlayerPrefs.SetInt("SelectedBracket", 4);
-            playMenu.SetActive(false);
-
-            // Store other powerup quantities in playerprefs to be applied in the run
-
-            StartCoroutine(LoadRunMode());
+            
+            DisplayBuffsMenu();
         }
         else
         {
@@ -113,6 +131,23 @@ public class UIMainMenu : MonoBehaviour
         DisplayMainMenu();
     }
 
+    public void OnClickBuffPlay()
+    {
+        buffsMenu.SetActive(false);
+
+        StartCoroutine(LoadRunMode());
+    }
+
+    public void OnClickAddBubble()
+    {
+        Debug.Log("Added a Bubble Shield to the player!");
+    }
+
+    public void OnClickBuffPlayBack()
+    {
+        DisplayPlayMenu();
+    }
+
     public void OnClickSettings()
     {
         DisplaySettingsMenu();
@@ -121,7 +156,7 @@ public class UIMainMenu : MonoBehaviour
     public void OnClickResetProgress()
     {
         // Also reset high scores?
-        PlayerPrefs.SetInt("LevelAccess", 1);
+        PlayerPrefs.SetInt("LevelAccess", 3); // !! RESET TO 1 BEFORE BUILD !!
         PlayerPrefs.SetInt("ShopAccess", 0);
         levelAccess = 1;
         DisplayMainMenu();
@@ -140,6 +175,7 @@ public class UIMainMenu : MonoBehaviour
         mainMenu.SetActive(true);
 
         playMenu.SetActive(false);
+        buffsMenu.SetActive(false);
         endlessMenu.SetActive(false);
         settingsMenu.SetActive(false);
 
@@ -150,6 +186,7 @@ public class UIMainMenu : MonoBehaviour
     {
         playMenu.SetActive(true);
 
+        buffsMenu.SetActive(false);
         mainMenu.SetActive(false);
         if (levelAccess > 3)
         {
@@ -159,13 +196,25 @@ public class UIMainMenu : MonoBehaviour
         settingsMenu.SetActive(false);
     }
 
+    void DisplayBuffsMenu()
+    {
+        buffsMenu.SetActive(true);
+
+        mainMenu.SetActive(false);
+        playMenu.SetActive(false);
+        settingsMenu.SetActive(false);
+        shopButton.SetActive(false);
+        endlessMenu.SetActive(false);
+    }
+
     void DisplaySettingsMenu()
     {
         settingsMenu.SetActive(true);
 
         mainMenu.SetActive(false);
-        shopButton.SetActive(false);
         playMenu.SetActive(false);
+        buffsMenu.SetActive(false);
+        shopButton.SetActive(false);
         endlessMenu.SetActive(false);
     }
 }

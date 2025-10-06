@@ -22,13 +22,13 @@ public class GameManager : MonoBehaviour
         if (level > 1)
         {
             canSlide = true;
-            runSpeedScalar = 1.2f;
+            runSpeedScalar = 1.2f; // 6 meters/sec
         }
 
         if (level > 2)
         {
             canDive = true;
-            runSpeedScalar = 1.5f;
+            runSpeedScalar = 1.4f; // 7 meters/sec
         }
 
         Messenger<int>.Broadcast(GameEvent.SET_LEVEL, level);
