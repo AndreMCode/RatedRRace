@@ -9,6 +9,7 @@ public class UIBracketMode : MonoBehaviour
     [SerializeField] SpawnManager distanceSource;
     [SerializeField] TextMeshProUGUI distanceTxt;
     [SerializeField] TextMeshProUGUI countdownTxt;
+    [SerializeField] TextMeshProUGUI gameOverTxt;
     public float uiUpdateInterval = 0.1f;
     private float uiUpdateTimer = 0f;
 
@@ -18,6 +19,7 @@ public class UIBracketMode : MonoBehaviour
     void Start()
     {
         countdownTxt.enabled = false;
+        gameOverTxt.enabled = false;
         StartCoroutine(InitialCountdown());
     }
 
@@ -29,6 +31,21 @@ public class UIBracketMode : MonoBehaviour
             uiUpdateTimer = 0f;
             UpdateDistanceText();
         }
+    }
+
+    void OnEnable()
+    {
+        Messenger.AddListener(GameEvent.PLAYER_DIED, PlayerDied);
+    }
+
+    void OnDisable()
+    {
+        Messenger.RemoveListener(GameEvent.PLAYER_DIED, PlayerDied);
+    }
+
+    void PlayerDied()
+    {
+        gameOverTxt.enabled = true;
     }
 
     private void UpdateDistanceText()
@@ -45,7 +62,7 @@ public class UIBracketMode : MonoBehaviour
 
         // Decimal to two places for added effect version
         float display = distanceSource.distanceTraveled;
-        distanceTxt.text = display.ToString("F2") + "m";
+        distanceTxt.text = display.ToString("F2");
     }
 
     private IEnumerator InitialCountdown()
