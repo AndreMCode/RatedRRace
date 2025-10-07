@@ -8,6 +8,7 @@ public class ObstacleTravel : MonoBehaviour
     public float offsetScalar = 1f;
     public float scalar = 1f;
     public float xBound = -10f;
+    public float yBound = 7f;
 
     private Coroutine speedLerpRoutine;
 
@@ -20,7 +21,7 @@ public class ObstacleTravel : MonoBehaviour
     {
         if (traveling) transform.Translate((baseSpeed * offsetScalar) * scalar * Time.deltaTime * Vector3.left);
 
-        if (transform.position.x < xBound)
+        if (transform.position.x < xBound || transform.position.y > yBound || transform.position.y < -yBound)
         {
             Destroy(gameObject);
         }

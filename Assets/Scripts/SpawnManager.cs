@@ -27,14 +27,9 @@ public class SpawnManager : MonoBehaviour
     void Update()
     {
         distanceTraveled = transform.position.x - distanceTracker.transform.position.x - 16.0f; // The offset distance between the spawner and the player
-        
+
         if (running)
         {
-            if (gameLevel == 0)
-            {
-                // endless run algorithm
-            }
-
             if (gameLevel == 1)
             {
                 while (nextSpawnIndex < bracket1.sequence.Length &&
@@ -48,6 +43,43 @@ public class SpawnManager : MonoBehaviour
                     obstacleSettings.baseSpeed = runSpeed;
                     obstacleSettings.scalar = runSpeedScalar;
                     obstacleSettings.offsetScalar = evt.speedOffsetScalar;
+
+                    if (evt.obstaclePrefab.name == "Saw")
+                    {
+                        Vector3 sawScale = nextObstacle.transform.localScale;
+                        sawScale.x *= evt.sawScale;
+                        sawScale.y *= evt.sawScale;
+                        nextObstacle.transform.localScale = sawScale;
+                    }
+
+                    if (evt.obstaclePrefab.name == "Mine")
+                    {
+                        Transform laserLength = nextObstacle.transform.Find("Scale");
+                        if (laserLength != null)
+                        {
+                            Vector3 s = laserLength.localScale;
+                            s.y = evt.laserLength;
+                            laserLength.localScale = s;
+                        }
+                        else
+                        {
+                            Debug.LogWarning($"Mine prefab instantiated but no child named 'Scale' was found on {nextObstacle.name}.");
+                        }
+                    }
+
+                    if (evt.obstaclePrefab.name == "Turret")
+                    {
+                        TurretAction turretAction = nextObstacle.GetComponent<TurretAction>();
+                        if (turretAction != null)
+                        {
+                            StartCoroutine(turretAction.CountdownToFire(evt.turretTimer));
+                        }
+                        else
+                        {
+                            Debug.LogWarning($"Turret prefab instantiated but no component 'TurretAction' was found on {nextObstacle.name}.");
+                        }
+                    }
+
                     nextSpawnIndex++;
                 }
             }
@@ -65,6 +97,43 @@ public class SpawnManager : MonoBehaviour
                     obstacleSettings.baseSpeed = runSpeed;
                     obstacleSettings.scalar = runSpeedScalar;
                     obstacleSettings.offsetScalar = evt.speedOffsetScalar;
+
+                    if (evt.obstaclePrefab.name == "Saw")
+                    {
+                        Vector3 sawScale = nextObstacle.transform.localScale;
+                        sawScale.x *= evt.sawScale;
+                        sawScale.y *= evt.sawScale;
+                        nextObstacle.transform.localScale = sawScale;
+                    }
+
+                    if (evt.obstaclePrefab.name == "Mine")
+                    {
+                        Transform laserLength = nextObstacle.transform.Find("Scale");
+                        if (laserLength != null)
+                        {
+                            Vector3 s = laserLength.localScale;
+                            s.y = evt.laserLength;
+                            laserLength.localScale = s;
+                        }
+                        else
+                        {
+                            Debug.LogWarning($"Mine prefab instantiated but no child named 'Scale' was found on {nextObstacle.name}.");
+                        }
+                    }
+
+                    if (evt.obstaclePrefab.name == "Turret")
+                    {
+                        TurretAction turretAction = nextObstacle.GetComponent<TurretAction>();
+                        if (turretAction != null)
+                        {
+                            StartCoroutine(turretAction.CountdownToFire(evt.turretTimer));
+                        }
+                        else
+                        {
+                            Debug.LogWarning($"Turret prefab instantiated but no component 'TurretAction' was found on {nextObstacle.name}.");
+                        }
+                    }
+
                     nextSpawnIndex++;
                 }
             }
@@ -82,8 +151,50 @@ public class SpawnManager : MonoBehaviour
                     obstacleSettings.baseSpeed = runSpeed;
                     obstacleSettings.scalar = runSpeedScalar;
                     obstacleSettings.offsetScalar = evt.speedOffsetScalar;
+
+                    if (evt.obstaclePrefab.name == "Saw")
+                    {
+                        Vector3 sawScale = nextObstacle.transform.localScale;
+                        sawScale.x *= evt.sawScale;
+                        sawScale.y *= evt.sawScale;
+                        nextObstacle.transform.localScale = sawScale;
+                    }
+
+                    if (evt.obstaclePrefab.name == "Mine")
+                    {
+                        Transform laserLength = nextObstacle.transform.Find("Scale");
+                        if (laserLength != null)
+                        {
+                            Vector3 s = laserLength.localScale;
+                            s.y = evt.laserLength;
+                            laserLength.localScale = s;
+                        }
+                        else
+                        {
+                            Debug.LogWarning($"Mine prefab instantiated but no child named 'Scale' was found on {nextObstacle.name}.");
+                        }
+                    }
+
+                    if (evt.obstaclePrefab.name == "Turret")
+                    {
+                        TurretAction turretAction = nextObstacle.GetComponent<TurretAction>();
+                        if (turretAction != null)
+                        {
+                            StartCoroutine(turretAction.CountdownToFire(evt.turretTimer));
+                        }
+                        else
+                        {
+                            Debug.LogWarning($"Turret prefab instantiated but no component 'TurretAction' was found on {nextObstacle.name}.");
+                        }
+                    }
+                    
                     nextSpawnIndex++;
                 }
+            }
+
+            if (gameLevel == 4)
+            {
+                // endless run algorithm
             }
         }
     }
