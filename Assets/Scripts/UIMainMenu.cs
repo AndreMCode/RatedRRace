@@ -4,6 +4,9 @@ using UnityEditor;
 
 public class UIMainMenu : MonoBehaviour
 {
+    // Main Menu user interface elements, graphics, audio, and logic
+    // -------------------------------------------------------------
+
     public AudioSource menuBGM;
     private static WaitForSeconds _waitForSeconds0_5 = new(0.5f);
     [SerializeField] GameObject mainMenu;
@@ -24,11 +27,6 @@ public class UIMainMenu : MonoBehaviour
         }
 
         DisplayMainMenu();
-    }
-
-    void Update()
-    {
-
     }
 
     private IEnumerator FadeOutTracks(float fadeDuration)
@@ -54,7 +52,7 @@ public class UIMainMenu : MonoBehaviour
 
     private IEnumerator LoadRunMode()
     {
-        StartCoroutine(FadeOutTracks(0.4f));
+        StartCoroutine(FadeOutTracks(0.5f));
         yield return _waitForSeconds0_5;
         UnityEngine.SceneManagement.SceneManager.LoadScene("RunMode");
     }

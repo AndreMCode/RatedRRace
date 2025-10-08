@@ -3,20 +3,14 @@ using UnityEngine;
 
 public class MusicManager : MonoBehaviour
 {
-    private static readonly WaitForSeconds _waitForSeconds1 = new(1f);
+    // Manages which tracks play and fades audio volume
+    // ------------------------------------------------
 
-    // Music array
+    private static readonly WaitForSeconds _waitForSeconds3 = new(3f);
     public AudioSource[] bgmTracks;
-
-    // BGM reference
     private AudioSource currentTrack;
     private AudioSource deathAudio;
     private bool isFading = false;
-
-    void Start()
-    {
-
-    }
 
     void OnEnable()
     {
@@ -32,6 +26,7 @@ public class MusicManager : MonoBehaviour
         Messenger.RemoveListener(GameEvent.PLAYER_DIED, PlayerDied);
     }
 
+    // Set the current music track, from GameManager
     void SetCurrentTrack(int trackNumber)
     {
         // Check track number against array bounds
@@ -41,11 +36,13 @@ public class MusicManager : MonoBehaviour
         Debug.Log("current track: " + currentTrack.name);
     }
 
+    // Start the run track
     void PlayBGAudio()
     {
         currentTrack.Play();
     }
 
+    // Play the death audio while quickly fading out the run audio
     void PlayerDied()
     {
         if (!isFading)
@@ -56,35 +53,21 @@ public class MusicManager : MonoBehaviour
         }
     }
 
-    void OnPlayerWin()
-    { // Long fade on win
-        if (!isFading)
-        {
-            StartCoroutine(FadeOutTracks(3.5f));
-        }
-    }
-
-    void OnPlayerReset()
-    { // Short fade on reset
-        if (!isFading)
-        {
-            StartCoroutine(FadeOutTracks(1.0f));
-        }
-    }
-
+    // Fade out the death audio after it plays for a moment
     private IEnumerator PlayDeathAudio()
     {
         deathAudio = bgmTracks[^1]; // bgmTracks.Length - 1
         deathAudio.Play();
 
-        yield return _waitForSeconds1;
+        yield return _waitForSeconds3;
 
         currentTrack = deathAudio;
-        StartCoroutine(FadeOutTracks(8f));
+        StartCoroutine(FadeOutTracks(6f));
     }
 
+    // Audio fade function
     private IEnumerator FadeOutTracks(float fadeDuration)
-    { // Fade function
+    { 
         isFading = true;
 
         float startVolume = currentTrack.volume;

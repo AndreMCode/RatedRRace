@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class MovementScroller : MonoBehaviour
 {
+    // This moves background images from right to left to simulate movement
+    // Can be modified to produce a parallax effect with additional layers
+    // --------------------------------------------------------------------
+
     [SerializeField] GameObject foreground;
     [SerializeField] GameObject background;
     [SerializeField] BoxCollider2D foregroundCol;
@@ -19,6 +23,7 @@ public class MovementScroller : MonoBehaviour
 
     void Start()
     {
+        // Gather asset positions and dimensions
         fgStartPos = foreground.transform.position;
         bgStartPos = background.transform.position;
         fgRepeatWidth = foregroundCol.size.x / 2;
@@ -29,18 +34,21 @@ public class MovementScroller : MonoBehaviour
     {
         if (running)
         {
+            // Check position and reposition if half-length reached
             if (foreground.transform.position.x < fgStartPos.x - fgRepeatWidth)
             {
                 foreground.transform.position = fgStartPos;
             }
-
             if (background.transform.position.x < bgStartPos.x - bgRepeatWidth)
             {
                 background.transform.position = bgStartPos;
             }
 
+            // Move foreground at full run speed
             foreground.transform.Translate(runSpeed * runSpeedScalar * Time.deltaTime * Vector2.left);
-            background.transform.Translate((runSpeed * runSpeedScalar) * bgPerspectiveFactor * Time.deltaTime * Vector2.left);
+
+            // Move background at a decreased factor of current run speed
+            background.transform.Translate(runSpeed * runSpeedScalar * bgPerspectiveFactor * Time.deltaTime * Vector2.left);
         }
     }
 
@@ -62,26 +70,32 @@ public class MovementScroller : MonoBehaviour
         Messenger.RemoveListener(GameEvent.PLAYER_DIED, PlayerDied);
     }
 
+    // Toggle running, -- from UIBracketMode
     private void SetRunning()
     {
-        running = true;
+        if (running) running = false;
+        else running = true;
     }
 
+    // Slows this object to a stop when player dies, -- from PlayerHealth
     private void PlayerDied()
     {
         StartCoroutine(LerpToNewSpeed(runSpeedScalar, 0f, runSpeedScalar));
     }
 
+    // Set base run speed, -- from GameManager
     private void InitializeRunSpeed(float value)
     {
         runSpeed = value;
     }
 
+    // Set the scalar to calculate the current level run speed, -- from GameManager
     private void InitializeRunScalar(float value)
     {
         runSpeedScalar = value;
     }
 
+    // Changes the speed of this object over a specified length of time
     private IEnumerator LerpToNewSpeed(float startScalar, float targetScalar, float duration)
     {
         float elapsed = 0f;
@@ -95,6 +109,7 @@ public class MovementScroller : MonoBehaviour
         runSpeedScalar = targetScalar; // snap exactly to target
     }
 
+    // Adjust run speed over time mid-run, -- from SpawnManager
     private void ReactToGameSpeedChange(float newScalar)
     {
         // stop any previous lerp so they don’t stack
@@ -104,6 +119,7 @@ public class MovementScroller : MonoBehaviour
             speedLerpRoutine = null;
         }
 
+        // Use 1 second as the transition duration
         speedLerpRoutine = StartCoroutine(LerpToNewSpeed(runSpeedScalar, newScalar, 1f));
     }
 }

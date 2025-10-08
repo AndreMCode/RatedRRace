@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
     public float slideCooldown = 0.4f;
     private float slideEnd;
 
-    // Temporary sprite objects for visualizing player height
+    // Temporary sprite objects for visualizing player collider bounds
     private SpriteRenderer tallHeight;
     private SpriteRenderer shortHeight;
 
@@ -70,10 +70,12 @@ public class PlayerController : MonoBehaviour
         if (groundCollider != null)
         {
             groundLevel = groundCollider.bounds.max.y;
-            // Relay groundLevel to spawner
+
+            // Notify groundLevel to SpawnManager
             Messenger<float>.Broadcast(GameEvent.SET_GROUND_HEIGHT, groundLevel);
         }
 
+        // Initialize slide timer machanic
         slideEnd = Time.time - slideCooldown;
 
         animator.SetBool("IsRunning", isRunning);
@@ -87,6 +89,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        // Perform checks and read inputs while player is alive
         if (isAlive)
         {
             CheckEnvironment();
@@ -95,6 +98,7 @@ public class PlayerController : MonoBehaviour
             HandleSlideDivePress();
         }
 
+        // Temporary, manually toggles the player collider visual on/off during a run
         if (Input.GetKeyDown(KeyCode.P))
         {
             if (tallHeight.enabled || shortHeight.enabled)
@@ -112,7 +116,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Debug ray
+        // Debug ray, seen while in play mode
         Debug.DrawRay(transform.position, Vector2.down * groundProximityDistance, Color.red);
     }
 
@@ -132,26 +136,33 @@ public class PlayerController : MonoBehaviour
         Messenger<bool>.RemoveListener(GameEvent.SET_ABILITY_DIVE, CanDive);
     }
 
+    // Toggle running, -- from UIBracketMode
     void SetRunning()
     {
-        isRunning = true;
+        if (isRunning) isRunning = false;
+        else isRunning = true;
 
         animator.SetBool("IsRunning", isRunning);
     }
 
+    // Allows slide ability, -- from GameManager
     void CanSlide(bool status)
     {
         canSlide = status;
     }
 
+    // Allows dive ability, -- from GameManager
     void CanDive(bool status)
     {
         canDive = status;
     }
 
+    // Slows this object to a stop when player dies, -- from PlayerHealth
     void PlayerDied()
     {
+        // If player dies during upward momentum, cancel the momentum
         if (canCancelJump) ApplyJumpCancel();
+
         isRunning = false;
         isAlive = false;
 
@@ -159,12 +170,13 @@ public class PlayerController : MonoBehaviour
 
         animator.SetBool("IsRunning", isRunning);
 
-        // Temp
+        // Temporary, if player dies while sliding, restore original scale
         Vector3 scale = spriteHandle.transform.localScale;
         scale.y = 1.0f;
         spriteHandle.transform.localScale = scale;
     }
 
+    // Perform environmental checks, apply buffers, verify slide input when slide buffer exists
     void CheckEnvironment()
     {
         // GROUND CHECK
@@ -181,6 +193,7 @@ public class PlayerController : MonoBehaviour
         // Slide if landing with a buffered slide
         if (grounded && bufferedSlide)
         {
+            // Apply the buffered slide only if key is held when contacting the ground
             if ((Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) && !isSliding && Time.time >= slideEnd + slideCooldown)
             {
                 BeginSlide();
@@ -214,6 +227,7 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("IsGrounded", grounded);
     }
 
+    // Handle jump input
     void HandleJumpPress()
     {
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
@@ -234,6 +248,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Apply jump, -- from (self) or PlayerHealth
     public void ApplyJump(float baseHeight, float strength)
     {
         // Zero any vertical force before applying jump force
@@ -250,6 +265,7 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("IsJumping", canCancelJump);
     }
 
+    // Handle jump cancel
     void HandleJumpCancel()
     {
         if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.UpArrow)
@@ -269,13 +285,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Apply jump cancel
     void ApplyJumpCancel()
     {
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * jumpCancelFactor);
     }
 
+    // Handle slide/dive input
     void HandleSlideDivePress()
     {
+        // Slide if grounded and allowed
         if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && grounded && canSlide)
         {
             if (!isSliding && Time.time >= slideEnd + slideCooldown)
@@ -285,15 +304,17 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        // Decide whether to slide or dive, depending on context
         if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && !grounded && canSlide)
         {
-            // If not grounded, check proximity and buffer the slide
+            // Buffer slide if not grounded, allowed, and within buffer proximity
             RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, groundProximityDistance * groundProximitySlideFactor, groundLayer);
             if (hit.collider != null)
             {
                 bufferedSlide = true;
                 bufferedSlideTimer = 0f;
             }
+            // Dive only if airborne and NOT within slide buffer proximity
             else if (canDive)
             {
                 ApplyDive();
@@ -301,11 +322,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Apply dive
     private void ApplyDive()
     {
         rb.linearVelocityY = -Mathf.Sqrt(4 * jumpForce * Mathf.Abs(Physics2D.gravity.y) * rb.gravityScale);
     }
 
+    // Begin slide
     private void BeginSlide()
     {
         isSliding = true;
@@ -323,6 +346,7 @@ public class PlayerController : MonoBehaviour
         spriteHandle.transform.localScale = scale;
     }
 
+    // Limit slide duration
     private IEnumerator SlideTimer()
     {
         float elapsedTime = 0;
@@ -339,6 +363,7 @@ public class PlayerController : MonoBehaviour
         HandleSlideCancel();
     }
 
+    // Apply slide cancel
     void HandleSlideCancel()
     {
         slideEnd = Time.time;

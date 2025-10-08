@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class GameEvent : MonoBehaviour
 {
+    // Stores strings for easier messenger calls
+    // -----------------------------------------
+    
     public const string SET_LEVEL = "SET_LEVEL";
     public const string SET_HEALTH = "SET_HEALTH";
     public const string SET_ABILITY_SLIDE = "SET_ABILITY_SLIDE";

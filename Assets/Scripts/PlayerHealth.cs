@@ -6,9 +6,10 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
+    // Manages player defenses and collision actions
+    // ---------------------------------------------
+
     [SerializeField] GameObject spriteHandle;
-    private Rigidbody2D rb;
-    private BoxCollider2D boxCol;
     private PlayerController playerController;
     private readonly int baseHealth = 1;
     private int health;
@@ -16,17 +17,14 @@ public class PlayerHealth : MonoBehaviour
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        boxCol = GetComponent<BoxCollider2D>();
         playerController = GetComponent<PlayerController>();
-        // Apply powerup modifiers (bubble) in GameManager
     }
 
     void Update()
     {
+        // Check if player lost all defenses
         if (isAlive && health <= 0)
         {
-            // End of run calls, etc:
             Messenger.Broadcast(GameEvent.PLAYER_DIED);
 
             isAlive = false;
@@ -43,13 +41,16 @@ public class PlayerHealth : MonoBehaviour
         Messenger<int>.RemoveListener(GameEvent.SET_HEALTH, SetHealth);
     }
 
+    // Set defense quantity (1 hit plus Bubble Shield layers), -- from GameManager
     void SetHealth(int defense)
     {
         health = baseHealth + defense;
     }
 
+    // Decide what to do when colliding with an obstacle
     void OnTriggerEnter2D(Collider2D collision)
     {
+        // If we collide with a Box..
         if (collision.gameObject.CompareTag("Box"))
         {
             BoxCollider2D box = collision.GetComponent<BoxCollider2D>();
@@ -63,12 +64,11 @@ public class PlayerHealth : MonoBehaviour
                 playerController.ApplyJump(baseHeight, playerController.jumpForce / 2);
 
                 // Player is above box, destroy box
-                // Debug.Log("Destroyed box from above! PlayerCol min: " + boxCol.bounds.min.y + " Box min: " + box.bounds.min.y + " Box max: " + box.bounds.max.y + " Box cutoff point: " + cutoffPoint);
                 Destroy(collision.gameObject);
             }
             else
             {
-                // Player hit box from side or below, lose health
+                // Player hit box from side or below, lose defense
                 Destroy(collision.gameObject);
                 health -= 1;
             }
@@ -76,9 +76,10 @@ public class PlayerHealth : MonoBehaviour
             return;
         }
 
+        // If we collide with a Saw..
         if (collision.gameObject.CompareTag("Saw"))
         {
-            Debug.Log("Shredded by saw object!");
+            // Player sliced up by Saw, lose defense
             Destroy(collision.gameObject);
             health -= 1;
 

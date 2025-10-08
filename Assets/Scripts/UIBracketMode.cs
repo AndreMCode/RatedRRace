@@ -4,17 +4,17 @@ using System.Collections;
 
 public class UIBracketMode : MonoBehaviour
 {
-    private static WaitForSeconds _waitForSeconds0_5 = new WaitForSeconds(0.5f);
-    private static WaitForSeconds _waitForSeconds1 = new WaitForSeconds(1f);
+    // Display text, update distance counter, listen for non-player-action inputs
+    // --------------------------------------------------------------------------
+
+    private static WaitForSeconds _waitForSeconds0_5 = new(0.5f);
+    private static WaitForSeconds _waitForSeconds1 = new(1f);
     [SerializeField] SpawnManager distanceSource;
     [SerializeField] TextMeshProUGUI distanceTxt;
     [SerializeField] TextMeshProUGUI countdownTxt;
     [SerializeField] TextMeshProUGUI gameOverTxt;
     public float uiUpdateInterval = 0.1f;
     private float uiUpdateTimer = 0f;
-
-    // Previous variable for whole number display version
-    // private int lastDisplayedDistance = -1;
 
     void Start()
     {
@@ -25,12 +25,20 @@ public class UIBracketMode : MonoBehaviour
 
     void Update()
     {
-        uiUpdateTimer += Time.deltaTime;
-        if (uiUpdateTimer >= uiUpdateInterval)
+        // Temporary for prototype, used to restart the run
+        if (Input.GetKeyDown(KeyCode.R))
         {
-            uiUpdateTimer = 0f;
-            UpdateDistanceText();
+            ReloadScene();
         }
+
+        // Temporary for prototype, used to return to the Main Menu
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+        }
+
+        // Update the distance counter display
+        DistanceCounterUpdate();
     }
 
     void OnEnable()
@@ -43,28 +51,35 @@ public class UIBracketMode : MonoBehaviour
         Messenger.RemoveListener(GameEvent.PLAYER_DIED, PlayerDied);
     }
 
+    // Display game over message
     void PlayerDied()
     {
         gameOverTxt.enabled = true;
     }
 
+    // Update the counter using the specified interval
+    void DistanceCounterUpdate()
+    {
+        uiUpdateTimer += Time.deltaTime;
+
+        if (uiUpdateTimer >= uiUpdateInterval)
+        {
+            uiUpdateTimer = 0f;
+            UpdateDistanceText();
+        }
+    }
+
+    // Update the distance text object
     private void UpdateDistanceText()
     {
         if (distanceSource == null || distanceTxt == null) return;
 
-        // Previous version if we prefer whole numbers only
-        // int display = Mathf.FloorToInt(distanceSource.distanceTraveled);
-        // if (display != lastDisplayedDistance)
-        // {
-        //     lastDisplayedDistance = display;
-        //     distanceTxt.text = display.ToString() + "m";
-        // }
-
-        // Decimal to two places for added effect version
+        // Decimal to two places
         float display = distanceSource.distanceTraveled;
         distanceTxt.text = display.ToString("F2");
     }
 
+    // Display countdown at run start
     private IEnumerator InitialCountdown()
     {
         int countdown = 3;
@@ -82,8 +97,14 @@ public class UIBracketMode : MonoBehaviour
 
         // Current listeners: DistanceTracker, BGManager, SpawnManager
         Messenger.Broadcast(GameEvent.START_RUN);
-        
+
         yield return _waitForSeconds1;
         countdownTxt.enabled = false;
+    }
+
+    // Restart the run
+    void ReloadScene()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
     }
 }
