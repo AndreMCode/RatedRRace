@@ -15,9 +15,10 @@ public class SpawnManager : MonoBehaviour
     public float runSpeedScalar = 0f;
 
     // Bracket scripts that contain predetermined spawn points by distance traveled
-    public Bracket1 bracket1;
-    public Bracket2 bracket2;
-    public Bracket3 bracket3;
+    public FixedBracket bracket1;
+    public FixedBracket bracket2;
+    public FixedBracket bracket3;
+    private FixedBracket currentFixedBracket;
     private int nextSpawnIndex = 0;
     public GameObject distanceTracker;
     public float distanceTraveled = 0f;
@@ -34,163 +35,61 @@ public class SpawnManager : MonoBehaviour
         // Only act if running
         if (running)
         {
-            if (gameLevel == 1)
+            if (currentFixedBracket != null)
             {
-                while (nextSpawnIndex < bracket1.sequence.Length &&
-                       distanceTraveled >= bracket1.sequence[nextSpawnIndex].triggerDistance)
+                SpawnObstacle();
+            }
+        }
+    }
+
+    void SpawnObstacle()
+    {
+        while (nextSpawnIndex < currentFixedBracket.sequence.Length &&
+        distanceTraveled >= currentFixedBracket.sequence[nextSpawnIndex].triggerDistance)
+        {
+            var evt = currentFixedBracket.sequence[nextSpawnIndex];
+            Vector3 spawnPos = new(10.0f, groundLevel + evt.yPosition, 0);
+            GameObject nextObstacle = Instantiate(evt.obstaclePrefab, spawnPos, evt.obstaclePrefab.transform.rotation);
+
+            // Grab obstacle travel component and set values
+            ObstacleTravel obstacleSettings = nextObstacle.GetComponent<ObstacleTravel>();
+            obstacleSettings.traveling = true;
+            obstacleSettings.baseSpeed = runSpeed;
+            obstacleSettings.scalar = runSpeedScalar;
+            obstacleSettings.offsetScalar = evt.speedOffsetScalar;
+
+            // Apply parameters specific to Saw
+            if (evt.obstaclePrefab.name == "Saw")
+            {
+                Vector3 sawScale = nextObstacle.transform.localScale;
+                sawScale.x *= evt.sawScale;
+                sawScale.y *= evt.sawScale;
+                nextObstacle.transform.localScale = sawScale;
+            }
+
+            // Apply parameters specific to Mine
+            if (evt.obstaclePrefab.name == "Mine")
+            {
+                Transform laserLength = nextObstacle.transform.Find("Scale");
+                if (laserLength != null)
                 {
-                    var evt = bracket1.sequence[nextSpawnIndex];
-                    Vector3 spawnPos = new(10.0f, groundLevel + evt.yPosition, 0);
-                    GameObject nextObstacle = Instantiate(evt.obstaclePrefab, spawnPos, evt.obstaclePrefab.transform.rotation);
-
-                    // Grab obstacle travel component and set values
-                    ObstacleTravel obstacleSettings = nextObstacle.GetComponent<ObstacleTravel>();
-                    obstacleSettings.traveling = true;
-                    obstacleSettings.baseSpeed = runSpeed;
-                    obstacleSettings.scalar = runSpeedScalar;
-                    obstacleSettings.offsetScalar = evt.speedOffsetScalar;
-
-                    // Apply parameters specific to Saw
-                    if (evt.obstaclePrefab.name == "Saw")
-                    {
-                        Vector3 sawScale = nextObstacle.transform.localScale;
-                        sawScale.x *= evt.sawScale;
-                        sawScale.y *= evt.sawScale;
-                        nextObstacle.transform.localScale = sawScale;
-                    }
-
-                    // Apply parameters specific to Mine
-                    if (evt.obstaclePrefab.name == "Mine")
-                    {
-                        Transform laserLength = nextObstacle.transform.Find("Scale");
-                        if (laserLength != null)
-                        {
-                            Vector3 s = laserLength.localScale;
-                            s.y = evt.laserLength;
-                            laserLength.localScale = s;
-                        }
-                    }
-
-                    // Apply parameters specific to Turret
-                    if (evt.obstaclePrefab.name == "Turret")
-                    {
-                        TurretAction turretAction = nextObstacle.GetComponent<TurretAction>();
-                        if (turretAction != null)
-                        {
-                            StartCoroutine(turretAction.CountdownToFire(evt.turretTimer));
-                        }
-                    }
-
-                    nextSpawnIndex++;
+                    Vector3 s = laserLength.localScale;
+                    s.y = evt.laserLength;
+                    laserLength.localScale = s;
                 }
             }
 
-            if (gameLevel == 2)
+            // Apply parameters specific to Turret
+            if (evt.obstaclePrefab.name == "Turret")
             {
-                while (nextSpawnIndex < bracket2.sequence.Length &&
-                       distanceTraveled >= bracket2.sequence[nextSpawnIndex].triggerDistance)
+                TurretAction turretAction = nextObstacle.GetComponent<TurretAction>();
+                if (turretAction != null)
                 {
-                    var evt = bracket2.sequence[nextSpawnIndex];
-                    Vector3 spawnPos = new(10.0f, groundLevel + evt.yPosition, 0);
-                    GameObject nextObstacle = Instantiate(evt.obstaclePrefab, spawnPos, evt.obstaclePrefab.transform.rotation);
-
-                    // Grab obstacle travel component and set values
-                    ObstacleTravel obstacleSettings = nextObstacle.GetComponent<ObstacleTravel>();
-                    obstacleSettings.traveling = true;
-                    obstacleSettings.baseSpeed = runSpeed;
-                    obstacleSettings.scalar = runSpeedScalar;
-                    obstacleSettings.offsetScalar = evt.speedOffsetScalar;
-
-                    // Apply parameters specific to Saw
-                    if (evt.obstaclePrefab.name == "Saw")
-                    {
-                        Vector3 sawScale = nextObstacle.transform.localScale;
-                        sawScale.x *= evt.sawScale;
-                        sawScale.y *= evt.sawScale;
-                        nextObstacle.transform.localScale = sawScale;
-                    }
-
-                    // Apply parameters specific to Mine
-                    if (evt.obstaclePrefab.name == "Mine")
-                    {
-                        Transform laserLength = nextObstacle.transform.Find("Scale");
-                        if (laserLength != null)
-                        {
-                            Vector3 s = laserLength.localScale;
-                            s.y = evt.laserLength;
-                            laserLength.localScale = s;
-                        }
-                    }
-
-                    // Apply parameters specific to Turret
-                    if (evt.obstaclePrefab.name == "Turret")
-                    {
-                        TurretAction turretAction = nextObstacle.GetComponent<TurretAction>();
-                        if (turretAction != null)
-                        {
-                            StartCoroutine(turretAction.CountdownToFire(evt.turretTimer));
-                        }
-                    }
-
-                    nextSpawnIndex++;
+                    StartCoroutine(turretAction.CountdownToFire(evt.turretTimer));
                 }
             }
 
-            if (gameLevel == 3)
-            {
-                while (nextSpawnIndex < bracket3.sequence.Length &&
-                       distanceTraveled >= bracket3.sequence[nextSpawnIndex].triggerDistance)
-                {
-                    var evt = bracket3.sequence[nextSpawnIndex];
-                    Vector3 spawnPos = new(10.0f, groundLevel + evt.yPosition, 0);
-                    GameObject nextObstacle = Instantiate(evt.obstaclePrefab, spawnPos, evt.obstaclePrefab.transform.rotation);
-
-                    // Grab obstacle travel component and set values
-                    ObstacleTravel obstacleSettings = nextObstacle.GetComponent<ObstacleTravel>();
-                    obstacleSettings.traveling = true;
-                    obstacleSettings.baseSpeed = runSpeed;
-                    obstacleSettings.scalar = runSpeedScalar;
-                    obstacleSettings.offsetScalar = evt.speedOffsetScalar;
-
-                    // Apply parameters specific to Saw
-                    if (evt.obstaclePrefab.name == "Saw")
-                    {
-                        Vector3 sawScale = nextObstacle.transform.localScale;
-                        sawScale.x *= evt.sawScale;
-                        sawScale.y *= evt.sawScale;
-                        nextObstacle.transform.localScale = sawScale;
-                    }
-
-                    // Apply parameters specific to Mine
-                    if (evt.obstaclePrefab.name == "Mine")
-                    {
-                        Transform laserLength = nextObstacle.transform.Find("Scale");
-                        if (laserLength != null)
-                        {
-                            Vector3 s = laserLength.localScale;
-                            s.y = evt.laserLength;
-                            laserLength.localScale = s;
-                        }
-                    }
-
-                    // Apply parameters specific to Turret
-                    if (evt.obstaclePrefab.name == "Turret")
-                    {
-                        TurretAction turretAction = nextObstacle.GetComponent<TurretAction>();
-                        if (turretAction != null)
-                        {
-                            StartCoroutine(turretAction.CountdownToFire(evt.turretTimer));
-                        }
-                    }
-
-                    nextSpawnIndex++;
-                }
-            }
-
-            if (gameLevel == 4)
-            {
-                // endless run algorithm
-            }
+            nextSpawnIndex++;
         }
     }
 
@@ -225,6 +124,12 @@ public class SpawnManager : MonoBehaviour
     private void InitializeLevel(int number)
     {
         gameLevel = number;
+
+        // Set current bracket
+        if (gameLevel == 1) currentFixedBracket = bracket1;
+        else if (gameLevel == 2) currentFixedBracket = bracket2;
+        else if (gameLevel == 3) currentFixedBracket = bracket3;
+        else Debug.Log("Incorrect or no game level received by SpawnManager");
     }
 
     // Set base run speed, -- from GameManager

@@ -9,42 +9,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f828614d9a669314884618084d0bf67a, type: 3}
+  m_Script: {fileID: 11500000, guid: e2c9a3e0e627eef44b7ddbbabf56d223, type: 3}
   m_Name: Bracket2
   m_EditorClassIdentifier: 
   sequence:
   - triggerDistance: 0
-    obstaclePrefab: {fileID: 1288570722599265875, guid: 320bc154dcda2a64c813caa18c39e807, type: 3}
-    yPosition: 0
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 2
     speedOffsetScalar: 1
-    sawScale: 1
-    laserLength: 2
+    sawScale: 2
+    laserLength: 1
     turretTimer: 1
-  - triggerDistance: 8
-    obstaclePrefab: {fileID: 1288570722599265875, guid: 320bc154dcda2a64c813caa18c39e807, type: 3}
-    yPosition: 0
+  - triggerDistance: 5
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 0.5
     speedOffsetScalar: 1
     sawScale: 1
-    laserLength: 4
+    laserLength: 1
     turretTimer: 1
-  - triggerDistance: 12
-    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
-    yPosition: 7
-    speedOffsetScalar: 1
-    sawScale: 1
-    laserLength: 1
-    turretTimer: 0.8
-  - triggerDistance: 16
-    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
-    yPosition: 4
-    speedOffsetScalar: 1
-    sawScale: 1
-    laserLength: 1
-    turretTimer: 1.6
-  - triggerDistance: 20
-    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
-    yPosition: 6
-    speedOffsetScalar: 1
-    sawScale: 1
-    laserLength: 1
-    turretTimer: 1.2

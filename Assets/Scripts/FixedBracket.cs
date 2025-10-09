@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Bracket3", menuName = "Scriptable Objects/Bracket3")]
-public class Bracket3 : ScriptableObject
+[CreateAssetMenu(fileName = "FixedBracket", menuName = "Scriptable Objects/FixedBracket")]
+public class FixedBracket : ScriptableObject
 {
     [System.Serializable]
     public class SpawnEvent
@@ -30,6 +30,5 @@ public class Bracket3 : ScriptableObject
         // Used to adjust WHEN the Turret fires, WIP: will be changing this to WHERE
         public float turretTimer = 1f;
     }
-
     public SpawnEvent[] sequence;
 }
