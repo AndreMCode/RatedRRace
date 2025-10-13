@@ -10,6 +10,7 @@ public class UIMainMenu : MonoBehaviour
     // [SerializeField] GameObject shopMenu;
     [SerializeField] GameObject settingsMenu;
     [SerializeField] GameObject endlessMenu;
+    [SerializeField] GameObject shopMenu;
     public int levelAccess;
     public int shopAccess;
 
@@ -118,6 +119,11 @@ public class UIMainMenu : MonoBehaviour
         DisplaySettingsMenu();
     }
 
+    public void OnClickShop()
+    {
+        DisplayShopMenu();
+    }
+
     public void OnClickResetProgress()
     {
         // Also reset high scores?
@@ -142,6 +148,7 @@ public class UIMainMenu : MonoBehaviour
         playMenu.SetActive(false);
         endlessMenu.SetActive(false);
         settingsMenu.SetActive(false);
+        shopMenu.SetActive(false);
 
         if (shopAccess == 1) shopButton.SetActive(true);
     }
@@ -167,5 +174,11 @@ public class UIMainMenu : MonoBehaviour
         shopButton.SetActive(false);
         playMenu.SetActive(false);
         endlessMenu.SetActive(false);
+    }
+
+    void DisplayShopMenu()
+    {
+        shopMenu.SetActive(true);
+        mainMenu.SetActive(false);
     }
 }
