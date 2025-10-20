@@ -16,12 +16,17 @@ public class UIMainMenu : MonoBehaviour
     [SerializeField] GameObject shopButton;
     [SerializeField] GameObject shopMenu;
     [SerializeField] GameObject settingsMenu;
+    [SerializeField] GameObject InstructionMenu;
+    [SerializeField] GameObject InstructionMenuPG1;
+    [SerializeField] GameObject InstructionMenuPG2;
     public int levelAccess;
     public int shopAccess;
+    private int instpage;
 
     void Start()
     {
         HideAllMenus();
+        instpage = 0;
 
         if (menuBGM != null)
         {
@@ -40,6 +45,9 @@ public class UIMainMenu : MonoBehaviour
         shopButton.SetActive(false);
         shopMenu.SetActive(false);
         settingsMenu.SetActive(false);
+        InstructionMenu.SetActive(false);
+        InstructionMenuPG1.SetActive(false);
+        InstructionMenuPG2.SetActive(false);
     }
 
     public void OnClickPlay()
@@ -124,6 +132,19 @@ public class UIMainMenu : MonoBehaviour
         DisplayMainMenu();
     }
 
+    public void OnClickInstruction()
+    {
+        instpage = 1;
+        Debug.Log(instpage);
+        DisplayInstructionMenu();
+    }
+
+    public void CycleInstruction()
+    {
+        instpage++;
+        DisplayInstructionMenu();
+    }
+
     public void OnClickSettings()
     {
         DisplaySettingsMenu();
@@ -182,6 +203,24 @@ public class UIMainMenu : MonoBehaviour
         HideAllMenus();
 
         settingsMenu.SetActive(true);
+    }
+
+    void DisplayInstructionMenu()
+    {
+        HideAllMenus();
+        //Cycles through the instruction pages when prompted
+        InstructionMenu.SetActive(true);
+        switch (instpage)
+        {
+            case 1:
+                InstructionMenuPG1.SetActive(true);
+                return;
+            case 2:
+                InstructionMenuPG2.SetActive(true);
+                return;
+            default:
+                break;
+        }
     }
 
     private IEnumerator FadeOutTracks(float fadeDuration)
