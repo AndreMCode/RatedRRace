@@ -9,8 +9,12 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] PlayerSFX playerSFX;
+    private bool runningStarted = false;
+
     [SerializeField] GameObject spriteHandle;
     [SerializeField] Animator animator;
+    private float runAnimSpeed = 1;
     private bool isAlive = true;
     private bool isRunning = false;
     private bool canSlide = false;
@@ -126,6 +130,7 @@ public class PlayerController : MonoBehaviour
         Messenger.AddListener(GameEvent.PLAYER_DIED, PlayerDied);
         Messenger<bool>.AddListener(GameEvent.SET_ABILITY_SLIDE, CanSlide);
         Messenger<bool>.AddListener(GameEvent.SET_ABILITY_DIVE, CanDive);
+        Messenger<float>.AddListener(GameEvent.SET_RUN_SCALAR, SetRunAnimSpeed);
     }
 
     void OnDisable()
@@ -134,6 +139,7 @@ public class PlayerController : MonoBehaviour
         Messenger.RemoveListener(GameEvent.PLAYER_DIED, PlayerDied);
         Messenger<bool>.RemoveListener(GameEvent.SET_ABILITY_SLIDE, CanSlide);
         Messenger<bool>.RemoveListener(GameEvent.SET_ABILITY_DIVE, CanDive);
+        Messenger<float>.RemoveListener(GameEvent.SET_RUN_SCALAR, SetRunAnimSpeed);
     }
 
     // Toggle running, -- from UIBracketMode
@@ -143,6 +149,12 @@ public class PlayerController : MonoBehaviour
         else isRunning = true;
 
         animator.SetBool("IsRunning", isRunning);
+        animator.SetFloat("RunSpeedScalar", runAnimSpeed);
+    }
+
+    void SetRunAnimSpeed(float scalar)
+    {
+        runAnimSpeed = scalar * 1.2f;
     }
 
     // Allows slide ability, -- from GameManager
@@ -168,7 +180,8 @@ public class PlayerController : MonoBehaviour
 
         // Death sequence goes here
 
-        animator.SetBool("IsRunning", isRunning);
+        animator.SetBool("IsRunning", false);
+        animator.SetBool("IsGrounded", false);
 
         // Temporary, if player dies while sliding, restore original scale
         Vector3 scale = spriteHandle.transform.localScale;
@@ -225,6 +238,23 @@ public class PlayerController : MonoBehaviour
         }
 
         animator.SetBool("IsGrounded", grounded);
+        if (grounded && isRunning)
+        {
+            if (!runningStarted)
+            {
+                playerSFX.PlayRunSFX();
+                runningStarted = true;
+            }
+
+            animator.SetBool("IsRunning", true);
+            animator.SetFloat("RunSpeedScalar", runAnimSpeed);
+        }
+        else
+        {
+            playerSFX.StopRunSFX();
+            runningStarted = false;
+            animator.SetFloat("RunSpeedScalar", 0);
+        }
     }
 
     // Handle jump input
@@ -251,6 +281,8 @@ public class PlayerController : MonoBehaviour
     // Apply jump, -- from (self) or PlayerHealth
     public void ApplyJump(float baseHeight, float strength)
     {
+        playerSFX.PlayJumpSFX();
+
         // Zero any vertical force before applying jump force
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
         // Snap y-transform to jump base
@@ -262,7 +294,8 @@ public class PlayerController : MonoBehaviour
 
         // Snap position of sprite handle to jump base only when jumping from ground level
         if (baseHeight == groundLevel) spriteHandle.transform.position = transform.position;
-        animator.SetBool("IsJumping", canCancelJump);
+        animator.SetBool("IsRunning", false);
+        animator.SetBool("IsGrounded", false);
     }
 
     // Handle jump cancel
@@ -275,13 +308,13 @@ public class PlayerController : MonoBehaviour
             ApplyJumpCancel();
             canCancelJump = false;
 
-            animator.SetBool("IsJumping", canCancelJump);
+            // animator.SetBool("IsJumping", canCancelJump);
         }
         else if (canCancelJump && rb.linearVelocity.y < 0)
         {
             canCancelJump = false;
 
-            animator.SetBool("IsJumping", canCancelJump);
+            // animator.SetBool("IsJumping", canCancelJump);
         }
     }
 
@@ -331,6 +364,9 @@ public class PlayerController : MonoBehaviour
     // Begin slide
     private void BeginSlide()
     {
+        playerSFX.StopRunSFX();
+        playerSFX.StartSlideSFX();
+
         isSliding = true;
         boxCol.size = slideSize;
         boxCol.offset = slideOffset;
@@ -366,6 +402,9 @@ public class PlayerController : MonoBehaviour
     // Apply slide cancel
     void HandleSlideCancel()
     {
+        playerSFX.StopSlideSFX();
+        runningStarted = false;
+
         slideEnd = Time.time;
         isSliding = false;
         boxCol.size = defaultSize;

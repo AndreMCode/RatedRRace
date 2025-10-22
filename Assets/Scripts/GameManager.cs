@@ -19,17 +19,19 @@ public class GameManager : MonoBehaviour
         // Retrieve selected bracket
         level = PlayerPrefs.GetInt("SelectedBracket", 1);
 
+        defense += PlayerPrefs.GetInt("BubbleShieldCount", 0);
+
         // Allow ability based on level
         if (level > 1)
         {
             canSlide = true;
-            runSpeedScalar = 1.2f; // 6 meters/sec
+            runSpeedScalar = 1.2f; // was 1.2f
         }
 
         if (level > 2)
         {
             canDive = true;
-            runSpeedScalar = 1.4f; // 7 meters/sec
+            runSpeedScalar = 1.2f; // was 1.4f
         }
 
         // Relay game mode settings to listeners

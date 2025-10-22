@@ -13,6 +13,7 @@ public class UIBracketMode : MonoBehaviour
     [SerializeField] TextMeshProUGUI distanceTxt;
     [SerializeField] TextMeshProUGUI countdownTxt;
     [SerializeField] TextMeshProUGUI gameOverTxt;
+    [SerializeField] GameObject retryTxt;
     public float uiUpdateInterval = 0.1f;
     private float uiUpdateTimer = 0f;
 
@@ -20,6 +21,7 @@ public class UIBracketMode : MonoBehaviour
     {
         countdownTxt.enabled = false;
         gameOverTxt.enabled = false;
+        retryTxt.SetActive(false);
         StartCoroutine(InitialCountdown());
     }
 
@@ -55,6 +57,7 @@ public class UIBracketMode : MonoBehaviour
     void PlayerDied()
     {
         gameOverTxt.enabled = true;
+        retryTxt.SetActive(true);
     }
 
     // Update the counter using the specified interval
@@ -100,6 +103,11 @@ public class UIBracketMode : MonoBehaviour
 
         yield return _waitForSeconds1;
         countdownTxt.enabled = false;
+    }
+
+    public void OnClickRetry()
+    {
+        ReloadScene();
     }
 
     // Restart the run

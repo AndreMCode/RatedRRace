@@ -1,33 +1,41 @@
 using UnityEngine;
 using System.Collections;
 using UnityEditor;
+using TMPro;
 
 public class UIMainMenu : MonoBehaviour
 {
     // Main Menu user interface elements, graphics, audio, and logic
     // -------------------------------------------------------------
 
-    public AudioSource menuBGM;
+    public AudioSource menuIntro; // plays once, from time 0
+    public AudioSource menuLoop;  // looped source; its clip should be the loop section and set to loop = true
     private static WaitForSeconds _waitForSeconds0_5 = new(0.5f);
     [SerializeField] GameObject mainMenu;
     [SerializeField] GameObject playMenu;
     [SerializeField] GameObject buffsMenu;
+
+    [SerializeField] TextMeshProUGUI bubbleCountTxt;
+
     [SerializeField] GameObject endlessMenu;
     [SerializeField] GameObject shopButton;
     [SerializeField] GameObject shopMenu;
     [SerializeField] GameObject settingsMenu;
+    [SerializeField] GameObject InstructionMenu;
+    [SerializeField] GameObject InstructionMenuPG1;
+    [SerializeField] GameObject InstructionMenuPG2;
     public int levelAccess;
     public int shopAccess;
+    private int instpage;
 
     void Start()
     {
+        PlayerPrefs.SetInt("BubbleShieldCount", 0);
+
+        instpage = 0;
+
         HideAllMenus();
-
-        if (menuBGM != null)
-        {
-            menuBGM.Play();
-        }
-
+        SetMenuAudio();
         DisplayMainMenu();
     }
 
@@ -40,6 +48,28 @@ public class UIMainMenu : MonoBehaviour
         shopButton.SetActive(false);
         shopMenu.SetActive(false);
         settingsMenu.SetActive(false);
+        InstructionMenu.SetActive(false);
+        InstructionMenuPG1.SetActive(false);
+        InstructionMenuPG2.SetActive(false);
+    }
+
+    void SetMenuAudio()
+    {
+        // Use DSP scheduling for seamless handoff from intro to loop.
+        if (menuIntro != null && menuLoop != null && menuIntro.clip != null && menuLoop.clip != null)
+        {
+            // Ensure loop source is set to loop
+            menuLoop.loop = true;
+
+            // Start intro immediately using PlayScheduled
+            double dspStart = AudioSettings.dspTime + 0.05; // small lead time
+            menuIntro.PlayScheduled(dspStart);
+
+            // Schedule the loop to start exactly when intro ends
+            double introDuration = menuIntro.clip.length - menuIntro.time;
+            double loopStartDsp = dspStart + introDuration;
+            menuLoop.PlayScheduled(loopStartDsp);
+        }
     }
 
     public void OnClickPlay()
@@ -95,6 +125,12 @@ public class UIMainMenu : MonoBehaviour
     // Add Bubble Shield to player loadout
     public void OnClickAddBubble()
     {
+        int count = PlayerPrefs.GetInt("BubbleShieldCount", 0);
+        if (count < 2) count++;
+        PlayerPrefs.SetInt("BubbleShieldCount", count);
+
+        bubbleCountTxt.text = "+" + count.ToString();
+
         Debug.Log("Added a Bubble Shield to the player!");
     }
 
@@ -124,9 +160,31 @@ public class UIMainMenu : MonoBehaviour
         DisplayMainMenu();
     }
 
+    public void OnClickInstruction()
+    {
+        instpage = 1;
+        Debug.Log(instpage);
+        DisplayInstructionMenu();
+    }
+
+    public void CycleInstruction()
+    {
+        instpage++;
+        DisplayInstructionMenu();
+    }
+
     public void OnClickSettings()
     {
         DisplaySettingsMenu();
+    }
+
+    public void OnClickQuit()
+    {
+        #if UNITY_EDITOR
+            EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
     }
 
     // Reset game progress
@@ -168,6 +226,8 @@ public class UIMainMenu : MonoBehaviour
         HideAllMenus();
 
         buffsMenu.SetActive(true);
+
+        bubbleCountTxt.text = "+" + PlayerPrefs.GetInt("BubbleShieldCount", 0).ToString();
     }
 
     void DisplayShopMenu()
@@ -184,24 +244,55 @@ public class UIMainMenu : MonoBehaviour
         settingsMenu.SetActive(true);
     }
 
+    void DisplayInstructionMenu()
+    {
+        HideAllMenus();
+        //Cycles through the instruction pages when prompted
+        InstructionMenu.SetActive(true);
+        switch (instpage)
+        {
+            case 1:
+                InstructionMenuPG1.SetActive(true);
+                return;
+            case 2:
+                InstructionMenuPG2.SetActive(true);
+                return;
+            default:
+                break;
+        }
+    }
+
     private IEnumerator FadeOutTracks(float fadeDuration)
     {
-        if (menuBGM != null)
+        // Fade both intro and loop sources if present
+        AudioSource[] targets = new AudioSource[] { menuIntro, menuLoop };
+        float[] startVolumes = new float[targets.Length];
+        for (int i = 0; i < targets.Length; i++) startVolumes[i] = targets[i] != null ? targets[i].volume : 0f;
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < fadeDuration)
         {
-            float startVolume = menuBGM.volume;
-            float elapsedTime = 0f;
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / fadeDuration;
 
-            while (elapsedTime < fadeDuration)
+            for (int i = 0; i < targets.Length; i++)
             {
-                elapsedTime += Time.deltaTime;
-                float newVolume = Mathf.Lerp(startVolume, 0, elapsedTime / fadeDuration);
-
-                menuBGM.volume = newVolume;
-
-                yield return null;
+                var src = targets[i];
+                if (src == null) continue;
+                src.volume = Mathf.Lerp(startVolumes[i], 0f, t);
             }
 
-            menuBGM.Stop();
+            yield return null;
+        }
+
+        // Stop sources and reset volumes to 0
+        for (int i = 0; i < targets.Length; i++)
+        {
+            var src = targets[i];
+            if (src == null) continue;
+            src.Stop();
+            src.volume = 0f;
         }
     }
 

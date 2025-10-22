@@ -27,8 +27,8 @@ public class FixedBracket : ScriptableObject
         // Used to adjust the length of the Mine laser
         public float laserLength = 1f;
 
-        // Used to adjust WHEN the Turret fires, WIP: will be changing this to WHERE
-        public float turretTimer = 1f;
+        // Used to adjust where the Turret fires [-8, 8]
+        public float turretXPos = 0f;
     }
     public SpawnEvent[] sequence;
 }

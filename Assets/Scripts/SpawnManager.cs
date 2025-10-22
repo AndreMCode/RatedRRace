@@ -40,6 +40,9 @@ public class SpawnManager : MonoBehaviour
                 SpawnObstacle();
             }
         }
+
+        // End of demo. REMOVE after demo date.
+        if (distanceTraveled > 444) UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
     }
 
     void SpawnObstacle()
@@ -85,7 +88,7 @@ public class SpawnManager : MonoBehaviour
                 TurretAction turretAction = nextObstacle.GetComponent<TurretAction>();
                 if (turretAction != null)
                 {
-                    StartCoroutine(turretAction.CountdownToFire(evt.turretTimer));
+                    turretAction.xPosForAction = evt.turretXPos;
                 }
             }
 
@@ -129,6 +132,9 @@ public class SpawnManager : MonoBehaviour
         if (gameLevel == 1) currentFixedBracket = bracket1;
         else if (gameLevel == 2) currentFixedBracket = bracket2;
         else if (gameLevel == 3) currentFixedBracket = bracket3;
+        // temporary!!
+        else if (gameLevel == 4) currentFixedBracket = bracket2; // temporary!!
+        // temproary!!
         else Debug.Log("Incorrect or no game level received by SpawnManager");
     }
 

@@ -8,26 +8,26 @@ public class MovementScroller : MonoBehaviour
     // --------------------------------------------------------------------
 
     [SerializeField] GameObject foreground;
-    [SerializeField] GameObject background;
-    [SerializeField] BoxCollider2D foregroundCol;
-    [SerializeField] BoxCollider2D backgroundCol;
+    [SerializeField] GameObject ground;
+    // [SerializeField] GameObject behindGround;
+    [SerializeField] GameObject mountain;
+    [SerializeField] GameObject sky;
     public bool running = false;
     public float runSpeed = 0f;
     public float runSpeedScalar = 0f;
-    public float bgPerspectiveFactor = 0.8f;
-    private float fgRepeatWidth;
-    private float bgRepeatWidth;
-    private Vector2 fgStartPos;
-    private Vector2 bgStartPos;
+    public float fgFactor = 1.2f;
+    public float mtnFactor = 0.2f;
+    public float skyFactor = 0.1f;
+    private Vector2 startPos;
+    public float bgRepeatWidth = 40.96f;
+    private float xLimit;
     private Coroutine speedLerpRoutine;
 
     void Start()
     {
         // Gather asset positions and dimensions
-        fgStartPos = foreground.transform.position;
-        bgStartPos = background.transform.position;
-        fgRepeatWidth = foregroundCol.size.x / 2;
-        bgRepeatWidth = backgroundCol.size.x / 2;
+        startPos = transform.position;
+        xLimit = startPos.x - bgRepeatWidth;
     }
 
     void Update()
@@ -35,20 +35,41 @@ public class MovementScroller : MonoBehaviour
         if (running)
         {
             // Check position and reposition if half-length reached
-            if (foreground.transform.position.x < fgStartPos.x - fgRepeatWidth)
+            if (foreground.transform.position.x < xLimit)
             {
-                foreground.transform.position = fgStartPos;
+                foreground.transform.position = new Vector2(startPos.x, foreground.transform.position.y);
             }
-            if (background.transform.position.x < bgStartPos.x - bgRepeatWidth)
+            if (ground.transform.position.x < xLimit)
             {
-                background.transform.position = bgStartPos;
+                ground.transform.position = new Vector2(startPos.x, ground.transform.position.y);
+            }
+            // if (behindGround.transform.position.x < xLimit)
+            // {
+            //     behindGround.transform.position = new Vector2(startPos.x, behindGround.transform.position.y);
+            // }
+            if (mountain.transform.position.x < xLimit)
+            {
+                mountain.transform.position = new Vector2(startPos.x, mountain.transform.position.y);
+            }
+            if (sky.transform.position.x < xLimit)
+            {
+                sky.transform.position = new Vector2(startPos.x, sky.transform.position.y);
             }
 
-            // Move foreground at full run speed
-            foreground.transform.Translate(runSpeed * runSpeedScalar * Time.deltaTime * Vector2.left);
+            // Move foreground at increased run speed
+            foreground.transform.Translate(runSpeed * runSpeedScalar * fgFactor * Time.deltaTime * Vector2.left);
+
+            // Move ground at full run speed
+            ground.transform.Translate(runSpeed * runSpeedScalar * Time.deltaTime * Vector2.left);
+
+            // Move behindGround at near-full run speed
+            // behindGround.transform.Translate(runSpeed * runSpeedScalar * 0.9f * Time.deltaTime * Vector2.left);
 
             // Move background at a decreased factor of current run speed
-            background.transform.Translate(runSpeed * runSpeedScalar * bgPerspectiveFactor * Time.deltaTime * Vector2.left);
+            mountain.transform.Translate(runSpeed * runSpeedScalar * mtnFactor * Time.deltaTime * Vector2.left);
+
+            // Move background at a decreased factor of current run speed
+            sky.transform.Translate(runSpeed * runSpeedScalar * skyFactor * Time.deltaTime * Vector2.left);
         }
     }
 
