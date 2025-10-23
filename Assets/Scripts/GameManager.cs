@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
         if (level > 2)
         {
             canDive = true;
-            runSpeedScalar = 1.2f; // was 1.4f
+            runSpeedScalar = 1.4f; // was 1.4f
         }
 
         // Relay game mode settings to listeners

@@ -9,10 +9,19 @@ public class TurretAction : MonoBehaviour
     [SerializeField] ObstacleTravel obstacleTravel;
     [SerializeField] SpriteRenderer turretSprite;
     [SerializeField] GameObject laser;
+
+    // Origin and angle to detect the ground
+    [SerializeField] GameObject sight;
+
+    // Visual laser dot on ground
+    [SerializeField] GameObject laserDot;
+    [SerializeField] LayerMask groundLayer;
     private bool visualWarning = false;
     private bool shotFired = false;
     public float xPosForAction = 0f;
     public float postFireExitSpeed = 1f;
+    private GameObject activeDot;
+    private float raycastDistance = 50f;
 
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip turretWarnSFX;
@@ -34,6 +43,9 @@ public class TurretAction : MonoBehaviour
         if (!visualWarning && transform.position.x < xPosForAction)
         {
             obstacleTravel.traveling = false;
+
+            // Cast ray and place laser dot on ground
+            PlaceDotAtRaycastHit();
 
             // Start a visual and audio warning before firing
             StartCoroutine(FlickerSprite(0.1f, 3));
@@ -64,11 +76,47 @@ public class TurretAction : MonoBehaviour
     {
         laser.SetActive(true);
 
+        // Remove the laser dot after firing
+        if (activeDot != null)
+        {
+            Destroy(activeDot);
+            activeDot = null;
+        }
+
         yield return new WaitForSeconds(0.25f);
         laser.SetActive(false);
 
         shotFired = true;
         obstacleTravel.traveling = true;
+    }
+
+    private void PlaceDotAtRaycastHit()
+    {
+        if (sight == null || laserDot == null) return;
+
+        // Cast ray from sight object's position in its local left direction
+        RaycastHit2D hit = Physics2D.Raycast(
+            sight.transform.position,
+            sight.transform.TransformDirection(Vector2.left),
+            raycastDistance,
+            groundLayer
+        );
+
+        // If we hit ground, spawn dot at hit point
+        if (hit.collider != null)
+        {
+            activeDot = Instantiate(laserDot, hit.point, Quaternion.identity);
+        }
+
+#if UNITY_EDITOR
+        // Visualize the raycast in scene view (editor only)
+        Debug.DrawRay(
+            sight.transform.position,
+            sight.transform.TransformDirection(Vector2.left) * raycastDistance,
+            Color.red,
+            1f
+        );
+#endif
     }
 
     void PlayTurretWarnSFX()

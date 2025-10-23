@@ -98,6 +98,12 @@ public class PlayerHealth : MonoBehaviour
 
                     Instantiate(boxParticle, new Vector3(collision.ClosestPoint(playerPos).x, collision.ClosestPoint(playerPos).y, 0f), boxParticle.transform.rotation);
                     playerSFX.PlayBoxBreakSFX();
+                    playerSFX.PlayMineExploSFX();
+
+                    if (health < 1)
+                    {
+                        Instantiate(mineBloodParticle, new Vector3(collision.ClosestPoint(playerPos).x, transform.position.y + 0.8f, 0f), mineBloodParticle.transform.rotation);
+                    }
 
                     Destroy(collision.gameObject);
                 }

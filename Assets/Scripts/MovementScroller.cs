@@ -9,13 +9,14 @@ public class MovementScroller : MonoBehaviour
 
     [SerializeField] GameObject foreground;
     [SerializeField] GameObject ground;
-    // [SerializeField] GameObject behindGround;
+    [SerializeField] GameObject mountainFront;
     [SerializeField] GameObject mountain;
     [SerializeField] GameObject sky;
     public bool running = false;
     public float runSpeed = 0f;
     public float runSpeedScalar = 0f;
     public float fgFactor = 1.2f;
+    public float mtnFrontFactor = 0.2f;
     public float mtnFactor = 0.2f;
     public float skyFactor = 0.1f;
     private Vector2 startPos;
@@ -43,10 +44,10 @@ public class MovementScroller : MonoBehaviour
             {
                 ground.transform.position = new Vector2(startPos.x, ground.transform.position.y);
             }
-            // if (behindGround.transform.position.x < xLimit)
-            // {
-            //     behindGround.transform.position = new Vector2(startPos.x, behindGround.transform.position.y);
-            // }
+            if (mountainFront.transform.position.x < xLimit)
+            {
+                mountainFront.transform.position = new Vector2(startPos.x, mountainFront.transform.position.y);
+            }
             if (mountain.transform.position.x < xLimit)
             {
                 mountain.transform.position = new Vector2(startPos.x, mountain.transform.position.y);
@@ -63,7 +64,7 @@ public class MovementScroller : MonoBehaviour
             ground.transform.Translate(runSpeed * runSpeedScalar * Time.deltaTime * Vector2.left);
 
             // Move behindGround at near-full run speed
-            // behindGround.transform.Translate(runSpeed * runSpeedScalar * 0.9f * Time.deltaTime * Vector2.left);
+            mountainFront.transform.Translate(runSpeed * runSpeedScalar * mtnFrontFactor * Time.deltaTime * Vector2.left);
 
             // Move background at a decreased factor of current run speed
             mountain.transform.Translate(runSpeed * runSpeedScalar * mtnFactor * Time.deltaTime * Vector2.left);

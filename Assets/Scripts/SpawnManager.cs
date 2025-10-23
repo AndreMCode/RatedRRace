@@ -23,6 +23,8 @@ public class SpawnManager : MonoBehaviour
     public GameObject distanceTracker;
     public float distanceTraveled = 0f;
 
+    public EndlessAlgorithm endlessMode;
+
     void Start()
     {
         // StartCoroutine(TestAdjust());
@@ -39,10 +41,11 @@ public class SpawnManager : MonoBehaviour
             {
                 SpawnObstacle();
             }
+            else
+            {
+                endlessMode.UpdateDistance(distanceTraveled);
+            }
         }
-
-        // End of demo. REMOVE after demo date.
-        if (distanceTraveled > 444) UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
     }
 
     void SpawnObstacle()
@@ -133,7 +136,11 @@ public class SpawnManager : MonoBehaviour
         else if (gameLevel == 2) currentFixedBracket = bracket2;
         else if (gameLevel == 3) currentFixedBracket = bracket3;
         // temporary!!
-        else if (gameLevel == 4) currentFixedBracket = bracket2; // temporary!!
+        else if (gameLevel == 4)
+        {
+            currentFixedBracket = null;
+            endlessMode.InitializeEndless();
+        }
         // temproary!!
         else Debug.Log("Incorrect or no game level received by SpawnManager");
     }
