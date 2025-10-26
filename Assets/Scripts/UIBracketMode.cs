@@ -10,18 +10,27 @@ public class UIBracketMode : MonoBehaviour
     private static WaitForSeconds _waitForSeconds0_5 = new(0.5f);
     private static WaitForSeconds _waitForSeconds1 = new(1f);
     [SerializeField] SpawnManager distanceSource;
+    [SerializeField] TextMeshProUGUI bubbleCountTxt;
+    [SerializeField] TextMeshProUGUI fundsTxt;
+    [SerializeField] TextMeshProUGUI bestRunTxt;
     [SerializeField] TextMeshProUGUI distanceTxt;
+    [SerializeField] TextMeshProUGUI speedTxt;
     [SerializeField] TextMeshProUGUI countdownTxt;
-    [SerializeField] TextMeshProUGUI gameOverTxt;
+    [SerializeField] GameObject gameOverTxt;
     [SerializeField] GameObject retryTxt;
     public float uiUpdateInterval = 0.1f;
     private float uiUpdateTimer = 0f;
+    public int gameLevel;
+    private int playerDefense;
 
     void Start()
     {
         countdownTxt.enabled = false;
-        gameOverTxt.enabled = false;
+        gameOverTxt.SetActive(false);
         retryTxt.SetActive(false);
+
+        DisplayFunds();
+
         StartCoroutine(InitialCountdown());
     }
 
@@ -40,23 +49,76 @@ public class UIBracketMode : MonoBehaviour
         }
 
         // Update the distance counter display
-        DistanceCounterUpdate();
+        // DistanceCounterUpdate();
+        UpdateDistanceText();
     }
 
     void OnEnable()
     {
+        Messenger<int>.AddListener(GameEvent.SET_LEVEL, InitializeLevel);
+        Messenger<int>.AddListener(GameEvent.SET_HEALTH, SetDefense);
+        Messenger<float>.AddListener(GameEvent.UI_SET_RUN_RATE, UpdateRunRate);
+        Messenger.AddListener(GameEvent.UI_DECREMENT_BUBBLE, DecrementBubbleCount);
         Messenger.AddListener(GameEvent.PLAYER_DIED, PlayerDied);
     }
 
     void OnDisable()
     {
+        Messenger<int>.RemoveListener(GameEvent.SET_LEVEL, InitializeLevel);
+        Messenger<int>.RemoveListener(GameEvent.SET_HEALTH, SetDefense);
+        Messenger<float>.RemoveListener(GameEvent.UI_SET_RUN_RATE, UpdateRunRate);
+        Messenger.RemoveListener(GameEvent.UI_DECREMENT_BUBBLE, DecrementBubbleCount);
         Messenger.RemoveListener(GameEvent.PLAYER_DIED, PlayerDied);
+    }
+
+    void DisplayBestRun()
+    {
+        if (gameLevel == 2)
+        {
+            float best = PlayerPrefs.GetFloat("BestSilver", 0f);
+            bestRunTxt.text = "Best: " + best.ToString("F2") + "m";
+        }
+
+        if (gameLevel == 4)
+        {
+            float best = PlayerPrefs.GetFloat("BestEndless", 0f);
+            bestRunTxt.text = "Best: " + best.ToString("F2") + "m";
+        }
+    }
+
+    void DisplayFunds()
+    {
+        fundsTxt.text = "$ " + PlayerPrefs.GetFloat("Money", 0).ToString("F2");
+    }
+
+    private void InitializeLevel(int number)
+    {
+        gameLevel = number;
+        DisplayBestRun();
+    }
+
+    void SetDefense(int defense)
+    {
+        playerDefense = defense;
+        if (defense > 0) bubbleCountTxt.text = playerDefense.ToString();
+    }
+
+    void UpdateRunRate(float value)
+    {
+        value *= 3.6f;
+        speedTxt.text = value.ToString("F1") + " km/h";
+    }
+
+    void DecrementBubbleCount()
+    {
+        if (playerDefense > 0) playerDefense--;
+        bubbleCountTxt.text = playerDefense.ToString();
     }
 
     // Display game over message
     void PlayerDied()
     {
-        gameOverTxt.enabled = true;
+        gameOverTxt.SetActive(true);
         retryTxt.SetActive(true);
     }
 

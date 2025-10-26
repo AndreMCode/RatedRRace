@@ -12,6 +12,8 @@ public class PlayerHealth : MonoBehaviour
 
     [SerializeField] GameObject spriteHandle;
     [SerializeField] SpriteRenderer playerSprite;
+    [SerializeField] GameObject bubbleHandle;
+    [SerializeField] BubbleAction bubbleAction;
     private PlayerController playerController;
     private readonly int baseHealth = 1;
     private int health;
@@ -21,6 +23,7 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] GameObject boxParticle;
     [SerializeField] GameObject sawBloodParticle;
     [SerializeField] GameObject mineBloodParticle;
+    [SerializeField] GameObject explosionParticle;
 
     [SerializeField] PlayerSFX playerSFX;
 
@@ -58,12 +61,40 @@ public class PlayerHealth : MonoBehaviour
     {
         health--;
         if (health > 0) StartCoroutine(ShieldInvincibility(0.1f, 8)); // = 1.6 seconds
+        Messenger.Broadcast(GameEvent.UI_DECREMENT_BUBBLE);
     }
 
     // Set defense quantity (1 hit plus Bubble Shield layers), -- from GameManager
     void SetHealth(int defense)
     {
         health = baseHealth + defense;
+
+        if (health > 1)
+        {
+            EnableBubbleShield();
+            bubbleAction.RestartSpin();
+        }
+    }
+
+    void EnableBubbleShield()
+    {
+        bubbleHandle.SetActive(true);
+    }
+
+    public void ShrinkBubble()
+    {
+        Vector3 scale = bubbleHandle.transform.localScale;
+        scale.x = 0.5f;
+        scale.y = 0.5f;
+        bubbleHandle.transform.localScale = scale;
+    }
+
+    public void RestoreBubble()
+    {
+        Vector3 scale = bubbleHandle.transform.localScale;
+        scale.x = 1f;
+        scale.y = 1f;
+        bubbleHandle.transform.localScale = scale;
     }
 
     // Decide what to do when colliding with an obstacle
@@ -97,6 +128,7 @@ public class PlayerHealth : MonoBehaviour
                     PlayerHit();
 
                     Instantiate(boxParticle, new Vector3(collision.ClosestPoint(playerPos).x, collision.ClosestPoint(playerPos).y, 0f), boxParticle.transform.rotation);
+                    Instantiate(explosionParticle, collision.transform.position, explosionParticle.transform.rotation);
                     playerSFX.PlayBoxBreakSFX();
                     playerSFX.PlayMineExploSFX();
 
@@ -138,6 +170,7 @@ public class PlayerHealth : MonoBehaviour
             {
                 // Player blown up by Mine, lose defense
                 PlayerHit();
+                Instantiate(explosionParticle, collision.transform.position, explosionParticle.transform.rotation);
                 playerSFX.PlayMineExploSFX();
 
                 Vector2 playerPos = new(transform.position.x, transform.position.y);
@@ -175,6 +208,9 @@ public class PlayerHealth : MonoBehaviour
         invincible = true;
         playerSFX.PlayShieldHitSFX();
 
+        bubbleAction.isBroken = true;
+        StartCoroutine(bubbleAction.FlickerRoutine());
+
         for (int i = 0; i < count; i++)
         {
             playerSprite.enabled = false;
@@ -185,6 +221,9 @@ public class PlayerHealth : MonoBehaviour
 
         invincible = false;
         playerSFX.PlayShieldPopSFX();
-        Debug.Log("Invincibility wore off!");
+
+        bubbleAction.isBroken = false;
+
+        if (health > 1) bubbleAction.RestartSpin(); else bubbleHandle.SetActive(false);
     }
 }

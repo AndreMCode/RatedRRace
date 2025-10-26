@@ -18,6 +18,7 @@ public class TurretAction : MonoBehaviour
     [SerializeField] LayerMask groundLayer;
     private bool visualWarning = false;
     private bool shotFired = false;
+    private bool secondShot = false;
     public float xPosForAction = 0f;
     public float postFireExitSpeed = 1f;
     private GameObject activeDot;
@@ -86,8 +87,27 @@ public class TurretAction : MonoBehaviour
         yield return new WaitForSeconds(0.25f);
         laser.SetActive(false);
 
-        shotFired = true;
-        obstacleTravel.traveling = true;
+        if (!secondShot)
+        {
+            // Hard-coded probability
+            int oneInFive = Random.Range(0, 5);
+            if (oneInFive == 1)
+            {
+                yield return new WaitForSeconds(0.5f);
+                visualWarning = false;
+                secondShot = true;
+            }
+            else
+            {
+                shotFired = true;
+                obstacleTravel.traveling = true;
+            }
+        }
+        else
+        {
+            shotFired = true;
+            obstacleTravel.traveling = true;
+        }
     }
 
     private void PlaceDotAtRaycastHit()

@@ -16,4 +16,7 @@ public class GameEvent : MonoBehaviour
     public const string ADJ_RUN_SPEED = "ADJ_RUN_SPEED";
     public const string START_RUN = "START_RUN";
     public const string PLAYER_DIED = "PLAYER_DIED";
+
+    public const string UI_DECREMENT_BUBBLE = "UI_DECREMENT_BUBBLE";
+    public const string UI_SET_RUN_RATE = "UI_SET_RUN_RATE";
 }

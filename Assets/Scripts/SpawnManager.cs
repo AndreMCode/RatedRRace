@@ -106,7 +106,7 @@ public class SpawnManager : MonoBehaviour
         Messenger<float>.AddListener(GameEvent.SET_RUN_SPEED, InitializeRunSpeed);
         Messenger<float>.AddListener(GameEvent.SET_RUN_SCALAR, InitializeRunScalar);
         Messenger<float>.AddListener(GameEvent.SET_GROUND_HEIGHT, SetGroundHeight);
-        Messenger.AddListener(GameEvent.PLAYER_DIED, ToggleRun);
+        Messenger.AddListener(GameEvent.PLAYER_DIED, EndRun);
     }
 
     void OnDisable()
@@ -116,7 +116,12 @@ public class SpawnManager : MonoBehaviour
         Messenger<float>.RemoveListener(GameEvent.SET_RUN_SPEED, InitializeRunSpeed);
         Messenger<float>.RemoveListener(GameEvent.SET_RUN_SCALAR, InitializeRunScalar);
         Messenger<float>.RemoveListener(GameEvent.SET_GROUND_HEIGHT, SetGroundHeight);
-        Messenger.RemoveListener(GameEvent.PLAYER_DIED, ToggleRun);
+        Messenger.RemoveListener(GameEvent.PLAYER_DIED, EndRun);
+    }
+
+    void EndRun()
+    {
+        StartCoroutine(AllowMovementStop());
     }
 
     // Toggle running, -- from UIBracketMode
@@ -124,6 +129,27 @@ public class SpawnManager : MonoBehaviour
     {
         if (running) running = false;
         else running = true;
+    }
+
+    void UpdateBestScore()
+    {
+        if (gameLevel == 2)
+        {
+            float previousBest = PlayerPrefs.GetFloat("BestSilver", 0f);
+            if (previousBest < distanceTraveled) PlayerPrefs.SetFloat("BestSilver", distanceTraveled);
+        }
+
+        if (gameLevel == 4)
+        {
+            float previousBest = PlayerPrefs.GetFloat("BestEndless", 0f);
+            if (previousBest < distanceTraveled) PlayerPrefs.SetFloat("BestEndless", distanceTraveled);
+        }
+    }
+
+    private void UpdateEarnings()
+    {
+        float currentMoney = PlayerPrefs.GetFloat("Money", 0f);
+        PlayerPrefs.SetFloat("Money", currentMoney + distanceTraveled);
     }
 
     // Set game level, -- from GameManager
@@ -135,13 +161,11 @@ public class SpawnManager : MonoBehaviour
         if (gameLevel == 1) currentFixedBracket = bracket1;
         else if (gameLevel == 2) currentFixedBracket = bracket2;
         else if (gameLevel == 3) currentFixedBracket = bracket3;
-        // temporary!!
         else if (gameLevel == 4)
         {
             currentFixedBracket = null;
             endlessMode.InitializeEndless();
         }
-        // temproary!!
         else Debug.Log("Incorrect or no game level received by SpawnManager");
     }
 
@@ -163,12 +187,12 @@ public class SpawnManager : MonoBehaviour
         groundLevel = value;
     }
 
-    // Used to test mid-game speed adjustment
-    // (we currently SHOULD NOT spawn obstacles during a speed transition)
-    private IEnumerator TestAdjust()
+    public IEnumerator AllowMovementStop()
     {
-        yield return new WaitForSeconds(9f);
+        ToggleRun();
+        yield return new WaitForSeconds(1.1f);
 
-        Messenger<float>.Broadcast(GameEvent.ADJ_RUN_SPEED, 2f);
+        UpdateBestScore();
+        UpdateEarnings();
     }
 }

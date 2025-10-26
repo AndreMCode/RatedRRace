@@ -1,14 +1,12 @@
-using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
-
-// Remove the following line after adding animated sprites
 [RequireComponent(typeof(GameObject))]
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] PlayerHealth playerHealth;
     [SerializeField] PlayerSFX playerSFX;
     private bool runningStarted = false;
 
@@ -41,12 +39,6 @@ public class PlayerController : MonoBehaviour
     public bool bufferedJump = false;
     private float groundProximityDistance;
     private float bufferedJumpTimer = 0f;
-    // Leniency for pressing slide early
-    [Header("Slide Buffering")]
-    public float groundProximitySlideFactor = 1f;
-    public float slideBufferTime = 0.25f;
-    public bool bufferedSlide = false;
-    private float bufferedSlideTimer = 0f;
 
     private BoxCollider2D boxCol;
     [Header("Slide Collider Settings")]
@@ -54,13 +46,6 @@ public class PlayerController : MonoBehaviour
     public Vector2 defaultOffset;
     public Vector2 slideSize = new(0.8f, 0.9f);
     public Vector2 slideOffset = new(0f, -0.05f);
-    public float slideTime = 0.8f;
-    public float slideCooldown = 0.4f;
-    private float slideEnd;
-
-    // Temporary sprite objects for visualizing player collider bounds
-    private SpriteRenderer tallHeight;
-    private SpriteRenderer shortHeight;
 
     void Start()
     {
@@ -79,16 +64,7 @@ public class PlayerController : MonoBehaviour
             Messenger<float>.Broadcast(GameEvent.SET_GROUND_HEIGHT, groundLevel);
         }
 
-        // Initialize slide timer machanic
-        slideEnd = Time.time - slideCooldown;
-
         animator.SetBool("IsRunning", isRunning);
-
-        // Temporary until we have animated sprites
-        tallHeight = GameObject.Find("Tall").GetComponent<SpriteRenderer>();
-        shortHeight = GameObject.Find("Short").GetComponent<SpriteRenderer>();
-        tallHeight.enabled = true;
-        shortHeight.enabled = false;
     }
 
     void Update()
@@ -100,21 +76,7 @@ public class PlayerController : MonoBehaviour
             HandleJumpPress();
             HandleJumpCancel();
             HandleSlideDivePress();
-        }
-
-        // Temporary, manually toggles the player collider visual on/off during a run
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            if (tallHeight.enabled || shortHeight.enabled)
-            {
-                tallHeight.enabled = false;
-                shortHeight.enabled = false;
-            }
-            else
-            {
-                tallHeight.enabled = true;
-                shortHeight.enabled = true;
-            }
+            HandleSlideCancel();
         }
     }
 
@@ -142,53 +104,6 @@ public class PlayerController : MonoBehaviour
         Messenger<float>.RemoveListener(GameEvent.SET_RUN_SCALAR, SetRunAnimSpeed);
     }
 
-    // Toggle running, -- from UIBracketMode
-    void SetRunning()
-    {
-        if (isRunning) isRunning = false;
-        else isRunning = true;
-
-        animator.SetBool("IsRunning", isRunning);
-        animator.SetFloat("RunSpeedScalar", runAnimSpeed);
-    }
-
-    void SetRunAnimSpeed(float scalar)
-    {
-        runAnimSpeed = scalar * 1.2f;
-    }
-
-    // Allows slide ability, -- from GameManager
-    void CanSlide(bool status)
-    {
-        canSlide = status;
-    }
-
-    // Allows dive ability, -- from GameManager
-    void CanDive(bool status)
-    {
-        canDive = status;
-    }
-
-    // Slows this object to a stop when player dies, -- from PlayerHealth
-    void PlayerDied()
-    {
-        // If player dies during upward momentum, cancel the momentum
-        if (canCancelJump) ApplyJumpCancel();
-
-        isRunning = false;
-        isAlive = false;
-
-        // Death sequence goes here
-
-        animator.SetBool("IsRunning", false);
-        animator.SetBool("IsGrounded", false);
-
-        // Temporary, if player dies while sliding, restore original scale
-        Vector3 scale = spriteHandle.transform.localScale;
-        scale.y = 1.0f;
-        spriteHandle.transform.localScale = scale;
-    }
-
     // Perform environmental checks, apply buffers, verify slide input when slide buffer exists
     void CheckEnvironment()
     {
@@ -203,18 +118,6 @@ public class PlayerController : MonoBehaviour
             bufferedJumpTimer = 0f;
         }
 
-        // Slide if landing with a buffered slide
-        if (grounded && bufferedSlide)
-        {
-            // Apply the buffered slide only if key is held when contacting the ground
-            if ((Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) && !isSliding && Time.time >= slideEnd + slideCooldown)
-            {
-                BeginSlide();
-            }
-            bufferedSlide = false;
-            bufferedSlideTimer = 0f;
-        }
-
         // Update buffered jump timer and clear if expired
         if (bufferedJump)
         {
@@ -223,17 +126,6 @@ public class PlayerController : MonoBehaviour
             {
                 bufferedJump = false;
                 bufferedJumpTimer = 0f;
-            }
-        }
-
-        // Update buffered slide timer and clear if expired
-        if (bufferedSlide)
-        {
-            bufferedSlideTimer += Time.deltaTime;
-            if (bufferedSlideTimer >= slideBufferTime)
-            {
-                bufferedSlide = false;
-                bufferedSlideTimer = 0f;
             }
         }
 
@@ -282,6 +174,7 @@ public class PlayerController : MonoBehaviour
     public void ApplyJump(float baseHeight, float strength)
     {
         playerSFX.PlayJumpSFX();
+        canCancelJump = true;
 
         // Zero any vertical force before applying jump force
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
@@ -289,11 +182,9 @@ public class PlayerController : MonoBehaviour
         transform.position = new Vector2(transform.position.x, baseHeight);
         // Sqrt ensures max jump height is consistent
         rb.linearVelocityY = Mathf.Sqrt(2 * strength * Mathf.Abs(Physics2D.gravity.y) * rb.gravityScale);
-
-        canCancelJump = true;
-
         // Snap position of sprite handle to jump base only when jumping from ground level
         if (baseHeight == groundLevel) spriteHandle.transform.position = transform.position;
+
         animator.SetBool("IsRunning", false);
         animator.SetBool("IsGrounded", false);
     }
@@ -307,14 +198,10 @@ public class PlayerController : MonoBehaviour
         {
             ApplyJumpCancel();
             canCancelJump = false;
-
-            // animator.SetBool("IsJumping", canCancelJump);
         }
         else if (canCancelJump && rb.linearVelocity.y < 0)
         {
             canCancelJump = false;
-
-            // animator.SetBool("IsJumping", canCancelJump);
         }
     }
 
@@ -328,37 +215,22 @@ public class PlayerController : MonoBehaviour
     void HandleSlideDivePress()
     {
         // Slide if grounded and allowed
-        if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && grounded && canSlide)
+        if ((Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) && grounded && canSlide && !isSliding)
         {
-            if (!isSliding && Time.time >= slideEnd + slideCooldown)
-            {
-                BeginSlide();
-                return;
-            }
+            BeginSlide();
+            return;
         }
 
         // Decide whether to slide or dive, depending on context
         if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && !grounded && canSlide)
         {
-            // Buffer slide if not grounded, allowed, and within buffer proximity
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, groundProximityDistance * groundProximitySlideFactor, groundLayer);
-            if (hit.collider != null)
-            {
-                bufferedSlide = true;
-                bufferedSlideTimer = 0f;
-            }
+            if (bufferedJump) return;
             // Dive only if airborne and NOT within slide buffer proximity
             else if (canDive)
             {
                 ApplyDive();
             }
         }
-    }
-
-    // Apply dive
-    private void ApplyDive()
-    {
-        rb.linearVelocityY = -Mathf.Sqrt(4 * jumpForce * Mathf.Abs(Physics2D.gravity.y) * rb.gravityScale);
     }
 
     // Begin slide
@@ -371,52 +243,84 @@ public class PlayerController : MonoBehaviour
         boxCol.size = slideSize;
         boxCol.offset = slideOffset;
 
-        StartCoroutine(SlideTimer());
-
-        // Temporary until we have animated sprites
-        tallHeight.enabled = false;
-        shortHeight.enabled = true;
-
         Vector3 scale = spriteHandle.transform.localScale;
         scale.y = 0.5f;
         spriteHandle.transform.localScale = scale;
+        playerHealth.ShrinkBubble();
     }
 
-    // Limit slide duration
-    private IEnumerator SlideTimer()
-    {
-        float elapsedTime = 0;
-
-        // Slide as long as key is held and within timer limit
-        while ((Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) && elapsedTime < slideTime)
-        {
-            elapsedTime += Time.deltaTime;
-
-            yield return null;
-        }
-
-        // Cancel the slide if either requirement is broken
-        HandleSlideCancel();
-    }
-
-    // Apply slide cancel
+    // Handle slide cancel
     void HandleSlideCancel()
     {
-        playerSFX.StopSlideSFX();
-        runningStarted = false;
+        // Cancel Slide on key up or shortly after mid-jump
+        if (((Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.DownArrow)) && isSliding)
+        || !grounded && rb.linearVelocityY < -8.0f)
+        {
+            playerSFX.StopSlideSFX();
+            runningStarted = false;
 
-        slideEnd = Time.time;
-        isSliding = false;
-        boxCol.size = defaultSize;
-        boxCol.offset = defaultOffset;
+            isSliding = false;
+            boxCol.size = defaultSize;
+            boxCol.offset = defaultOffset;
 
-        // Temporary until we have animated sprites
-        tallHeight.enabled = true;
-        shortHeight.enabled = false;
+            Vector3 scale = spriteHandle.transform.localScale;
+            scale.y = 1.0f;
+            spriteHandle.transform.localScale = scale;
+            playerHealth.RestoreBubble();
+        }
+    }
 
+    // Apply dive
+    private void ApplyDive()
+    {
+        rb.linearVelocityY = -Mathf.Sqrt(4 * jumpForce * Mathf.Abs(Physics2D.gravity.y) * rb.gravityScale);
+    }
+
+    // Slows this object to a stop when player dies, -- from PlayerHealth
+    void PlayerDied()
+    {
+        // If player dies during upward momentum, cancel the momentum
+        if (canCancelJump) ApplyJumpCancel();
+
+        isRunning = false;
+        isAlive = false;
+
+        // Death sequence goes here
+
+        animator.SetBool("IsRunning", false);
+        animator.SetBool("IsGrounded", false);
+
+        // Temporary, if player dies while sliding, restore original scale
         Vector3 scale = spriteHandle.transform.localScale;
         scale.y = 1.0f;
         spriteHandle.transform.localScale = scale;
+    }
+
+    // Toggle running, -- from UIBracketMode
+    void SetRunning()
+    {
+        if (isRunning) isRunning = false;
+        else isRunning = true;
+
+        animator.SetBool("IsRunning", isRunning);
+        animator.SetFloat("RunSpeedScalar", runAnimSpeed);
+    }
+
+    void SetRunAnimSpeed(float scalar)
+    {
+        runAnimSpeed = scalar * 1.2f;
+    }
+
+    // Allows slide ability, -- from GameManager
+    void CanSlide(bool status)
+    {
+        canSlide = status;
+    }
+
+    // Allows dive ability, -- from GameManager
+    void CanDive(bool status)
+    {
+        canDive = status;
     }
 
     // *** USED FOR DEV/DEBUG PURPOSES ***

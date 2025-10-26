@@ -41,6 +41,7 @@ public class DistanceTrackerTravel : MonoBehaviour
     {
         if (running) running = false;
         else running = true;
+        Messenger<float>.Broadcast(GameEvent.UI_SET_RUN_RATE, runSpeed * runSpeedScalar);
     }
 
     // Slows this object to a stop when player dies, -- from PlayerHealth
@@ -81,6 +82,7 @@ public class DistanceTrackerTravel : MonoBehaviour
         }
 
         runSpeedScalar = targetScalar; // snap exactly to target
+        Messenger<float>.Broadcast(GameEvent.UI_SET_RUN_RATE, runSpeed * runSpeedScalar);
     }
 
     // Adjust run speed over time mid-run, -- from SpawnManager
