@@ -3,44 +3,74 @@ using UnityEngine;
 
 public class MovementScroller : MonoBehaviour
 {
+    // This moves background images from right to left to simulate movement
+    // Can be modified to produce a parallax effect with additional layers
+    // --------------------------------------------------------------------
+
     [SerializeField] GameObject foreground;
-    [SerializeField] GameObject background;
-    [SerializeField] BoxCollider2D foregroundCol;
-    [SerializeField] BoxCollider2D backgroundCol;
+    [SerializeField] GameObject ground;
+    [SerializeField] GameObject mountainFront;
+    [SerializeField] GameObject mountain;
+    [SerializeField] GameObject sky;
     public bool running = false;
     public float runSpeed = 0f;
     public float runSpeedScalar = 0f;
-    public float bgPerspectiveFactor = 0.8f;
-    private float fgRepeatWidth;
-    private float bgRepeatWidth;
-    private Vector2 fgStartPos;
-    private Vector2 bgStartPos;
+    public float fgFactor = 1.2f;
+    public float mtnFrontFactor = 0.2f;
+    public float mtnFactor = 0.2f;
+    public float skyFactor = 0.1f;
+    private Vector2 startPos;
+    public float bgRepeatWidth = 40.96f;
+    private float xLimit;
     private Coroutine speedLerpRoutine;
 
     void Start()
     {
-        fgStartPos = foreground.transform.position;
-        bgStartPos = background.transform.position;
-        fgRepeatWidth = foregroundCol.size.x / 2;
-        bgRepeatWidth = backgroundCol.size.x / 2;
+        // Gather asset positions and dimensions
+        startPos = transform.position;
+        xLimit = startPos.x - bgRepeatWidth;
     }
 
     void Update()
     {
         if (running)
         {
-            if (foreground.transform.position.x < fgStartPos.x - fgRepeatWidth)
+            // Check position and reposition if half-length reached
+            if (foreground.transform.position.x < xLimit)
             {
-                foreground.transform.position = fgStartPos;
+                foreground.transform.position = new Vector2(startPos.x, foreground.transform.position.y);
+            }
+            if (ground.transform.position.x < xLimit)
+            {
+                ground.transform.position = new Vector2(startPos.x, ground.transform.position.y);
+            }
+            if (mountainFront.transform.position.x < xLimit)
+            {
+                mountainFront.transform.position = new Vector2(startPos.x, mountainFront.transform.position.y);
+            }
+            if (mountain.transform.position.x < xLimit)
+            {
+                mountain.transform.position = new Vector2(startPos.x, mountain.transform.position.y);
+            }
+            if (sky.transform.position.x < xLimit)
+            {
+                sky.transform.position = new Vector2(startPos.x, sky.transform.position.y);
             }
 
-            if (background.transform.position.x < bgStartPos.x - bgRepeatWidth)
-            {
-                background.transform.position = bgStartPos;
-            }
+            // Move foreground at increased run speed
+            foreground.transform.Translate(runSpeed * runSpeedScalar * fgFactor * Time.deltaTime * Vector2.left);
 
-            foreground.transform.Translate(runSpeed * runSpeedScalar * Time.deltaTime * Vector2.left);
-            background.transform.Translate((runSpeed * runSpeedScalar) * bgPerspectiveFactor * Time.deltaTime * Vector2.left);
+            // Move ground at full run speed
+            ground.transform.Translate(runSpeed * runSpeedScalar * Time.deltaTime * Vector2.left);
+
+            // Move behindGround at near-full run speed
+            mountainFront.transform.Translate(runSpeed * runSpeedScalar * mtnFrontFactor * Time.deltaTime * Vector2.left);
+
+            // Move background at a decreased factor of current run speed
+            mountain.transform.Translate(runSpeed * runSpeedScalar * mtnFactor * Time.deltaTime * Vector2.left);
+
+            // Move background at a decreased factor of current run speed
+            sky.transform.Translate(runSpeed * runSpeedScalar * skyFactor * Time.deltaTime * Vector2.left);
         }
     }
 
@@ -62,26 +92,32 @@ public class MovementScroller : MonoBehaviour
         Messenger.RemoveListener(GameEvent.PLAYER_DIED, PlayerDied);
     }
 
+    // Toggle running, -- from UIBracketMode
     private void SetRunning()
     {
-        running = true;
+        if (running) running = false;
+        else running = true;
     }
 
+    // Slows this object to a stop when player dies, -- from PlayerHealth
     private void PlayerDied()
     {
         StartCoroutine(LerpToNewSpeed(runSpeedScalar, 0f, runSpeedScalar));
     }
 
+    // Set base run speed, -- from GameManager
     private void InitializeRunSpeed(float value)
     {
         runSpeed = value;
     }
 
+    // Set the scalar to calculate the current level run speed, -- from GameManager
     private void InitializeRunScalar(float value)
     {
         runSpeedScalar = value;
     }
 
+    // Changes the speed of this object over a specified length of time
     private IEnumerator LerpToNewSpeed(float startScalar, float targetScalar, float duration)
     {
         float elapsed = 0f;
@@ -95,6 +131,7 @@ public class MovementScroller : MonoBehaviour
         runSpeedScalar = targetScalar; // snap exactly to target
     }
 
+    // Adjust run speed over time mid-run, -- from SpawnManager
     private void ReactToGameSpeedChange(float newScalar)
     {
         // stop any previous lerp so they don’t stack
@@ -104,6 +141,7 @@ public class MovementScroller : MonoBehaviour
             speedLerpRoutine = null;
         }
 
+        // Use 1 second as the transition duration
         speedLerpRoutine = StartCoroutine(LerpToNewSpeed(runSpeedScalar, newScalar, 1f));
     }
 }

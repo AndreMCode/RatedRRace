@@ -3,6 +3,9 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class SpriteSmoother : MonoBehaviour
 {
+    // Used to avoid the player sprite moving at the 50fps physics rate
+    // ----------------------------------------------------------------
+
     // Sprite should be detatched from Player object
     [SerializeField] private Transform spriteTransform;
     [SerializeField] private float interpolationSpeed = 15f;
@@ -16,6 +19,7 @@ public class SpriteSmoother : MonoBehaviour
 
     private void LateUpdate()
     {
+        // Reposition the sprite closer to the player physics body every frame
         Vector3 targetPosition = rb.position;
         spriteTransform.position = Vector3.Lerp(spriteTransform.position, targetPosition, interpolationSpeed * Time.deltaTime);
     }

@@ -3,32 +3,30 @@ using UnityEngine;
 
 public class MusicManager : MonoBehaviour
 {
-    // Music array
+    // Manages which tracks play and fades audio volume
+    // ------------------------------------------------
+
+    private static readonly WaitForSeconds _waitForSeconds3 = new(3f);
     public AudioSource[] bgmTracks;
-
-    // BGM reference
     private AudioSource currentTrack;
+    private AudioSource deathAudio;
     private bool isFading = false;
-
-    void Start()
-    {
-
-    }
 
     void OnEnable()
     {
         Messenger<int>.AddListener(GameEvent.SET_AUDIO_TRACK, SetCurrentTrack);
         Messenger.AddListener(GameEvent.START_RUN, PlayBGAudio);
-        Messenger.AddListener(GameEvent.PLAYER_DIED, FadeOutStop);
+        Messenger.AddListener(GameEvent.PLAYER_DIED, PlayerDied);
     }
 
     void OnDisable()
     {
         Messenger<int>.RemoveListener(GameEvent.SET_AUDIO_TRACK, SetCurrentTrack);
         Messenger.RemoveListener(GameEvent.START_RUN, PlayBGAudio);
-        Messenger.RemoveListener(GameEvent.PLAYER_DIED, FadeOutStop);
+        Messenger.RemoveListener(GameEvent.PLAYER_DIED, PlayerDied);
     }
 
+    // Set the current music track, from GameManager
     void SetCurrentTrack(int trackNumber)
     {
         // Check track number against array bounds
@@ -38,37 +36,38 @@ public class MusicManager : MonoBehaviour
         Debug.Log("current track: " + currentTrack.name);
     }
 
+    // Start the run track
     void PlayBGAudio()
     {
         currentTrack.Play();
     }
 
-    public void OnPlayerWin()
-    { // Long fade on win
+    // Play the death audio while quickly fading out the run audio
+    void PlayerDied()
+    {
         if (!isFading)
         {
-            StartCoroutine(FadeOutTracks(3.5f));
-        }
-    }
+            StartCoroutine(PlayDeathAudio());
 
-    public void FadeOutStop()
-    { // Short fade on fail/pause
-        if (!isFading)
-        {
             StartCoroutine(FadeOutTracks(0.5f));
         }
     }
 
-    public void OnPlayerReset()
-    { // Short fade on reset
-        if (!isFading)
-        {
-            StartCoroutine(FadeOutTracks(1.0f));
-        }
+    // Fade out the death audio after it plays for a moment
+    private IEnumerator PlayDeathAudio()
+    {
+        deathAudio = bgmTracks[^1]; // bgmTracks.Length - 1
+        deathAudio.Play();
+
+        yield return _waitForSeconds3;
+
+        currentTrack = deathAudio;
+        StartCoroutine(FadeOutTracks(6f));
     }
 
+    // Audio fade function
     private IEnumerator FadeOutTracks(float fadeDuration)
-    { // Fade function
+    { 
         isFading = true;
 
         float startVolume = currentTrack.volume;

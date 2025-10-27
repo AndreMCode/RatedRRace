@@ -1,33 +1,75 @@
 using UnityEngine;
 using System.Collections;
+using UnityEditor;
+using TMPro;
 
 public class UIMainMenu : MonoBehaviour
 {
+    // Main Menu user interface elements, graphics, audio, and logic
+    // -------------------------------------------------------------
+
+    public AudioSource menuIntro; // plays once, from time 0
+    public AudioSource menuLoop;  // looped source; its clip should be the loop section and set to loop = true
     private static WaitForSeconds _waitForSeconds0_5 = new(0.5f);
     [SerializeField] GameObject mainMenu;
     [SerializeField] GameObject playMenu;
-    [SerializeField] GameObject shopButton;
-    // [SerializeField] GameObject shopMenu;
-    [SerializeField] GameObject settingsMenu;
+    [SerializeField] GameObject buffsMenu;
+
+    [SerializeField] TextMeshProUGUI bubbleCountTxt;
+
     [SerializeField] GameObject endlessMenu;
+    [SerializeField] GameObject shopButton;
     [SerializeField] GameObject shopMenu;
+    [SerializeField] GameObject settingsMenu;
+    [SerializeField] GameObject InstructionMenu;
+    [SerializeField] GameObject InstructionMenuPG1;
+    [SerializeField] GameObject InstructionMenuPG2;
     public int levelAccess;
     public int shopAccess;
+    private int instpage;
 
     void Start()
     {
+        // PlayerPrefs.SetInt("BubbleShieldCount", 0);
+
+        instpage = 0;
+
+        HideAllMenus();
+        SetMenuAudio();
         DisplayMainMenu();
     }
 
-    void Update()
+    void HideAllMenus()
     {
-
+        mainMenu.SetActive(false);
+        playMenu.SetActive(false);
+        buffsMenu.SetActive(false);
+        endlessMenu.SetActive(false);
+        shopButton.SetActive(false);
+        shopMenu.SetActive(false);
+        settingsMenu.SetActive(false);
+        InstructionMenu.SetActive(false);
+        InstructionMenuPG1.SetActive(false);
+        InstructionMenuPG2.SetActive(false);
     }
 
-    private IEnumerator LoadRunMode()
+    void SetMenuAudio()
     {
-        yield return _waitForSeconds0_5;
-        UnityEngine.SceneManagement.SceneManager.LoadScene("RunMode");
+        // Use DSP scheduling for seamless handoff from intro to loop.
+        if (menuIntro != null && menuLoop != null && menuIntro.clip != null && menuLoop.clip != null)
+        {
+            // Ensure loop source is set to loop
+            menuLoop.loop = true;
+
+            // Start intro immediately using PlayScheduled
+            double dspStart = AudioSettings.dspTime + 0.05; // small lead time
+            menuIntro.PlayScheduled(dspStart);
+
+            // Schedule the loop to start exactly when intro ends
+            double introDuration = menuIntro.clip.length - menuIntro.time;
+            double loopStartDsp = dspStart + introDuration;
+            menuLoop.PlayScheduled(loopStartDsp);
+        }
     }
 
     public void OnClickPlay()
@@ -39,19 +81,9 @@ public class UIMainMenu : MonoBehaviour
     {
         if (levelAccess >= 1)
         {
-            if (shopAccess == 0) PlayerPrefs.SetInt("ShopAccess", 1);
-
-            Debug.Log("Bracket accessible");
             PlayerPrefs.SetInt("SelectedBracket", 1);
-            playMenu.SetActive(false);
 
-            // Store other powerup quantities in playerprefs to be applied in the run
-
-            StartCoroutine(LoadRunMode());
-        }
-        else
-        {
-            Debug.Log("Access denied");
+            DisplayBuffsMenu();
         }
     }
 
@@ -59,17 +91,9 @@ public class UIMainMenu : MonoBehaviour
     {
         if (levelAccess >= 2)
         {
-            Debug.Log("Bracket accessible");
             PlayerPrefs.SetInt("SelectedBracket", 2);
-            playMenu.SetActive(false);
 
-            // Store other powerup quantities in playerprefs to be applied in the run
-
-            StartCoroutine(LoadRunMode());
-        }
-        else
-        {
-            Debug.Log("Access denied");
+            DisplayBuffsMenu();
         }
     }
 
@@ -77,17 +101,9 @@ public class UIMainMenu : MonoBehaviour
     {
         if (levelAccess >= 3)
         {
-            Debug.Log("Bracket accessible");
             PlayerPrefs.SetInt("SelectedBracket", 3);
-            playMenu.SetActive(false);
 
-            // Store other powerup quantities in playerprefs to be applied in the run
-
-            StartCoroutine(LoadRunMode());
-        }
-        else
-        {
-            Debug.Log("Access denied");
+            DisplayBuffsMenu();
         }
     }
 
@@ -95,17 +111,9 @@ public class UIMainMenu : MonoBehaviour
     {
         if (levelAccess >= 4)
         {
-            Debug.Log("Bracket accessible");
             PlayerPrefs.SetInt("SelectedBracket", 4);
-            playMenu.SetActive(false);
 
-            // Store other powerup quantities in playerprefs to be applied in the run
-
-            StartCoroutine(LoadRunMode());
-        }
-        else
-        {
-            Debug.Log("Access denied");
+            DisplayBuffsMenu();
         }
     }
 
@@ -114,9 +122,72 @@ public class UIMainMenu : MonoBehaviour
         DisplayMainMenu();
     }
 
-    public void OnClickSettings()
+    // Add Bubble Shield to player loadout
+    public void OnClickAddBubble()
     {
-        DisplaySettingsMenu();
+        if (PlayerPrefs.GetInt("SelectedBracket", 0) == 2)
+        {
+            int count = PlayerPrefs.GetInt("BubbleShieldCountSilver", 0);
+            float currentMoney = PlayerPrefs.GetFloat("Money", 0f);
+            float bubblePrice = 240f * ((count + 1) * 2);
+
+            if (bubblePrice <= currentMoney)
+            {
+                currentMoney -= bubblePrice;
+                count++;
+                bubblePrice = 240f * ((count + 1) * 2);
+                PlayerPrefs.SetInt("BubbleShieldCountSilver", count);
+                PlayerPrefs.SetFloat("Money", currentMoney);
+
+                Debug.Log("Added a Bubble Shield to the player! Remaining funds: " + currentMoney);
+            }
+
+            bubbleCountTxt.text = "Funds:" + currentMoney.ToString("F2") + " - Cost: $" + bubblePrice.ToString() + " - Owned: x" + count.ToString();
+        }
+
+        if (PlayerPrefs.GetInt("SelectedBracket", 0) == 4)
+        {
+            int count = PlayerPrefs.GetInt("BubbleShieldCount", 0);
+            float currentMoney = PlayerPrefs.GetFloat("Money", 0f);
+            float bubblePrice = 360f * (count + 1);
+
+            if (bubblePrice <= currentMoney)
+            {
+                currentMoney -= bubblePrice;
+                count++;
+                bubblePrice = 360f * (count + 1);
+                PlayerPrefs.SetInt("BubbleShieldCount", count);
+                PlayerPrefs.SetFloat("Money", currentMoney);
+
+                Debug.Log("Added a Bubble Shield to the player! Remaining funds: " + currentMoney);
+            }
+
+            bubbleCountTxt.text = "Funds:" + currentMoney.ToString("F2") + " - Cost: $" + bubblePrice.ToString() + " - Owned: x" + count.ToString();
+        }
+
+        // int count = PlayerPrefs.GetInt("BubbleShieldCount", 0);
+        // if (count < 10) count++;
+        // PlayerPrefs.SetInt("BubbleShieldCount", count);
+
+        // bubbleCountTxt.text = "+" + count.ToString();
+
+        // Debug.Log("Added a Bubble Shield to the player!");
+    }
+
+    // Start run
+    public void OnClickBuffPlay()
+    {
+        buffsMenu.SetActive(false);
+
+        // Used for locking out Shop button until first attempt
+        if (shopAccess == 0) PlayerPrefs.SetInt("ShopAccess", 1);
+
+        StartCoroutine(LoadRunMode());
+    }
+
+    public void OnClickBuffPlayBack()
+    {
+        DisplayPlayMenu();
     }
 
     public void OnClickShop()
@@ -124,10 +195,48 @@ public class UIMainMenu : MonoBehaviour
         DisplayShopMenu();
     }
 
+    public void OnClickShopBack()
+    {
+        DisplayMainMenu();
+    }
+
+    public void OnClickInstruction()
+    {
+        instpage = 1;
+        Debug.Log(instpage);
+        DisplayInstructionMenu();
+    }
+
+    public void CycleInstruction()
+    {
+        instpage++;
+        DisplayInstructionMenu();
+    }
+
+    public void OnClickSettings()
+    {
+        DisplaySettingsMenu();
+    }
+
+    public void OnClickQuit()
+    {
+#if UNITY_EDITOR
+        EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
+    }
+
+    // Reset game progress
     public void OnClickResetProgress()
     {
         // Also reset high scores?
-        PlayerPrefs.SetInt("LevelAccess", 1);
+        PlayerPrefs.SetInt("LevelAccess", 4); // !! RESET TO 1 BEFORE BUILD !!
+        PlayerPrefs.SetFloat("Money", 0f);
+        PlayerPrefs.SetInt("BubbleShieldCountSilver", 0);
+        PlayerPrefs.SetInt("BubbleShieldCount", 0);
+        PlayerPrefs.SetFloat("BestSilver", 0f);
+        PlayerPrefs.SetFloat("BestEndless", 0f);
         PlayerPrefs.SetInt("ShopAccess", 0);
         levelAccess = 1;
         DisplayMainMenu();
@@ -140,45 +249,118 @@ public class UIMainMenu : MonoBehaviour
 
     void DisplayMainMenu()
     {
+        HideAllMenus();
+
         levelAccess = PlayerPrefs.GetInt("LevelAccess", 1);
         shopAccess = PlayerPrefs.GetInt("ShopAccess", 0);
 
         mainMenu.SetActive(true);
-
-        playMenu.SetActive(false);
-        endlessMenu.SetActive(false);
-        settingsMenu.SetActive(false);
-        shopMenu.SetActive(false);
-
         if (shopAccess == 1) shopButton.SetActive(true);
     }
 
     void DisplayPlayMenu()
     {
-        playMenu.SetActive(true);
+        HideAllMenus();
 
-        mainMenu.SetActive(false);
-        if (levelAccess > 3)
-        {
-            endlessMenu.SetActive(true);
-        }
-        shopButton.SetActive(false);
-        settingsMenu.SetActive(false);
+        playMenu.SetActive(true);
+        if (levelAccess > 3) endlessMenu.SetActive(true);
     }
 
-    void DisplaySettingsMenu()
+    void DisplayBuffsMenu()
     {
-        settingsMenu.SetActive(true);
+        HideAllMenus();
 
-        mainMenu.SetActive(false);
-        shopButton.SetActive(false);
-        playMenu.SetActive(false);
-        endlessMenu.SetActive(false);
+        buffsMenu.SetActive(true);
+
+        if (PlayerPrefs.GetInt("SelectedBracket", 0) == 2)
+        {
+            int count = PlayerPrefs.GetInt("BubbleShieldCountSilver", 0);
+            float currentMoney = PlayerPrefs.GetFloat("Money", 0f);
+            float bubblePrice = 240f * ((count + 1) * 2);
+
+            bubbleCountTxt.text = "Funds:" + currentMoney.ToString("F2") + " - Cost: $" + bubblePrice.ToString() + " - Owned: x" + count.ToString();
+        }
+
+        if (PlayerPrefs.GetInt("SelectedBracket", 0) == 4)
+        {
+            int count = PlayerPrefs.GetInt("BubbleShieldCount", 0);
+            float currentMoney = PlayerPrefs.GetFloat("Money", 0f);
+            float bubblePrice = 360f * (count + 1);
+
+            bubbleCountTxt.text = "Funds:" + currentMoney.ToString("F2") + " - Cost: $" + bubblePrice.ToString() + " - Owned: x" + count.ToString();
+        }
     }
 
     void DisplayShopMenu()
     {
+        HideAllMenus();
+
         shopMenu.SetActive(true);
-        mainMenu.SetActive(false);
+    }
+
+    void DisplaySettingsMenu()
+    {
+        HideAllMenus();
+
+        settingsMenu.SetActive(true);
+    }
+
+    void DisplayInstructionMenu()
+    {
+        HideAllMenus();
+        //Cycles through the instruction pages when prompted
+        InstructionMenu.SetActive(true);
+        switch (instpage)
+        {
+            case 1:
+                InstructionMenuPG1.SetActive(true);
+                return;
+            case 2:
+                InstructionMenuPG2.SetActive(true);
+                return;
+            default:
+                break;
+        }
+    }
+
+    private IEnumerator FadeOutTracks(float fadeDuration)
+    {
+        // Fade both intro and loop sources if present
+        AudioSource[] targets = new AudioSource[] { menuIntro, menuLoop };
+        float[] startVolumes = new float[targets.Length];
+        for (int i = 0; i < targets.Length; i++) startVolumes[i] = targets[i] != null ? targets[i].volume : 0f;
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < fadeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / fadeDuration;
+
+            for (int i = 0; i < targets.Length; i++)
+            {
+                var src = targets[i];
+                if (src == null) continue;
+                src.volume = Mathf.Lerp(startVolumes[i], 0f, t);
+            }
+
+            yield return null;
+        }
+
+        // Stop sources and reset volumes to 0
+        for (int i = 0; i < targets.Length; i++)
+        {
+            var src = targets[i];
+            if (src == null) continue;
+            src.Stop();
+            src.volume = 0f;
+        }
+    }
+
+    private IEnumerator LoadRunMode()
+    {
+        StartCoroutine(FadeOutTracks(0.5f));
+        yield return _waitForSeconds0_5;
+        UnityEngine.SceneManagement.SceneManager.LoadScene("RunMode");
     }
 }
