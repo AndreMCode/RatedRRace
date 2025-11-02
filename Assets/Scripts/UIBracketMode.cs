@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using System.Collections;
 
 public class UIBracketMode : MonoBehaviour
@@ -16,15 +17,24 @@ public class UIBracketMode : MonoBehaviour
     [SerializeField] TextMeshProUGUI distanceTxt;
     [SerializeField] TextMeshProUGUI speedTxt;
     [SerializeField] TextMeshProUGUI countdownTxt;
+    [SerializeField] GameObject pausedTxt;
     [SerializeField] GameObject gameOverTxt;
+    [SerializeField] GameObject optionsTxt;
     [SerializeField] GameObject retryTxt;
-    public float uiUpdateInterval = 0.1f;
-    private float uiUpdateTimer = 0f;
     public int gameLevel;
     private int playerDefense;
+    private float bonus;
+    public bool isPaused = false;
+    public bool isAlive = false;
+    private bool earningsUpdated = false;
+
+    public InputAction pauseAction;
+    public InputAction restartRunAction;
+    public InputAction goToMainMenuAction;
 
     void Start()
     {
+        pausedTxt.SetActive(false);
         countdownTxt.enabled = false;
         gameOverTxt.SetActive(false);
         retryTxt.SetActive(false);
@@ -36,39 +46,54 @@ public class UIBracketMode : MonoBehaviour
 
     void Update()
     {
-        // Temporary for prototype, used to restart the run
-        if (Input.GetKeyDown(KeyCode.R))
+        if (pauseAction.WasPressedThisFrame() && isAlive)
         {
+            if (isPaused) ResumeGame();
+            else PauseGame();
+        }
+
+        if (restartRunAction.WasPressedThisFrame() && (isPaused || earningsUpdated))
+        {
+            if (isPaused) Time.timeScale = 1f;
             ReloadScene();
         }
 
-        // Temporary for prototype, used to return to the Main Menu
-        if (Input.GetKeyDown(KeyCode.M))
+        if (goToMainMenuAction.WasPressedThisFrame() && (isPaused || earningsUpdated))
         {
+            if (isPaused) Time.timeScale = 1f;
             UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
         }
 
         // Update the distance counter display
-        // DistanceCounterUpdate();
         UpdateDistanceText();
     }
 
     void OnEnable()
     {
+        pauseAction.Enable();
+        restartRunAction.Enable();
+        goToMainMenuAction.Enable();
         Messenger<int>.AddListener(GameEvent.SET_LEVEL, InitializeLevel);
         Messenger<int>.AddListener(GameEvent.SET_HEALTH, SetDefense);
         Messenger<float>.AddListener(GameEvent.UI_SET_RUN_RATE, UpdateRunRate);
         Messenger.AddListener(GameEvent.UI_DECREMENT_BUBBLE, DecrementBubbleCount);
         Messenger.AddListener(GameEvent.PLAYER_DIED, PlayerDied);
+        Messenger<float>.AddListener(GameEvent.UI_UPDATE_EARNINGS, UpdateEarnings);
+        Messenger<float>.AddListener(GameEvent.UI_UPDATE_BONUS, UpdateBonus);
     }
 
     void OnDisable()
     {
+        pauseAction.Disable();
+        restartRunAction.Disable();
+        goToMainMenuAction.Disable();
         Messenger<int>.RemoveListener(GameEvent.SET_LEVEL, InitializeLevel);
         Messenger<int>.RemoveListener(GameEvent.SET_HEALTH, SetDefense);
         Messenger<float>.RemoveListener(GameEvent.UI_SET_RUN_RATE, UpdateRunRate);
         Messenger.RemoveListener(GameEvent.UI_DECREMENT_BUBBLE, DecrementBubbleCount);
         Messenger.RemoveListener(GameEvent.PLAYER_DIED, PlayerDied);
+        Messenger<float>.RemoveListener(GameEvent.UI_UPDATE_EARNINGS, UpdateEarnings);
+        Messenger<float>.RemoveListener(GameEvent.UI_UPDATE_BONUS, UpdateBonus);
     }
 
     void DisplayBestRun()
@@ -115,23 +140,27 @@ public class UIBracketMode : MonoBehaviour
         bubbleCountTxt.text = playerDefense.ToString();
     }
 
+    void UpdateBonus(float value)
+    {
+        bonus = value;
+    }
+
+    void UpdateEarnings(float value)
+    {
+        earningsUpdated = true;
+
+        if (!optionsTxt.TryGetComponent<TextMeshProUGUI>(out var retryMsg)) return;
+
+        retryMsg.text = "Next (R)un  |  (M)ain Menu\nEarnings: $" + value.ToString("F2") + "  |  Bonus $" + bonus.ToString("F2")
+        + "\nTotal: $" + (value + bonus).ToString("F2");
+    }
+
     // Display game over message
     void PlayerDied()
     {
         gameOverTxt.SetActive(true);
         retryTxt.SetActive(true);
-    }
-
-    // Update the counter using the specified interval
-    void DistanceCounterUpdate()
-    {
-        uiUpdateTimer += Time.deltaTime;
-
-        if (uiUpdateTimer >= uiUpdateInterval)
-        {
-            uiUpdateTimer = 0f;
-            UpdateDistanceText();
-        }
+        DisablePause();
     }
 
     // Update the distance text object
@@ -162,9 +191,43 @@ public class UIBracketMode : MonoBehaviour
 
         // Current listeners: DistanceTracker, BGManager, SpawnManager
         Messenger.Broadcast(GameEvent.START_RUN);
+        EnablePause();
 
         yield return _waitForSeconds1;
         countdownTxt.enabled = false;
+    }
+
+    void PauseGame()
+    {
+        Time.timeScale = 0f;
+        isPaused = true;
+        
+        pausedTxt.SetActive(true);
+
+        Messenger.Broadcast(GameEvent.PLAYER_TOGGLE_CONTROLS);
+        Messenger.Broadcast(GameEvent.UI_AUDIO_ADJUST_VOL);
+        Messenger.Broadcast(GameEvent.PLAYER_PAUSE_AUDIO);
+    }
+
+    void ResumeGame()
+    {
+        Time.timeScale = 1f;
+        isPaused = false;
+
+        pausedTxt.SetActive(false);
+
+        Messenger.Broadcast(GameEvent.PLAYER_TOGGLE_CONTROLS);
+        Messenger.Broadcast(GameEvent.UI_AUDIO_ADJUST_VOL);
+    }
+
+    void EnablePause()
+    {
+        isAlive = true;
+    }
+
+    void DisablePause()
+    {
+        isAlive = false;
     }
 
     public void OnClickRetry()

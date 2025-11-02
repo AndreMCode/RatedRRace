@@ -24,6 +24,16 @@ public class PlayerSFX : MonoBehaviour
     [SerializeField] AudioClip mineExploSFX;
     public float mineExploVol;
 
+    void OnEnable()
+    {
+        Messenger.AddListener(GameEvent.PLAYER_PAUSE_AUDIO, StopRunSFX);
+    }
+
+    void OnDisable()
+    {
+        Messenger.RemoveListener(GameEvent.PLAYER_PAUSE_AUDIO, StopRunSFX);
+    }
+
     void VaryPitch()
     {
         audioSource.pitch = Random.Range(0.9f, 1.1f);

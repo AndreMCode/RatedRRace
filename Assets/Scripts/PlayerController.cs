@@ -1,11 +1,14 @@
+using UnityEngine.InputSystem;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(GameObject))]
-
 public class PlayerController : MonoBehaviour
 {
+    public InputAction jumpAction;
+    public InputAction crouchAction;
+
     [SerializeField] PlayerHealth playerHealth;
     [SerializeField] PlayerSFX playerSFX;
     private bool runningStarted = false;
@@ -13,26 +16,28 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject spriteHandle;
     [SerializeField] Animator animator;
     private float runAnimSpeed = 1;
-    private bool isAlive = true;
+    private bool isAlive = false;
     private bool isRunning = false;
     private bool canSlide = false;
     private bool canDive = false;
 
     private Rigidbody2D rb;
+
     [Header("Player Attributes")]
     public float jumpForce = 3.14f;
     public float jumpCancelFactor = -0.4f;
     public bool canCancelJump = false;
     public bool isSliding = false;
+
     [Header("Ground Checking")]
     public Transform groundCheck;
     public LayerMask groundLayer;
     public BoxCollider2D groundCollider;
     public float groundCheckRadius = 0.4f;
-    public bool grounded;
-    public float groundLevel;
+    private bool grounded = true;
+    private bool lastGroundState = true;
+    private float groundLevel;
 
-    // Leniency for pressing jump early
     [Header("Jump Buffering")]
     public float groundProximityJumpFactor = 1f;
     public float jumpBufferTime = 0.25f;
@@ -41,6 +46,7 @@ public class PlayerController : MonoBehaviour
     private float bufferedJumpTimer = 0f;
 
     private BoxCollider2D boxCol;
+
     [Header("Slide Collider Settings")]
     public Vector2 defaultSize;
     public Vector2 defaultOffset;
@@ -80,28 +86,28 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
-    {
-        // Debug ray, seen while in play mode
-        Debug.DrawRay(transform.position, Vector2.down * groundProximityDistance, Color.red);
-    }
-
     void OnEnable()
     {
+        jumpAction.Enable();
+        crouchAction.Enable();
         Messenger.AddListener(GameEvent.START_RUN, SetRunning);
         Messenger.AddListener(GameEvent.PLAYER_DIED, PlayerDied);
         Messenger<bool>.AddListener(GameEvent.SET_ABILITY_SLIDE, CanSlide);
         Messenger<bool>.AddListener(GameEvent.SET_ABILITY_DIVE, CanDive);
         Messenger<float>.AddListener(GameEvent.SET_RUN_SCALAR, SetRunAnimSpeed);
+        Messenger.AddListener(GameEvent.PLAYER_TOGGLE_CONTROLS, ToggleControlsOnPause);
     }
 
     void OnDisable()
     {
+        jumpAction.Disable();
+        crouchAction.Disable();
         Messenger.RemoveListener(GameEvent.START_RUN, SetRunning);
         Messenger.RemoveListener(GameEvent.PLAYER_DIED, PlayerDied);
         Messenger<bool>.RemoveListener(GameEvent.SET_ABILITY_SLIDE, CanSlide);
         Messenger<bool>.RemoveListener(GameEvent.SET_ABILITY_DIVE, CanDive);
         Messenger<float>.RemoveListener(GameEvent.SET_RUN_SCALAR, SetRunAnimSpeed);
+        Messenger.RemoveListener(GameEvent.PLAYER_TOGGLE_CONTROLS, ToggleControlsOnPause);
     }
 
     // Perform environmental checks, apply buffers, verify slide input when slide buffer exists
@@ -109,6 +115,11 @@ public class PlayerController : MonoBehaviour
     {
         // GROUND CHECK
         grounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        if (!lastGroundState && grounded)
+        {
+            playerHealth.PlayerLanded();
+        }
+        lastGroundState = grounded;
 
         // Jump if landing with a buffered jump
         if (grounded && bufferedJump)
@@ -152,7 +163,7 @@ public class PlayerController : MonoBehaviour
     // Handle jump input
     void HandleJumpPress()
     {
-        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+        if (isAlive && jumpAction.WasPressedThisFrame())
         {
             if (grounded)
             {
@@ -192,16 +203,17 @@ public class PlayerController : MonoBehaviour
     // Handle jump cancel
     void HandleJumpCancel()
     {
-        if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.UpArrow)
-        && canCancelJump
-        && rb.linearVelocity.y > 0)
+        if (isAlive)
         {
-            ApplyJumpCancel();
-            canCancelJump = false;
-        }
-        else if (canCancelJump && rb.linearVelocity.y < 0)
-        {
-            canCancelJump = false;
+            if (!jumpAction.IsPressed() && canCancelJump && rb.linearVelocity.y > 0)
+            {
+                ApplyJumpCancel();
+                canCancelJump = false;
+            }
+            else if (canCancelJump && rb.linearVelocity.y < 0)
+            {
+                canCancelJump = false;
+            }
         }
     }
 
@@ -214,21 +226,24 @@ public class PlayerController : MonoBehaviour
     // Handle slide/dive input
     void HandleSlideDivePress()
     {
-        // Slide if grounded and allowed
-        if ((Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) && grounded && canSlide && !isSliding)
+        if (isAlive)
         {
-            BeginSlide();
-            return;
-        }
-
-        // Decide whether to slide or dive, depending on context
-        if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && !grounded && canSlide)
-        {
-            if (bufferedJump) return;
-            // Dive only if airborne and NOT within slide buffer proximity
-            else if (canDive)
+            // Slide if grounded and allowed
+            if (crouchAction.IsPressed() && grounded && canSlide && !isSliding)
             {
-                ApplyDive();
+                BeginSlide();
+                return;
+            }
+
+            // Decide whether to slide or dive, depending on context
+            if (crouchAction.WasPressedThisFrame() && !grounded && canSlide)
+            {
+                if (bufferedJump) return;
+                // Dive only if airborne and NOT within slide buffer proximity
+                else if (canDive)
+                {
+                    ApplyDive();
+                }
             }
         }
     }
@@ -252,22 +267,30 @@ public class PlayerController : MonoBehaviour
     // Handle slide cancel
     void HandleSlideCancel()
     {
-        // Cancel Slide on key up or shortly after mid-jump
-        if (((Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.DownArrow)) && isSliding)
-        || !grounded && rb.linearVelocityY < -8.0f)
+        if (isAlive)
         {
-            playerSFX.StopSlideSFX();
-            runningStarted = false;
-
-            isSliding = false;
-            boxCol.size = defaultSize;
-            boxCol.offset = defaultOffset;
-
-            Vector3 scale = spriteHandle.transform.localScale;
-            scale.y = 1.0f;
-            spriteHandle.transform.localScale = scale;
-            playerHealth.RestoreBubble();
+            // Cancel Slide on key up or shortly after mid-jump
+            if ((crouchAction.WasReleasedThisFrame() && isSliding) || !grounded && rb.linearVelocityY < -8.0f)
+            {
+                ApplySlideCancel();
+            }
         }
+    }
+
+    // Apply slide cancel
+    void ApplySlideCancel()
+    {
+        playerSFX.StopSlideSFX();
+        runningStarted = false;
+
+        isSliding = false;
+        boxCol.size = defaultSize;
+        boxCol.offset = defaultOffset;
+
+        Vector3 scale = spriteHandle.transform.localScale;
+        scale.y = 1.0f;
+        spriteHandle.transform.localScale = scale;
+        playerHealth.RestoreBubble();
     }
 
     // Apply dive
@@ -299,11 +322,16 @@ public class PlayerController : MonoBehaviour
     // Toggle running, -- from UIBracketMode
     void SetRunning()
     {
-        if (isRunning) isRunning = false;
-        else isRunning = true;
+        isRunning = isAlive = true;
 
         animator.SetBool("IsRunning", isRunning);
         animator.SetFloat("RunSpeedScalar", runAnimSpeed);
+    }
+
+    void ToggleControlsOnPause()
+    {
+        isAlive = !isAlive;
+        if (isSliding && isAlive && !crouchAction.IsPressed()) ApplySlideCancel();
     }
 
     void SetRunAnimSpeed(float scalar)

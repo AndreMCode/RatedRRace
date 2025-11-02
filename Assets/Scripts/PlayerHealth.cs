@@ -24,8 +24,13 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] GameObject sawBloodParticle;
     [SerializeField] GameObject mineBloodParticle;
     [SerializeField] GameObject explosionParticle;
+    [SerializeField] ParticleSystem windTrailParticle;
 
     [SerializeField] PlayerSFX playerSFX;
+
+    private int jumpCombo = 0;
+    private float totalBonus = 0f;
+    public float baseBoxBonus = 0.5f;
 
     void Start()
     {
@@ -37,8 +42,15 @@ public class PlayerHealth : MonoBehaviour
         // Check if player lost all defenses
         if (isAlive && health <= 0)
         {
-            Messenger.Broadcast(GameEvent.PLAYER_DIED);
+            Debug.Log("Awarded +$" + totalBonus);
+            float money = PlayerPrefs.GetFloat("Money");
+            money += totalBonus;
+            PlayerPrefs.SetFloat("Money", money);
 
+            Messenger.Broadcast(GameEvent.PLAYER_DIED);
+            Messenger<float>.Broadcast(GameEvent.UI_UPDATE_BONUS, totalBonus);
+
+            StopWindTrailParticles();
             playerSFX.StopRunSFX();
 
             playerSprite.enabled = false;
@@ -50,11 +62,13 @@ public class PlayerHealth : MonoBehaviour
     void OnEnable()
     {
         Messenger<int>.AddListener(GameEvent.SET_HEALTH, SetHealth);
+        Messenger.AddListener(GameEvent.START_RUN, StartWindTrailParticles);
     }
 
     void OnDisable()
     {
         Messenger<int>.RemoveListener(GameEvent.SET_HEALTH, SetHealth);
+        Messenger.RemoveListener(GameEvent.START_RUN, StartWindTrailParticles);
     }
 
     void PlayerHit()
@@ -76,9 +90,28 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    void StartWindTrailParticles()
+    {
+        var mainModule = windTrailParticle.main;
+        mainModule.maxParticles = 10;
+    }
+
+    void StopWindTrailParticles()
+    {
+        var mainModule = windTrailParticle.main;
+        mainModule.maxParticles = 0;
+    }
+
     void EnableBubbleShield()
     {
         bubbleHandle.SetActive(true);
+    }
+
+    public void PlayerLanded()
+    {
+        Debug.Log("Landing combo: +$" + baseBoxBonus * jumpCombo * (jumpCombo + 1));
+        totalBonus += baseBoxBonus * jumpCombo * (jumpCombo + 1);
+        jumpCombo = 0;
     }
 
     public void ShrinkBubble()
@@ -121,6 +154,7 @@ public class PlayerHealth : MonoBehaviour
 
                     // Player is above box, destroy box
                     Destroy(collision.gameObject);
+                    jumpCombo++;
                 }
                 else if (!invincible)
                 {

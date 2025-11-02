@@ -11,11 +11,13 @@ public class MusicManager : MonoBehaviour
     private AudioSource currentTrack;
     private AudioSource deathAudio;
     private bool isFading = false;
+    private bool isPaused = false;
 
     void OnEnable()
     {
         Messenger<int>.AddListener(GameEvent.SET_AUDIO_TRACK, SetCurrentTrack);
         Messenger.AddListener(GameEvent.START_RUN, PlayBGAudio);
+        Messenger.AddListener(GameEvent.UI_AUDIO_ADJUST_VOL, ToggleVolume);
         Messenger.AddListener(GameEvent.PLAYER_DIED, PlayerDied);
     }
 
@@ -23,6 +25,7 @@ public class MusicManager : MonoBehaviour
     {
         Messenger<int>.RemoveListener(GameEvent.SET_AUDIO_TRACK, SetCurrentTrack);
         Messenger.RemoveListener(GameEvent.START_RUN, PlayBGAudio);
+        Messenger.RemoveListener(GameEvent.UI_AUDIO_ADJUST_VOL, ToggleVolume);
         Messenger.RemoveListener(GameEvent.PLAYER_DIED, PlayerDied);
     }
 
@@ -40,6 +43,20 @@ public class MusicManager : MonoBehaviour
     void PlayBGAudio()
     {
         currentTrack.Play();
+    }
+
+    void ToggleVolume()
+    {
+        if (!isPaused)
+        {
+            currentTrack.volume *= 0.5f;
+            isPaused = true;
+        }
+        else
+        {
+            currentTrack.volume *= 2.0f;
+            isPaused = false;
+        }
     }
 
     // Play the death audio while quickly fading out the run audio

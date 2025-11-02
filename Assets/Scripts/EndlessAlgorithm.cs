@@ -15,6 +15,13 @@ public class EndlessAlgorithm : MonoBehaviour
     [Range(0f, 1f)] public float mineSpawnChance = 0.2f;
     [Range(0f, 1f)] public float turretSpawnChance = 0.1f;
 
+    private float runSpeed = 5.0f;
+    private float storedSawChance;
+    private float storedMineChance;
+    private float storedTurretChance;
+    private bool twoObstaclesNearby = false;
+    private bool twoObstaclesFar = false;
+
     public float groundLevel = 0f;
     public bool endless = false;
     public float distance = 0f;
@@ -24,8 +31,15 @@ public class EndlessAlgorithm : MonoBehaviour
     public float speedupIncrement = 0.02f;
     public float nextSpeedupPoint = 0f;
 
+    public float lowEndThreshold = 2.0f;
     public float nextSpawnMin = 0.5f;
-    public float nextSpawnMax = 10.0f;
+    public float nextSpawnMax = 12.0f;
+    public float nextSpawnIncrement = 0.25f;
+    public float highEndThreshold = 8.0f;
+
+    public float unlockSawDistance = 1000.0f;
+    public float unlockMineDistance = 500.0f;
+    public float unlockTurretDistance = 2000.0f;
 
     public float boxHeightMin = 0.5f;
     public float boxHeightMax = 3.0f;
@@ -49,6 +63,14 @@ public class EndlessAlgorithm : MonoBehaviour
 
     void Start()
     {
+        storedSawChance = sawSpawnChance;
+        storedMineChance = mineSpawnChance;
+        storedTurretChance = turretSpawnChance;
+
+        sawSpawnChance = 0f;
+        mineSpawnChance = 0f;
+        turretSpawnChance = 0f;
+
         nextSpeedupPoint += speedupDistance;
     }
 
@@ -74,6 +96,7 @@ public class EndlessAlgorithm : MonoBehaviour
     void OnEnable()
     {
         Messenger<float>.AddListener(GameEvent.SET_GROUND_HEIGHT, SetGroundHeight);
+        Messenger<float>.AddListener(GameEvent.SET_RUN_SPEED, InitializeRunSpeed);
         Messenger<float>.AddListener(GameEvent.SET_RUN_SCALAR, InitializeRunScalar);
 
     }
@@ -81,6 +104,7 @@ public class EndlessAlgorithm : MonoBehaviour
     void OnDisable()
     {
         Messenger<float>.RemoveListener(GameEvent.SET_GROUND_HEIGHT, SetGroundHeight);
+        Messenger<float>.RemoveListener(GameEvent.SET_RUN_SPEED, InitializeRunSpeed);
         Messenger<float>.RemoveListener(GameEvent.SET_RUN_SCALAR, InitializeRunScalar);
     }
 
@@ -88,6 +112,9 @@ public class EndlessAlgorithm : MonoBehaviour
     {
         runScalar += speedupIncrement;
         Messenger<float>.Broadcast(GameEvent.ADJ_RUN_SPEED, runScalar);
+
+        nextSpawnMax += nextSpawnIncrement;
+        speedupDistance += 100f;
 
         yield return new WaitForSeconds(1f);
         SetNextSpawnPoint();
@@ -127,7 +154,7 @@ public class EndlessAlgorithm : MonoBehaviour
         // Set common parameters
         ObstacleTravel obstacleSettings = nextObstacle.GetComponent<ObstacleTravel>();
         obstacleSettings.traveling = true;
-        obstacleSettings.baseSpeed = 5.0f;
+        obstacleSettings.baseSpeed = runSpeed;
         obstacleSettings.scalar = runScalar;
     }
 
@@ -139,7 +166,7 @@ public class EndlessAlgorithm : MonoBehaviour
         // Set common parameters
         ObstacleTravel obstacleSettings = nextObstacle.GetComponent<ObstacleTravel>();
         obstacleSettings.traveling = true;
-        obstacleSettings.baseSpeed = 5.0f;
+        obstacleSettings.baseSpeed = runSpeed;
         obstacleSettings.scalar = runScalar;
 
         // Set unique parameters
@@ -159,7 +186,7 @@ public class EndlessAlgorithm : MonoBehaviour
         // Set common parameters
         ObstacleTravel obstacleSettings = nextObstacle.GetComponent<ObstacleTravel>();
         obstacleSettings.traveling = true;
-        obstacleSettings.baseSpeed = 5.0f;
+        obstacleSettings.baseSpeed = runSpeed;
         obstacleSettings.scalar = runScalar;
 
         // Set unique parameters
@@ -180,13 +207,12 @@ public class EndlessAlgorithm : MonoBehaviour
         // Set common parameters
         ObstacleTravel obstacleSettings = nextObstacle.GetComponent<ObstacleTravel>();
         obstacleSettings.traveling = true;
-        obstacleSettings.baseSpeed = 5.0f;
+        obstacleSettings.baseSpeed = runSpeed;
         obstacleSettings.scalar = runScalar;
 
         // Set unique parameters
         obstacleSettings.offsetScalar = Random.Range(turretSpeedOffsetMin, turretSpeedOffsetMax);
-        TurretAction turretAction = nextObstacle.GetComponent<TurretAction>();
-        if (turretAction != null)
+        if (nextObstacle.TryGetComponent<TurretAction>(out var turretAction))
         {
             turretAction.xPosForAction = Random.Range(turretMinX, turretMaxX);
         }
@@ -200,7 +226,7 @@ public class EndlessAlgorithm : MonoBehaviour
         // If all chances are zero or negative, assign equal probabilities to each obstacle
         if (total <= 0f)
         {
-            Debug.LogWarning("All spawn chances are 0! Using equal probabilities.");
+            Debug.LogWarning("All spawn chances are 0! Using fallback.");
             boxSpawnChance = sawSpawnChance = mineSpawnChance = turretSpawnChance = 0.25f;
             total = 1f; // Normalized total (each chance sums to 1)
         }
@@ -229,12 +255,53 @@ public class EndlessAlgorithm : MonoBehaviour
 
     void SetNextSpawnPoint()
     {
-        nextSpawnPoint = distance + Random.Range(nextSpawnMin, nextSpawnMax);
+        if (twoObstaclesNearby)
+        {
+            nextSpawnPoint = distance + Random.Range(nextSpawnMax * 0.5f, nextSpawnMax);
+            twoObstaclesNearby = false;
+
+            Debug.Log("Enforced spawn rule twoObstaclesNearby");
+        }
+        else if (twoObstaclesFar)
+        {
+            nextSpawnPoint = distance + Random.Range(nextSpawnMin, nextSpawnMax * 0.5f);
+            twoObstaclesFar = false;
+
+            Debug.Log("Enforced spawn rule twoObstaclesFar");
+        }
+        else
+        {
+            nextSpawnPoint = distance + Random.Range(nextSpawnMin, nextSpawnMax);
+        }
+
+        if (nextSpawnPoint - distance < lowEndThreshold) twoObstaclesNearby = true;
+        if (nextSpawnPoint - distance > highEndThreshold) twoObstaclesFar = true;
+
+        if (distance > unlockSawDistance)
+        {
+            sawSpawnChance = storedSawChance;
+        }
+
+        if (distance > unlockMineDistance)
+        {
+            mineSpawnChance = storedMineChance;
+        }
+
+        if (distance > unlockTurretDistance)
+        {
+            turretSpawnChance = storedTurretChance;
+        }
     }
 
     public void InitializeEndless()
     {
         endless = true;
+    }
+
+    // Set base run speed, -- from GameManager
+    private void InitializeRunSpeed(float value)
+    {
+        runSpeed = value;
     }
 
     // Set the scalar to calculate the current level run speed, -- from GameManager

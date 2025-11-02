@@ -12,32 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2c9a3e0e627eef44b7ddbbabf56d223, type: 3}
   m_Name: Bracket3
   m_EditorClassIdentifier: 
-  sequence:
-  - triggerDistance: 10
-    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
-    yPosition: 4
-    speedOffsetScalar: 1
-    sawScale: 1
-    laserLength: 1
-    turretXPos: -1
-  - triggerDistance: 11
-    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
-    yPosition: 6
-    speedOffsetScalar: 1.1
-    sawScale: 1
-    laserLength: 1
-    turretXPos: -3
-  - triggerDistance: 12
-    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
-    yPosition: 4.5
-    speedOffsetScalar: 0.9
-    sawScale: 1
-    laserLength: 1
-    turretXPos: -2
-  - triggerDistance: 13
-    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
-    yPosition: 7
-    speedOffsetScalar: 1.4
-    sawScale: 1
-    laserLength: 1
-    turretXPos: -2
+  sequence: []

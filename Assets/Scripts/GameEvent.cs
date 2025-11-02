@@ -17,6 +17,12 @@ public class GameEvent : MonoBehaviour
     public const string START_RUN = "START_RUN";
     public const string PLAYER_DIED = "PLAYER_DIED";
 
+    public const string PLAYER_PAUSE_AUDIO = "PLAYER_PAUSE_AUDIO";
+    public const string PLAYER_TOGGLE_CONTROLS = "PLAYER_TOGGLE_CONTROLS";
+
     public const string UI_DECREMENT_BUBBLE = "UI_DECREMENT_BUBBLE";
     public const string UI_SET_RUN_RATE = "UI_SET_RUN_RATE";
+    public const string UI_UPDATE_EARNINGS = "UI_UPDATE_EARNINGS";
+    public const string UI_UPDATE_BONUS = "UI_UPDATE_BONUS";
+    public const string UI_AUDIO_ADJUST_VOL = "UI_AUDIO_ADJUST_VOL";
 }

@@ -90,8 +90,8 @@ public class TurretAction : MonoBehaviour
         if (!secondShot)
         {
             // Hard-coded probability
-            int oneInFive = Random.Range(0, 5);
-            if (oneInFive == 1)
+            int oneInTwelve = Random.Range(0, 12);
+            if (oneInTwelve == 1)
             {
                 yield return new WaitForSeconds(0.5f);
                 visualWarning = false;

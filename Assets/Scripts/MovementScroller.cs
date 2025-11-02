@@ -7,20 +7,20 @@ public class MovementScroller : MonoBehaviour
     // Can be modified to produce a parallax effect with additional layers
     // --------------------------------------------------------------------
 
-    [SerializeField] GameObject foreground;
-    [SerializeField] GameObject ground;
-    [SerializeField] GameObject mountainFront;
-    [SerializeField] GameObject mountain;
-    [SerializeField] GameObject sky;
-    public bool running = false;
-    public float runSpeed = 0f;
-    public float runSpeedScalar = 0f;
-    public float fgFactor = 1.2f;
-    public float mtnFrontFactor = 0.2f;
-    public float mtnFactor = 0.2f;
-    public float skyFactor = 0.1f;
-    private Vector2 startPos;
+    // Transform of GameObject containing the image to scroll and the relative speed factor
+    [System.Serializable]
+    public class ParallaxLayer
+    {
+        public Transform transform;
+        public float factor = 1f;
+    }
+    [SerializeField] ParallaxLayer[] layers;
     public float bgRepeatWidth = 40.96f;
+
+    private bool running = false;
+    private float runSpeed = 0f;
+    private float runSpeedScalar = 0f;
+    private Vector2 startPos;
     private float xLimit;
     private Coroutine speedLerpRoutine;
 
@@ -33,44 +33,26 @@ public class MovementScroller : MonoBehaviour
 
     void Update()
     {
-        if (running)
+        if (!running) return;
+
+        // Precompute left movement per second multiplier
+        float baseMove = runSpeed * runSpeedScalar * Time.deltaTime;
+        Vector2 left = Vector2.left;
+
+        for (int i = 0; i < layers.Length; i++)
         {
-            // Check position and reposition if half-length reached
-            if (foreground.transform.position.x < xLimit)
+            var layer = layers[i];
+            if (layer.transform == null) continue;
+
+            // Reset position when it moves past xLimit
+            if (layer.transform.position.x < xLimit)
             {
-                foreground.transform.position = new Vector2(startPos.x, foreground.transform.position.y);
-            }
-            if (ground.transform.position.x < xLimit)
-            {
-                ground.transform.position = new Vector2(startPos.x, ground.transform.position.y);
-            }
-            if (mountainFront.transform.position.x < xLimit)
-            {
-                mountainFront.transform.position = new Vector2(startPos.x, mountainFront.transform.position.y);
-            }
-            if (mountain.transform.position.x < xLimit)
-            {
-                mountain.transform.position = new Vector2(startPos.x, mountain.transform.position.y);
-            }
-            if (sky.transform.position.x < xLimit)
-            {
-                sky.transform.position = new Vector2(startPos.x, sky.transform.position.y);
+                layer.transform.position = new Vector2(startPos.x, layer.transform.position.y);
             }
 
-            // Move foreground at increased run speed
-            foreground.transform.Translate(runSpeed * runSpeedScalar * fgFactor * Time.deltaTime * Vector2.left);
-
-            // Move ground at full run speed
-            ground.transform.Translate(runSpeed * runSpeedScalar * Time.deltaTime * Vector2.left);
-
-            // Move behindGround at near-full run speed
-            mountainFront.transform.Translate(runSpeed * runSpeedScalar * mtnFrontFactor * Time.deltaTime * Vector2.left);
-
-            // Move background at a decreased factor of current run speed
-            mountain.transform.Translate(runSpeed * runSpeedScalar * mtnFactor * Time.deltaTime * Vector2.left);
-
-            // Move background at a decreased factor of current run speed
-            sky.transform.Translate(runSpeed * runSpeedScalar * skyFactor * Time.deltaTime * Vector2.left);
+            // Translate with the layer-specific factor
+            float factor = layer.factor;
+            layer.transform.Translate(baseMove * factor * left);
         }
     }
 

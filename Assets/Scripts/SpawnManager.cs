@@ -6,29 +6,23 @@ public class SpawnManager : MonoBehaviour
     // Manages instantiation of game obstacles, using scriptable objects Bracket1, Bracket2, Bracket3
     // ----------------------------------------------------------------------------------------------
 
-    public bool running = false;
-    private float groundLevel = 0f;
-
-    // Game variables received by GameManager
-    public int gameLevel = -1;
-    public float runSpeed = 0f;
-    public float runSpeedScalar = 0f;
-
+    [SerializeField] GameObject distanceTracker;
+    [SerializeField] EndlessAlgorithm endlessMode;
+    
     // Bracket scripts that contain predetermined spawn points by distance traveled
     public FixedBracket bracket1;
     public FixedBracket bracket2;
     public FixedBracket bracket3;
     private FixedBracket currentFixedBracket;
     private int nextSpawnIndex = 0;
-    public GameObject distanceTracker;
     public float distanceTraveled = 0f;
 
-    public EndlessAlgorithm endlessMode;
-
-    void Start()
-    {
-        // StartCoroutine(TestAdjust());
-    }
+    // Game variables received by GameManager
+    private int gameLevel = -1;
+    private float runSpeed = 0f;
+    private float runSpeedScalar = 0f;
+    private bool running = false;
+    private float groundLevel = 0f;
 
     void Update()
     {
@@ -149,7 +143,8 @@ public class SpawnManager : MonoBehaviour
     private void UpdateEarnings()
     {
         float currentMoney = PlayerPrefs.GetFloat("Money", 0f);
-        PlayerPrefs.SetFloat("Money", currentMoney + distanceTraveled);
+        float earnings = distanceTraveled * 0.1f;
+        PlayerPrefs.SetFloat("Money", currentMoney + earnings);
     }
 
     // Set game level, -- from GameManager
@@ -193,6 +188,7 @@ public class SpawnManager : MonoBehaviour
         yield return new WaitForSeconds(1.1f);
 
         UpdateBestScore();
+        Messenger<float>.Broadcast(GameEvent.UI_UPDATE_EARNINGS, distanceTraveled * 0.1f);
         UpdateEarnings();
     }
 }
