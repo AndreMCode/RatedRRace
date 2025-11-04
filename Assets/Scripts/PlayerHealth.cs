@@ -25,6 +25,7 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] GameObject mineBloodParticle;
     [SerializeField] GameObject explosionParticle;
     [SerializeField] ParticleSystem windTrailParticle;
+    [SerializeField] DigitParticleSpawner digitParticle;
 
     [SerializeField] PlayerSFX playerSFX;
 
@@ -93,7 +94,7 @@ public class PlayerHealth : MonoBehaviour
     void StartWindTrailParticles()
     {
         var mainModule = windTrailParticle.main;
-        mainModule.maxParticles = 10;
+        mainModule.maxParticles = 1000;
     }
 
     void StopWindTrailParticles()
@@ -112,6 +113,7 @@ public class PlayerHealth : MonoBehaviour
         Debug.Log("Landing combo: +$" + baseBoxBonus * jumpCombo * (jumpCombo + 1));
         totalBonus += baseBoxBonus * jumpCombo * (jumpCombo + 1);
         jumpCombo = 0;
+        digitParticle.ResetCombo();
     }
 
     public void ShrinkBubble()
@@ -155,6 +157,7 @@ public class PlayerHealth : MonoBehaviour
                     // Player is above box, destroy box
                     Destroy(collision.gameObject);
                     jumpCombo++;
+                    digitParticle.OnBounceComboIncrement();
                 }
                 else if (!invincible)
                 {

@@ -12,4 +12,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2c9a3e0e627eef44b7ddbbabf56d223, type: 3}
   m_Name: Dev3
   m_EditorClassIdentifier: 
-  sequence: []
+  sequence:
+  - triggerDistance: 10
+    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
+    yPosition: 6
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 0
+  - triggerDistance: 12
+    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
+    yPosition: 6
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 0
+  - triggerDistance: 16
+    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
+    yPosition: 6
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 0
+  - triggerDistance: 20
+    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
+    yPosition: 6
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 0
+  - triggerDistance: 28
+    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
+    yPosition: 6
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 0

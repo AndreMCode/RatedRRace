@@ -1,0 +1,430 @@
+fileFormatVersion: 2
+guid: 261966e4da4d6a44ab85b23d752c80eb
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7997805372290212796
+    second: firaNumbers32sheet_0
+  - first:
+      213: 6292519387307050084
+    second: firaNumbers32sheet_1
+  - first:
+      213: 9025788163002253307
+    second: firaNumbers32sheet_2
+  - first:
+      213: -1895500089191697741
+    second: firaNumbers32sheet_3
+  - first:
+      213: -1619908768760329772
+    second: firaNumbers32sheet_4
+  - first:
+      213: -6776443883305345936
+    second: firaNumbers32sheet_5
+  - first:
+      213: 5160271767834430069
+    second: firaNumbers32sheet_6
+  - first:
+      213: -131642048716629159
+    second: firaNumbers32sheet_7
+  - first:
+      213: 2919025087451524430
+    second: firaNumbers32sheet_8
+  - first:
+      213: -3413351937185212700
+    second: firaNumbers32sheet_9
+  - first:
+      213: -446387280641447984
+    second: firaNumbers32sheet_10
+  - first:
+      213: -4113822679928568981
+    second: firaNumbers32sheet_11
+  - first:
+      213: 4815926109418184967
+    second: firaNumbers32sheet_12
+  - first:
+      213: -6121973708632808577
+    second: firaNumbers32sheet_13
+  - first:
+      213: -3206346878630897030
+    second: firaNumbers32sheet_14
+  - first:
+      213: -2724277551170450815
+    second: firaNumbers32sheet_15
+  - first:
+      213: -2262940419124697117
+    second: firaNumbers32sheet_16
+  - first:
+      213: -5522528056683896240
+    second: firaNumbers32sheet_17
+  - first:
+      213: -5453176354557909963
+    second: firaNumbers32sheet_18
+  - first:
+      213: 6423130608917970601
+    second: firaNumbers32sheet_19
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: firaNumbers32sheet_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 50
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46402b62b05835750800000000000000
+      internalID: 6292519387307050084
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: firaNumbers32sheet_3
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 0
+        width: 51
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b2f10036b4d1b5e0800000000000000
+      internalID: -1895500089191697741
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: firaNumbers32sheet_5
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 0
+        width: 51
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07c5737f03c35f1a0800000000000000
+      internalID: -6776443883305345936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: firaNumbers32sheet_7
+      rect:
+        serializedVersion: 2
+        x: 228
+        y: 0
+        width: 51
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 95b9db011405c2ef0800000000000000
+      internalID: -131642048716629159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: firaNumbers32sheet_9
+      rect:
+        serializedVersion: 2
+        x: 304
+        y: 0
+        width: 52
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e61fa27f7651a0d0800000000000000
+      internalID: -3413351937185212700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: firaNumbers32sheet_11
+      rect:
+        serializedVersion: 2
+        x: 381
+        y: 0
+        width: 51
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6389ed8114c8e6c0800000000000000
+      internalID: -4113822679928568981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: firaNumbers32sheet_13
+      rect:
+        serializedVersion: 2
+        x: 458
+        y: 0
+        width: 51
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7329acf8516a0ba0800000000000000
+      internalID: -6121973708632808577
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: firaNumbers32sheet_15
+      rect:
+        serializedVersion: 2
+        x: 534
+        y: 0
+        width: 51
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 18a0ae4400c613ad0800000000000000
+      internalID: -2724277551170450815
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: firaNumbers32sheet_17
+      rect:
+        serializedVersion: 2
+        x: 611
+        y: 0
+        width: 51
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0526a37fdf90c53b0800000000000000
+      internalID: -5522528056683896240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: firaNumbers32sheet_19
+      rect:
+        serializedVersion: 2
+        x: 687
+        y: 0
+        width: 50
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ae7e72f14b832950800000000000000
+      internalID: 6423130608917970601
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: bc8f9a526c1909444a9e79f2b7d22ab5
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      firaNumbers32sheet_0: -7997805372290212796
+      firaNumbers32sheet_1: 6292519387307050084
+      firaNumbers32sheet_10: -446387280641447984
+      firaNumbers32sheet_11: -4113822679928568981
+      firaNumbers32sheet_12: 4815926109418184967
+      firaNumbers32sheet_13: -6121973708632808577
+      firaNumbers32sheet_14: -3206346878630897030
+      firaNumbers32sheet_15: -2724277551170450815
+      firaNumbers32sheet_16: -2262940419124697117
+      firaNumbers32sheet_17: -5522528056683896240
+      firaNumbers32sheet_18: -5453176354557909963
+      firaNumbers32sheet_19: 6423130608917970601
+      firaNumbers32sheet_2: 9025788163002253307
+      firaNumbers32sheet_3: -1895500089191697741
+      firaNumbers32sheet_4: -1619908768760329772
+      firaNumbers32sheet_5: -6776443883305345936
+      firaNumbers32sheet_6: 5160271767834430069
+      firaNumbers32sheet_7: -131642048716629159
+      firaNumbers32sheet_8: 2919025087451524430
+      firaNumbers32sheet_9: -3413351937185212700
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
