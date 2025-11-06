@@ -11,7 +11,7 @@ public class DigitParticleSpawner : MonoBehaviour
         currentValue++;
         currentValue = Mathf.Clamp(currentValue, 0, 9);
 
-        if (currentValue > 1)
+        if (currentValue > 0)
         {
             if (particlePrefab == null) return;
             Vector3 spawnRotation = new(-90, 0, 0);
