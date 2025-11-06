@@ -9,6 +9,7 @@ TagManager:
   - Saw
   - Mine
   - Turret
+  - Fireball
   layers:
   - Default
   - TransparentFX

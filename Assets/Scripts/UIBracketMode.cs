@@ -101,13 +101,13 @@ public class UIBracketMode : MonoBehaviour
         if (gameLevel == 2)
         {
             float best = PlayerPrefs.GetFloat("BestSilver", 0f);
-            bestRunTxt.text = "Best: " + best.ToString("F2") + "m";
+            bestRunTxt.text = "Best Run: " + best.ToString("F2") + "m";
         }
 
         if (gameLevel == 4)
         {
             float best = PlayerPrefs.GetFloat("BestEndless", 0f);
-            bestRunTxt.text = "Best: " + best.ToString("F2") + "m";
+            bestRunTxt.text = "Best Run: " + best.ToString("F2") + "m";
         }
     }
 

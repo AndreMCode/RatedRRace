@@ -12,4 +12,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2c9a3e0e627eef44b7ddbbabf56d223, type: 3}
   m_Name: Bracket1
   m_EditorClassIdentifier: 
-  sequence: []
+  sequence:
+  - triggerDistance: 10
+    obstaclePrefab: {fileID: 733035214477214270, guid: 92b5bf223a110a34eb4b8a0bb2da4a7d, type: 3}
+    yPosition: 4
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: -1
+    fireballY3: -3
+    fireballSpeed: 0.5
+  - triggerDistance: 14
+    obstaclePrefab: {fileID: 733035214477214270, guid: 92b5bf223a110a34eb4b8a0bb2da4a7d, type: 3}
+    yPosition: 4
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 2
+    fireballY3: 4
+    fireballSpeed: 0.4
+  - triggerDistance: 18
+    obstaclePrefab: {fileID: 733035214477214270, guid: 92b5bf223a110a34eb4b8a0bb2da4a7d, type: 3}
+    yPosition: 4
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: -3
+    fireballY3: 4
+    fireballSpeed: 0.3
+  - triggerDistance: 22
+    obstaclePrefab: {fileID: 733035214477214270, guid: 92b5bf223a110a34eb4b8a0bb2da4a7d, type: 3}
+    yPosition: 4
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 2.5
+    fireballY3: -3
+    fireballSpeed: 0.2
+  - triggerDistance: 26
+    obstaclePrefab: {fileID: 733035214477214270, guid: 92b5bf223a110a34eb4b8a0bb2da4a7d, type: 3}
+    yPosition: 4
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 2.5
+    fireballY3: -3
+    fireballSpeed: 0.4

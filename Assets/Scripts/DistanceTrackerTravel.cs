@@ -96,6 +96,6 @@ public class DistanceTrackerTravel : MonoBehaviour
         }
 
         // Use 1 second as the transition duration
-        speedLerpRoutine = StartCoroutine(LerpToNewSpeed(runSpeedScalar, newScalar, 1f));
+        speedLerpRoutine = StartCoroutine(LerpToNewSpeed(runSpeedScalar, newScalar, 0.4f));
     }
 }

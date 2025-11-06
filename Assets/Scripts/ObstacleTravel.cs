@@ -71,6 +71,6 @@ public class ObstacleTravel : MonoBehaviour
         }
 
         // Use 1 second as the transition duration
-        speedLerpRoutine = StartCoroutine(LerpToNewSpeed(scalar, newScalar, 1f));
+        speedLerpRoutine = StartCoroutine(LerpToNewSpeed(scalar, newScalar, 0.4f));
     }
 }

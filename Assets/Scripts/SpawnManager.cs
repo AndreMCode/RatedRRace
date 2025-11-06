@@ -8,7 +8,7 @@ public class SpawnManager : MonoBehaviour
 
     [SerializeField] GameObject distanceTracker;
     [SerializeField] EndlessAlgorithm endlessMode;
-    
+
     // Bracket scripts that contain predetermined spawn points by distance traveled
     public FixedBracket bracket1;
     public FixedBracket bracket2;
@@ -51,12 +51,25 @@ public class SpawnManager : MonoBehaviour
             Vector3 spawnPos = new(10.0f, groundLevel + evt.yPosition, 0);
             GameObject nextObstacle = Instantiate(evt.obstaclePrefab, spawnPos, evt.obstaclePrefab.transform.rotation);
 
-            // Grab obstacle travel component and set values
-            ObstacleTravel obstacleSettings = nextObstacle.GetComponent<ObstacleTravel>();
-            obstacleSettings.traveling = true;
-            obstacleSettings.baseSpeed = runSpeed;
-            obstacleSettings.scalar = runSpeedScalar;
-            obstacleSettings.offsetScalar = evt.speedOffsetScalar;
+            if (evt.obstaclePrefab.name != "Fireball - offset")
+            {
+                // Grab obstacle travel component and set values
+                ObstacleTravel obstacleSettings = nextObstacle.GetComponent<ObstacleTravel>();
+                obstacleSettings.traveling = true;
+                obstacleSettings.baseSpeed = runSpeed;
+                obstacleSettings.scalar = runSpeedScalar;
+                obstacleSettings.offsetScalar = evt.speedOffsetScalar;
+            }
+            else
+            {
+                // Apply parameters specific to Fireball
+                CubicBZFireball bzPositions = nextObstacle.GetComponentInChildren<CubicBZFireball>();
+                if (bzPositions != null)
+                {
+                    bzPositions.SetFireballCurvePoints(evt.fireballY2, evt.fireballY3);
+                    bzPositions.SetFireballSpeed(evt.fireballSpeed);
+                }
+            }
 
             // Apply parameters specific to Saw
             if (evt.obstaclePrefab.name == "Saw")

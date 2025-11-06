@@ -122,6 +122,15 @@ public class PlayerHealth : MonoBehaviour
         scale.x = 0.5f;
         scale.y = 0.5f;
         bubbleHandle.transform.localScale = scale;
+
+        // Additionally scale down the wind particle's emission shape x value
+        var shapeModule = windTrailParticle.shape;
+        Vector3 shapeScale = shapeModule.scale; 
+        shapeScale.x = 0.8f;
+        shapeModule.scale = shapeScale;
+        Vector3 shapePosition = shapeModule.position;
+        shapePosition.x = 0.4f;
+        shapeModule.position = shapePosition;
     }
 
     public void RestoreBubble()
@@ -130,6 +139,14 @@ public class PlayerHealth : MonoBehaviour
         scale.x = 1f;
         scale.y = 1f;
         bubbleHandle.transform.localScale = scale;
+
+        var shapeModule = windTrailParticle.shape;
+        Vector3 shapeScale = shapeModule.scale; 
+        shapeScale.x = 1.6f;
+        shapeModule.scale = shapeScale;
+        Vector3 shapePosition = shapeModule.position;
+        shapePosition.x = 0.8f;
+        shapeModule.position = shapePosition;
     }
 
     // Decide what to do when colliding with an obstacle
@@ -197,6 +214,28 @@ public class PlayerHealth : MonoBehaviour
                 if (collision.TryGetComponent<CircleCollider2D>(out var collider))
                 {
                     collider.enabled = false;
+                }
+
+                return;
+            }
+
+            // If we collide with a Fireball..
+            if (collision.gameObject.CompareTag("Fireball") && !invincible)
+            {
+                // Player blown up by Fireball, lose defense
+                PlayerHit();
+                Instantiate(explosionParticle, collision.transform.position, explosionParticle.transform.rotation);
+                playerSFX.PlayMineExploSFX();
+
+                if (collision.TryGetComponent<CubicBZFireball>(out var fireballObject))
+                {
+                    fireballObject.DestroyOnCollision();
+                }
+
+                Vector2 playerPos = new(transform.position.x, transform.position.y);
+                if (health < 1)
+                {
+                    Instantiate(mineBloodParticle, new Vector3(collision.ClosestPoint(playerPos).x, transform.position.y + 0.8f, 0f), mineBloodParticle.transform.rotation);
                 }
 
                 return;

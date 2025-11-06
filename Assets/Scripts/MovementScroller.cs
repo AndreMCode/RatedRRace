@@ -47,7 +47,9 @@ public class MovementScroller : MonoBehaviour
             // Reset position when it moves past xLimit
             if (layer.transform.position.x < xLimit)
             {
-                layer.transform.position = new Vector2(startPos.x, layer.transform.position.y);
+                float offset = Mathf.Abs(layer.transform.position.x - xLimit);
+                layer.transform.position = new Vector2(startPos.x - offset, layer.transform.position.y);
+                // layer.transform.position = new Vector2(startPos.x, layer.transform.position.y);
             }
 
             // Translate with the layer-specific factor
@@ -124,6 +126,6 @@ public class MovementScroller : MonoBehaviour
         }
 
         // Use 1 second as the transition duration
-        speedLerpRoutine = StartCoroutine(LerpToNewSpeed(runSpeedScalar, newScalar, 1f));
+        speedLerpRoutine = StartCoroutine(LerpToNewSpeed(runSpeedScalar, newScalar, 0.4f));
     }
 }

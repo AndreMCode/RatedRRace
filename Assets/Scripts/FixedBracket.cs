@@ -29,6 +29,13 @@ public class FixedBracket : ScriptableObject
 
         // Used to adjust where the Turret fires [-8, 8]
         public float turretXPos = 0f;
+
+        // Used to adjust inflection points for Fireball [-4, 4]
+        public float fireballY2;
+        public float fireballY3;
+
+        // Set the speed of the fireball
+        public float fireballSpeed;
     }
     public SpawnEvent[] sequence;
 }

@@ -7,18 +7,21 @@ public class EndlessAlgorithm : MonoBehaviour
     [SerializeField] GameObject sawPrefab;
     [SerializeField] GameObject minePrefab;
     [SerializeField] GameObject turretPrefab;
+    [SerializeField] GameObject fireballPrefab;
     private GameObject randomObstacle;
 
     [Header("Spawn Probabilities")]
-    [Range(0f, 1f)] public float boxSpawnChance = 0.4f;
-    [Range(0f, 1f)] public float sawSpawnChance = 0.3f;
-    [Range(0f, 1f)] public float mineSpawnChance = 0.2f;
+    [Range(0f, 1f)] public float boxSpawnChance = 0.35f;
+    [Range(0f, 1f)] public float sawSpawnChance = 0.1f;
+    [Range(0f, 1f)] public float mineSpawnChance = 0.25f;
     [Range(0f, 1f)] public float turretSpawnChance = 0.1f;
+    [Range(0f, 1f)] public float fireballSpawnChance = 0.2f;
 
     private float runSpeed = 5.0f;
     private float storedSawChance;
     private float storedMineChance;
     private float storedTurretChance;
+    private float storedFireballChance;
     private bool twoObstaclesNearby = false;
     private bool twoObstaclesFar = false;
 
@@ -40,6 +43,7 @@ public class EndlessAlgorithm : MonoBehaviour
     public float unlockSawDistance = 1000.0f;
     public float unlockMineDistance = 500.0f;
     public float unlockTurretDistance = 2000.0f;
+    public float unlockFireballDistance = 1500.0f;
 
     public float boxHeightMin = 0.5f;
     public float boxHeightMax = 3.0f;
@@ -61,15 +65,22 @@ public class EndlessAlgorithm : MonoBehaviour
     public float turretSpeedOffsetMin = 0.6f;
     public float turretSpeedOffsetMax = 1.6f;
 
+    public float fireballSpeedMin = 0.1f;
+    public float fireballSpeedMax = 0.9f;
+    public float fireballInflexPointMin = -4.0f;
+    public float fireballInflexPointMax = 4.0f;
+
     void Start()
     {
         storedSawChance = sawSpawnChance;
         storedMineChance = mineSpawnChance;
         storedTurretChance = turretSpawnChance;
+        storedFireballChance = fireballSpawnChance;
 
         sawSpawnChance = 0f;
         mineSpawnChance = 0f;
         turretSpawnChance = 0f;
+        fireballSpawnChance = 0f;
 
         nextSpeedupPoint += speedupDistance;
     }
@@ -116,7 +127,7 @@ public class EndlessAlgorithm : MonoBehaviour
         nextSpawnMax += nextSpawnIncrement;
         speedupDistance += 100f;
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         SetNextSpawnPoint();
     }
 
@@ -143,6 +154,12 @@ public class EndlessAlgorithm : MonoBehaviour
         if (randomObstacle.name == "Turret")
         {
             SpawnTurret();
+            return;
+        }
+
+        if (randomObstacle.name == "Fireball - offset")
+        {
+            SpawnFireball();
         }
     }
 
@@ -218,16 +235,30 @@ public class EndlessAlgorithm : MonoBehaviour
         }
     }
 
+    void SpawnFireball()
+    {
+        Vector3 spawnPos = new(10.0f, groundLevel + 4.0f, 0);
+        GameObject nextObstacle = Instantiate(randomObstacle, spawnPos, randomObstacle.transform.rotation);
+
+        // Apply parameters specific to Fireball
+        CubicBZFireball bzPositions = nextObstacle.GetComponentInChildren<CubicBZFireball>();
+        if (bzPositions != null)
+        {
+            bzPositions.SetFireballCurvePoints(Random.Range(fireballInflexPointMin, fireballInflexPointMax), Random.Range(fireballInflexPointMin, fireballInflexPointMax));
+            bzPositions.SetFireballSpeed(Random.Range(fireballSpeedMin, fireballSpeedMax));
+        }
+    }
+
     void SelectNextObstacle()
     {
         // Calculate the combined weight (sum of all spawn chances)
-        float total = boxSpawnChance + sawSpawnChance + mineSpawnChance + turretSpawnChance;
+        float total = boxSpawnChance + sawSpawnChance + mineSpawnChance + turretSpawnChance + fireballSpawnChance;
 
         // If all chances are zero or negative, assign equal probabilities to each obstacle
         if (total <= 0f)
         {
             Debug.LogWarning("All spawn chances are 0! Using fallback.");
-            boxSpawnChance = sawSpawnChance = mineSpawnChance = turretSpawnChance = 0.25f;
+            boxSpawnChance = sawSpawnChance = mineSpawnChance = turretSpawnChance = fireballSpawnChance = 0.25f;
             total = 1f; // Normalized total (each chance sums to 1)
         }
 
@@ -247,9 +278,13 @@ public class EndlessAlgorithm : MonoBehaviour
         {
             randomObstacle = minePrefab;
         }
-        else
+        else if (random < boxSpawnChance + sawSpawnChance + mineSpawnChance + turretSpawnChance)
         {
             randomObstacle = turretPrefab;
+        }
+        else
+        {
+            randomObstacle = fireballPrefab;
         }
     }
 
@@ -277,6 +312,8 @@ public class EndlessAlgorithm : MonoBehaviour
         if (nextSpawnPoint - distance < lowEndThreshold) twoObstaclesNearby = true;
         if (nextSpawnPoint - distance > highEndThreshold) twoObstaclesFar = true;
 
+        // Unlock next obstacle depending on custom distance
+
         if (distance > unlockSawDistance)
         {
             sawSpawnChance = storedSawChance;
@@ -290,6 +327,11 @@ public class EndlessAlgorithm : MonoBehaviour
         if (distance > unlockTurretDistance)
         {
             turretSpawnChance = storedTurretChance;
+        }
+
+        if (distance > unlockFireballDistance)
+        {
+            fireballSpawnChance = storedFireballChance;
         }
     }
 
