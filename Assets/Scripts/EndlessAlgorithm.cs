@@ -294,15 +294,11 @@ public class EndlessAlgorithm : MonoBehaviour
         {
             nextSpawnPoint = distance + Random.Range(nextSpawnMax * 0.5f, nextSpawnMax);
             twoObstaclesNearby = false;
-
-            Debug.Log("Enforced spawn rule twoObstaclesNearby");
         }
         else if (twoObstaclesFar)
         {
             nextSpawnPoint = distance + Random.Range(nextSpawnMin, nextSpawnMax * 0.5f);
             twoObstaclesFar = false;
-
-            Debug.Log("Enforced spawn rule twoObstaclesFar");
         }
         else
         {

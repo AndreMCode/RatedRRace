@@ -11,13 +11,12 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] PlayerHealth playerHealth;
     [SerializeField] PlayerSFX playerSFX;
-    private bool runningStarted = false;
 
     [SerializeField] GameObject spriteHandle;
+    [SerializeField] GameObject spriteObject;
     [SerializeField] Animator animator;
     private float runAnimSpeed = 1;
     private bool isAlive = false;
-    private bool isRunning = false;
     private bool canSlide = false;
     private bool canDive = false;
 
@@ -70,7 +69,8 @@ public class PlayerController : MonoBehaviour
             Messenger<float>.Broadcast(GameEvent.SET_GROUND_HEIGHT, groundLevel);
         }
 
-        animator.SetBool("IsRunning", isRunning);
+        animator.SetBool("IsGrounded", true);
+        animator.SetBool("IsRunning", false);
     }
 
     void Update()
@@ -90,6 +90,7 @@ public class PlayerController : MonoBehaviour
     {
         jumpAction.Enable();
         crouchAction.Enable();
+        Messenger.AddListener(GameEvent.PLAYER_READY, ReadyAnim);
         Messenger.AddListener(GameEvent.START_RUN, SetRunning);
         Messenger.AddListener(GameEvent.PLAYER_DIED, PlayerDied);
         Messenger<bool>.AddListener(GameEvent.SET_ABILITY_SLIDE, CanSlide);
@@ -102,6 +103,7 @@ public class PlayerController : MonoBehaviour
     {
         jumpAction.Disable();
         crouchAction.Disable();
+        Messenger.RemoveListener(GameEvent.PLAYER_READY, ReadyAnim);
         Messenger.RemoveListener(GameEvent.START_RUN, SetRunning);
         Messenger.RemoveListener(GameEvent.PLAYER_DIED, PlayerDied);
         Messenger<bool>.RemoveListener(GameEvent.SET_ABILITY_SLIDE, CanSlide);
@@ -118,8 +120,24 @@ public class PlayerController : MonoBehaviour
         if (!lastGroundState && grounded)
         {
             playerHealth.PlayerLanded();
+            playerSFX.PlayRunSFX();
+
+            animator.SetBool("IsLanding", false);
+            animator.SetBool("IsDiving", false);
+
+            animator.SetBool("IsGrounded", true);
+            animator.SetBool("IsRunning", true);
         }
         lastGroundState = grounded;
+
+        if (animator.GetBool("IsJumping") && rb.linearVelocityY < 0)
+        {
+            animator.SetBool("IsJumping", false);
+            if (!isSliding)
+            {
+                animator.SetBool("IsLanding", true);
+            }
+        }
 
         // Jump if landing with a buffered jump
         if (grounded && bufferedJump)
@@ -138,25 +156,6 @@ public class PlayerController : MonoBehaviour
                 bufferedJump = false;
                 bufferedJumpTimer = 0f;
             }
-        }
-
-        animator.SetBool("IsGrounded", grounded);
-        if (grounded && isRunning)
-        {
-            if (!runningStarted)
-            {
-                playerSFX.PlayRunSFX();
-                runningStarted = true;
-            }
-
-            animator.SetBool("IsRunning", true);
-            animator.SetFloat("RunSpeedScalar", runAnimSpeed);
-        }
-        else
-        {
-            playerSFX.StopRunSFX();
-            runningStarted = false;
-            animator.SetFloat("RunSpeedScalar", 0);
         }
     }
 
@@ -184,6 +183,7 @@ public class PlayerController : MonoBehaviour
     // Apply jump, -- from (self) or PlayerHealth
     public void ApplyJump(float baseHeight, float strength)
     {
+        playerSFX.StopRunSFX();
         playerSFX.PlayJumpSFX();
         canCancelJump = true;
 
@@ -197,7 +197,9 @@ public class PlayerController : MonoBehaviour
         if (baseHeight == groundLevel) spriteHandle.transform.position = transform.position;
 
         animator.SetBool("IsRunning", false);
+        animator.SetBool("IsLanding", false);
         animator.SetBool("IsGrounded", false);
+        if (!isSliding) animator.SetBool("IsJumping", true);
     }
 
     // Handle jump cancel
@@ -221,6 +223,12 @@ public class PlayerController : MonoBehaviour
     void ApplyJumpCancel()
     {
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * jumpCancelFactor);
+
+        if (!isSliding)
+        {
+            animator.SetBool("IsJumping", false);
+            animator.SetBool("IsLanding", true);
+        }
     }
 
     // Handle slide/dive input
@@ -258,10 +266,15 @@ public class PlayerController : MonoBehaviour
         boxCol.size = slideSize;
         boxCol.offset = slideOffset;
 
-        Vector3 scale = spriteHandle.transform.localScale;
-        scale.y = 0.5f;
-        spriteHandle.transform.localScale = scale;
+        Vector3 position = spriteObject.transform.position;
+        position.y -= 0.4f;
+        position.x += 0.4f;
+        spriteObject.transform.position = position;
+
         playerHealth.ShrinkBubble();
+
+        animator.SetBool("IsRunning", false);
+        animator.SetBool("IsSliding", true);
     }
 
     // Handle slide cancel
@@ -270,7 +283,7 @@ public class PlayerController : MonoBehaviour
         if (isAlive)
         {
             // Cancel Slide on key up or shortly after mid-jump
-            if ((crouchAction.WasReleasedThisFrame() && isSliding) || !grounded && rb.linearVelocityY < -8.0f)
+            if ((crouchAction.WasReleasedThisFrame() && isSliding) || (!grounded && rb.linearVelocityY < -8.0f && isSliding))
             {
                 ApplySlideCancel();
             }
@@ -281,15 +294,29 @@ public class PlayerController : MonoBehaviour
     void ApplySlideCancel()
     {
         playerSFX.StopSlideSFX();
-        runningStarted = false;
 
         isSliding = false;
         boxCol.size = defaultSize;
         boxCol.offset = defaultOffset;
 
-        Vector3 scale = spriteHandle.transform.localScale;
-        scale.y = 1.0f;
-        spriteHandle.transform.localScale = scale;
+        if (animator.GetBool("IsSliding"))
+        {
+            Vector3 position = spriteObject.transform.position;
+            position.y += 0.4f;
+            position.x -= 0.4f;
+            spriteObject.transform.position = position;
+
+            animator.SetBool("IsSliding", false);
+
+            if (rb.linearVelocityY > 0)
+            {
+                animator.SetBool("IsJumping", true);
+            }
+            if (rb.linearVelocityY < 0)
+            {
+                animator.SetBool("IsLanding", true);
+            }
+        }
         playerHealth.RestoreBubble();
     }
 
@@ -297,6 +324,10 @@ public class PlayerController : MonoBehaviour
     private void ApplyDive()
     {
         rb.linearVelocityY = -Mathf.Sqrt(4 * jumpForce * Mathf.Abs(Physics2D.gravity.y) * rb.gravityScale);
+
+        animator.SetBool("IsJumping", false);
+        animator.SetBool("IsLanding", false);
+        animator.SetBool("IsDiving", true);
     }
 
     // Slows this object to a stop when player dies, -- from PlayerHealth
@@ -305,27 +336,25 @@ public class PlayerController : MonoBehaviour
         // If player dies during upward momentum, cancel the momentum
         if (canCancelJump) ApplyJumpCancel();
 
-        isRunning = false;
         isAlive = false;
 
         // Death sequence goes here
 
         animator.SetBool("IsRunning", false);
-        animator.SetBool("IsGrounded", false);
+    }
 
-        // Temporary, if player dies while sliding, restore original scale
-        Vector3 scale = spriteHandle.transform.localScale;
-        scale.y = 1.0f;
-        spriteHandle.transform.localScale = scale;
+    void ReadyAnim()
+    {
+        animator.SetBool("IsReady", true);
     }
 
     // Toggle running, -- from UIBracketMode
     void SetRunning()
     {
-        isRunning = isAlive = true;
+        isAlive = true;
 
-        animator.SetBool("IsRunning", isRunning);
-        animator.SetFloat("RunSpeedScalar", runAnimSpeed);
+        animator.SetBool("IsRunning", true);
+        animator.SetBool("IsReady", false);
     }
 
     void ToggleControlsOnPause()
@@ -336,7 +365,8 @@ public class PlayerController : MonoBehaviour
 
     void SetRunAnimSpeed(float scalar)
     {
-        runAnimSpeed = scalar * 1.2f;
+        runAnimSpeed = scalar * 0.75f;
+        animator.SetFloat("AnimSpeed", runAnimSpeed);
     }
 
     // Allows slide ability, -- from GameManager
@@ -357,25 +387,5 @@ public class PlayerController : MonoBehaviour
     {
         if (groundCheck != null)
             Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
-    }
-
-    void OnDrawGizmos()
-    {
-        if (!boxCol) return;
-
-        Gizmos.color = Color.green;
-        DrawColliderGizmo(defaultSize, defaultOffset);   // standing
-
-        Gizmos.color = Color.cyan;
-        DrawColliderGizmo(slideSize, slideOffset);       // sliding
-    }
-
-    void DrawColliderGizmo(Vector2 size, Vector2 offset)
-    {
-        // BoxCollider2D is centered around transform.position + offset
-        Vector2 worldPos = (Vector2)transform.position + offset;
-
-        Gizmos.matrix = Matrix4x4.TRS(worldPos, transform.rotation, Vector3.one);
-        Gizmos.DrawWireCube(Vector3.zero, size);
     }
 }

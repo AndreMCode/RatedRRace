@@ -110,7 +110,6 @@ public class PlayerHealth : MonoBehaviour
 
     public void PlayerLanded()
     {
-        Debug.Log("Landing combo: +$" + baseBoxBonus * jumpCombo * (jumpCombo + 1));
         totalBonus += baseBoxBonus * jumpCombo * (jumpCombo + 1);
         jumpCombo = 0;
         digitParticle.ResetCombo();
@@ -119,7 +118,7 @@ public class PlayerHealth : MonoBehaviour
     public void ShrinkBubble()
     {
         Vector3 scale = bubbleHandle.transform.localScale;
-        scale.x = 0.5f;
+        scale.x = 1.0f;
         scale.y = 0.5f;
         bubbleHandle.transform.localScale = scale;
 

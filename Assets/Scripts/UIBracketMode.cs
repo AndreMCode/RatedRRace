@@ -178,6 +178,7 @@ public class UIBracketMode : MonoBehaviour
     {
         int countdown = 3;
         yield return _waitForSeconds1;
+        Messenger.Broadcast(GameEvent.PLAYER_READY);
         countdownTxt.enabled = true;
         countdownTxt.text = countdown.ToString();
         yield return _waitForSeconds0_5;
