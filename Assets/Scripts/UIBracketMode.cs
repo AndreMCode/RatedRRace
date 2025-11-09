@@ -17,10 +17,10 @@ public class UIBracketMode : MonoBehaviour
     [SerializeField] TextMeshProUGUI distanceTxt;
     [SerializeField] TextMeshProUGUI speedTxt;
     [SerializeField] TextMeshProUGUI countdownTxt;
-    [SerializeField] GameObject pausedTxt;
-    [SerializeField] GameObject gameOverTxt;
-    [SerializeField] GameObject optionsTxt;
-    [SerializeField] GameObject retryTxt;
+    [SerializeField] GameObject pauseWindow;
+    [SerializeField] GameObject gameOverWindow;
+    [SerializeField] GameObject earningsTxt;
+    [SerializeField] GameObject totalTxt;
     public int gameLevel;
     private int playerDefense;
     private float bonus;
@@ -34,10 +34,12 @@ public class UIBracketMode : MonoBehaviour
 
     void Start()
     {
-        pausedTxt.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;       
+
+        pauseWindow.SetActive(false);
         countdownTxt.enabled = false;
-        gameOverTxt.SetActive(false);
-        retryTxt.SetActive(false);
+        gameOverWindow.SetActive(false);
 
         DisplayFunds();
 
@@ -149,18 +151,35 @@ public class UIBracketMode : MonoBehaviour
     {
         earningsUpdated = true;
 
-        if (!optionsTxt.TryGetComponent<TextMeshProUGUI>(out var retryMsg)) return;
+        if (!earningsTxt.TryGetComponent<TextMeshProUGUI>(out var retryMsg)) return;
 
-        retryMsg.text = "Next (R)un  |  (M)ain Menu\nEarnings: $" + value.ToString("F2") + "  |  Bonus $" + bonus.ToString("F2")
-        + "\nTotal: $" + (value + bonus).ToString("F2");
+        retryMsg.text = "Earnings: $" + value.ToString("F2") + "  |  Bonus $" + bonus.ToString("F2");
+
+        if (!totalTxt.TryGetComponent<TextMeshProUGUI>(out var totalMsg)) return;
+
+        totalMsg.text = "+$" + (value + bonus).ToString("F2");
     }
 
     // Display game over message
     void PlayerDied()
     {
-        gameOverTxt.SetActive(true);
-        retryTxt.SetActive(true);
+        gameOverWindow.SetActive(true);
         DisablePause();
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    public void OnClickNextRun()
+    {
+        if (isPaused) Time.timeScale = 1f;
+        ReloadScene();
+    }
+
+    public void OnClickMainMenu()
+    {
+        if (isPaused) Time.timeScale = 1f;
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
     }
 
     // Update the distance text object
@@ -202,8 +221,11 @@ public class UIBracketMode : MonoBehaviour
     {
         Time.timeScale = 0f;
         isPaused = true;
+
+        pauseWindow.SetActive(true);
         
-        pausedTxt.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
 
         Messenger.Broadcast(GameEvent.PLAYER_TOGGLE_CONTROLS);
         Messenger.Broadcast(GameEvent.UI_AUDIO_ADJUST_VOL);
@@ -215,7 +237,10 @@ public class UIBracketMode : MonoBehaviour
         Time.timeScale = 1f;
         isPaused = false;
 
-        pausedTxt.SetActive(false);
+        pauseWindow.SetActive(false);
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
         Messenger.Broadcast(GameEvent.PLAYER_TOGGLE_CONTROLS);
         Messenger.Broadcast(GameEvent.UI_AUDIO_ADJUST_VOL);
@@ -229,11 +254,6 @@ public class UIBracketMode : MonoBehaviour
     void DisablePause()
     {
         isAlive = false;
-    }
-
-    public void OnClickRetry()
-    {
-        ReloadScene();
     }
 
     // Restart the run

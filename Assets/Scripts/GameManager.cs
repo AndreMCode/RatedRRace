@@ -5,6 +5,9 @@ public class GameManager : MonoBehaviour
     // Manage game settings: level, run speed, buffs, and abilities
     // ------------------------------------------------------------
 
+    [SerializeField] GameObject bracketBG;
+    [SerializeField] GameObject endlessBG;
+
     private int level = 1;
     public float baseRunSpeed = 5f;
     public float runSpeedScalar = 1f;
@@ -16,6 +19,9 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        bracketBG.SetActive(true);
+        endlessBG.SetActive(false);
+
         // Retrieve selected bracket
         level = PlayerPrefs.GetInt("SelectedBracket", 1);
 
@@ -40,6 +46,8 @@ public class GameManager : MonoBehaviour
 
         if (level > 3)
         {
+            bracketBG.SetActive(false);
+            endlessBG.SetActive(true);
             runSpeedScalar = 1.3f;
             defense = 0;
             defense += PlayerPrefs.GetInt("BubbleShieldCount", 0);

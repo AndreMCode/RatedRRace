@@ -127,6 +127,9 @@ public class PlayerController : MonoBehaviour
 
             animator.SetBool("IsGrounded", true);
             animator.SetBool("IsRunning", true);
+
+            playerHealth.StopDiveEffectParticles();
+            if (isSliding) playerHealth.StartSlideDustParticles();
         }
         lastGroundState = grounded;
 
@@ -195,6 +198,9 @@ public class PlayerController : MonoBehaviour
         rb.linearVelocityY = Mathf.Sqrt(2 * strength * Mathf.Abs(Physics2D.gravity.y) * rb.gravityScale);
         // Snap position of sprite handle to jump base only when jumping from ground level
         if (baseHeight == groundLevel) spriteHandle.transform.position = transform.position;
+
+        playerHealth.StopSlideDustParticles();
+        playerHealth.StopDiveEffectParticles();
 
         animator.SetBool("IsRunning", false);
         animator.SetBool("IsLanding", false);
@@ -272,6 +278,7 @@ public class PlayerController : MonoBehaviour
         spriteObject.transform.position = position;
 
         playerHealth.ShrinkBubble();
+        playerHealth.StartSlideDustParticles();
 
         animator.SetBool("IsRunning", false);
         animator.SetBool("IsSliding", true);
@@ -318,12 +325,15 @@ public class PlayerController : MonoBehaviour
             }
         }
         playerHealth.RestoreBubble();
+        playerHealth.StopSlideDustParticles();
     }
 
     // Apply dive
     private void ApplyDive()
     {
         rb.linearVelocityY = -Mathf.Sqrt(4 * jumpForce * Mathf.Abs(Physics2D.gravity.y) * rb.gravityScale);
+
+        playerHealth.StartDiveEffectParticles();
 
         animator.SetBool("IsJumping", false);
         animator.SetBool("IsLanding", false);

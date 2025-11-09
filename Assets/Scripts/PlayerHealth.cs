@@ -25,6 +25,8 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] GameObject mineBloodParticle;
     [SerializeField] GameObject explosionParticle;
     [SerializeField] ParticleSystem windTrailParticle;
+    [SerializeField] ParticleSystem slideDustParticle;
+    [SerializeField] ParticleSystem diveEffectParticle;
     [SerializeField] DigitParticleSpawner digitParticle;
 
     [SerializeField] PlayerSFX playerSFX;
@@ -36,6 +38,13 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         playerController = GetComponent<PlayerController>();
+
+        var windModule = windTrailParticle.main;
+        windModule.maxParticles = 0;
+        var slideModule = slideDustParticle.main;
+        slideModule.maxParticles = 0;
+        var diveModule = diveEffectParticle.main;
+        diveModule.maxParticles = 0;
     }
 
     void Update()
@@ -52,6 +61,8 @@ public class PlayerHealth : MonoBehaviour
             Messenger<float>.Broadcast(GameEvent.UI_UPDATE_BONUS, totalBonus);
 
             StopWindTrailParticles();
+            StopSlideDustParticles();
+            StopDiveEffectParticles();
             playerSFX.StopRunSFX();
 
             playerSprite.enabled = false;
@@ -103,6 +114,30 @@ public class PlayerHealth : MonoBehaviour
         mainModule.maxParticles = 0;
     }
 
+    public void StartSlideDustParticles()
+    {
+        var mainModule = slideDustParticle.main;
+        mainModule.maxParticles = 1000;
+    }
+
+    public void StopSlideDustParticles()
+    {
+        var mainModule = slideDustParticle.main;
+        mainModule.maxParticles = 0;
+    }
+
+    public void StartDiveEffectParticles()
+    {
+        var mainModule = diveEffectParticle.main;
+        mainModule.maxParticles = 1000;
+    }
+
+    public void StopDiveEffectParticles()
+    {
+        var mainModule = diveEffectParticle.main;
+        mainModule.maxParticles = 0;
+    }
+
     void EnableBubbleShield()
     {
         bubbleHandle.SetActive(true);
@@ -118,7 +153,7 @@ public class PlayerHealth : MonoBehaviour
     public void ShrinkBubble()
     {
         Vector3 scale = bubbleHandle.transform.localScale;
-        scale.x = 1.0f;
+        scale.x = 0.67f;
         scale.y = 0.5f;
         bubbleHandle.transform.localScale = scale;
 
