@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject spriteHandle;
     [SerializeField] GameObject spriteObject;
     [SerializeField] Animator animator;
+    private Vector3 spritePos;
+    private Vector3 spriteScale;
     private float runAnimSpeed = 1;
     private bool isAlive = false;
     private bool canSlide = false;
@@ -68,6 +70,9 @@ public class PlayerController : MonoBehaviour
             // Notify groundLevel to SpawnManager
             Messenger<float>.Broadcast(GameEvent.SET_GROUND_HEIGHT, groundLevel);
         }
+
+        spritePos = spriteObject.transform.localPosition;
+        spriteScale = spriteObject.transform.localScale;
 
         animator.SetBool("IsGrounded", true);
         animator.SetBool("IsRunning", false);
@@ -204,6 +209,7 @@ public class PlayerController : MonoBehaviour
 
         animator.SetBool("IsRunning", false);
         animator.SetBool("IsLanding", false);
+        animator.SetBool("IsDiving", false);
         animator.SetBool("IsGrounded", false);
         if (!isSliding) animator.SetBool("IsJumping", true);
     }
@@ -274,8 +280,12 @@ public class PlayerController : MonoBehaviour
 
         Vector3 position = spriteObject.transform.position;
         position.y -= 0.4f;
-        position.x += 0.4f;
+        position.x += 0.15f;
         spriteObject.transform.position = position;
+
+        Vector3 scale = spriteObject.transform.localScale;
+        scale.x = 2.0f;
+        spriteObject.transform.localScale = scale;
 
         playerHealth.ShrinkBubble();
         playerHealth.StartSlideDustParticles();
@@ -308,10 +318,8 @@ public class PlayerController : MonoBehaviour
 
         if (animator.GetBool("IsSliding"))
         {
-            Vector3 position = spriteObject.transform.position;
-            position.y += 0.4f;
-            position.x -= 0.4f;
-            spriteObject.transform.position = position;
+            spriteObject.transform.localPosition = spritePos;
+            spriteObject.transform.localScale = spriteScale;
 
             animator.SetBool("IsSliding", false);
 
@@ -334,6 +342,7 @@ public class PlayerController : MonoBehaviour
         rb.linearVelocityY = -Mathf.Sqrt(4 * jumpForce * Mathf.Abs(Physics2D.gravity.y) * rb.gravityScale);
 
         playerHealth.StartDiveEffectParticles();
+        playerSFX.PlayDiveSFX();
 
         animator.SetBool("IsJumping", false);
         animator.SetBool("IsLanding", false);

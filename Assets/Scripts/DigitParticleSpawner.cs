@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class DigitParticleSpawner : MonoBehaviour
 {
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip bonusSFX;
+    public float bonusVol;
     public ParticleSystem particlePrefab;
     public Transform spawnPoint;
     private int currentValue = 0;
@@ -24,6 +27,10 @@ public class DigitParticleSpawner : MonoBehaviour
 
             float lifetime = digitParticle.main.duration + digitParticle.main.startLifetime.constantMax;
             Destroy(digitParticle.gameObject, lifetime + 0.1f);
+
+            float bonusPitch = 0.9f + (0.16f * currentValue);
+            audioSource.pitch = bonusPitch;
+            audioSource.PlayOneShot(bonusSFX, bonusVol);
         }
     }
 

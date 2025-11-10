@@ -24,6 +24,7 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] GameObject sawBloodParticle;
     [SerializeField] GameObject mineBloodParticle;
     [SerializeField] GameObject explosionParticle;
+    [SerializeField] GameObject explosionParticle2;
     [SerializeField] ParticleSystem windTrailParticle;
     [SerializeField] ParticleSystem slideDustParticle;
     [SerializeField] ParticleSystem diveEffectParticle;
@@ -217,6 +218,7 @@ public class PlayerHealth : MonoBehaviour
 
                     Instantiate(boxParticle, new Vector3(collision.ClosestPoint(playerPos).x, collision.ClosestPoint(playerPos).y, 0f), boxParticle.transform.rotation);
                     Instantiate(explosionParticle, collision.transform.position, explosionParticle.transform.rotation);
+                    Instantiate(explosionParticle2, collision.transform.position, explosionParticle2.transform.rotation);
                     playerSFX.PlayBoxBreakSFX();
                     playerSFX.PlayMineExploSFX();
 
@@ -258,8 +260,8 @@ public class PlayerHealth : MonoBehaviour
             {
                 // Player blown up by Fireball, lose defense
                 PlayerHit();
-                Instantiate(explosionParticle, collision.transform.position, explosionParticle.transform.rotation);
-                playerSFX.PlayMineExploSFX();
+                Instantiate(explosionParticle2, collision.transform.position, explosionParticle2.transform.rotation);
+                playerSFX.PlayFireballHitSFX();
 
                 if (collision.TryGetComponent<CubicBZFireball>(out var fireballObject))
                 {
@@ -281,6 +283,7 @@ public class PlayerHealth : MonoBehaviour
                 // Player blown up by Mine, lose defense
                 PlayerHit();
                 Instantiate(explosionParticle, collision.transform.position, explosionParticle.transform.rotation);
+                Instantiate(explosionParticle2, collision.transform.position, explosionParticle2.transform.rotation);
                 playerSFX.PlayMineExploSFX();
 
                 Vector2 playerPos = new(transform.position.x, transform.position.y);

@@ -13,10 +13,14 @@ public class PlayerSFX : MonoBehaviour
     public float jumpVol;
     [SerializeField] AudioClip slideSFX;
     public float slideVol;
+    [SerializeField] AudioClip diveSFX;
+    public float diveVol;
     [SerializeField] AudioClip shieldHitSFX;
     public float shieldHitVol;
     [SerializeField] AudioClip shieldPopSFX;
     public float shieldPopVol;
+    [SerializeField] AudioClip fireballHitSFX;
+    public float fireballHitVol;
     [SerializeField] AudioClip boxBreakSFX;
     public float boxBreakVol;
     [SerializeField] AudioClip sawSliceSFX;
@@ -66,6 +70,11 @@ public class PlayerSFX : MonoBehaviour
         audioSourceSlide.Stop();
     }
 
+    public void PlayDiveSFX()
+    {
+        audioSourceStatic.PlayOneShot(diveSFX, diveVol);
+    }
+
     public void PlayShieldHitSFX()
     {
         audioSourceStatic.PlayOneShot(shieldHitSFX, shieldHitVol);
@@ -74,6 +83,11 @@ public class PlayerSFX : MonoBehaviour
     public void PlayShieldPopSFX()
     {
         audioSourceStatic.PlayOneShot(shieldPopSFX, shieldPopVol);
+    }
+
+    public void PlayFireballHitSFX()
+    {
+        audioSourceStatic.PlayOneShot(fireballHitSFX, fireballHitVol);
     }
 
     public void PlayBoxBreakSFX()

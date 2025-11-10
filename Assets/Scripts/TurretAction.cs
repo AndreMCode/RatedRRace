@@ -25,6 +25,7 @@ public class TurretAction : MonoBehaviour
     private float raycastDistance = 50f;
 
     [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioSource audioSourceDrone;
     [SerializeField] AudioClip turretWarnSFX;
     public float turretWarnVol;
     [SerializeField] AudioClip turretChargeSFX;
@@ -56,6 +57,16 @@ public class TurretAction : MonoBehaviour
 
         // Ascend after firing
         if (visualWarning && shotFired) transform.Translate(postFireExitSpeed * Time.deltaTime * Vector3.up);
+    }
+
+    void OnEnable()
+    {
+        Messenger.AddListener(GameEvent.OBSTACLE_TOGGLE_AUDIO, PauseToggleAudio);
+    }
+
+    void OnDisable()
+    {
+        Messenger.RemoveListener(GameEvent.OBSTACLE_TOGGLE_AUDIO, PauseToggleAudio);
     }
 
     // Flicker the sprite a number of times before firing
@@ -129,7 +140,7 @@ public class TurretAction : MonoBehaviour
         }
 
 #if UNITY_EDITOR
-        // Visualize the raycast in scene view (editor only)
+        // Visualize the raycast in scene view
         Debug.DrawRay(
             sight.transform.position,
             sight.transform.TransformDirection(Vector2.left) * raycastDistance,
@@ -137,6 +148,12 @@ public class TurretAction : MonoBehaviour
             1f
         );
 #endif
+    }
+
+    void PauseToggleAudio()
+    {
+        if (audioSourceDrone.isPlaying) audioSourceDrone.Pause();
+        else audioSourceDrone.UnPause();
     }
 
     void PlayTurretWarnSFX()

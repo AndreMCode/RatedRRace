@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 2806333243345753273}
   - component: {fileID: 5006391203553160954}
   - component: {fileID: 8221746149106273257}
+  - component: {fileID: 776242237526573258}
   - component: {fileID: 6957718669542172879}
   m_Layer: 0
   m_Name: Saw
@@ -177,6 +178,19 @@ MonoBehaviour:
   scalar: 1
   xBound: -10
   yBound: 7
+--- !u!114 &776242237526573258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6549578162087934379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b02daa0ab2aff8547bed7ed87bcd74fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource: {fileID: 6957718669542172879}
 --- !u!82 &6957718669542172879
 AudioSource:
   m_ObjectHideFlags: 0
@@ -234,7 +248,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.97
+      value: 0.96
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -350,7 +364,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 21
+  m_SortingOrder: 12
   m_Sprite: {fileID: 21300000, guid: 4b35518302eb81b44967441207292ce3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

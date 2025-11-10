@@ -62,4 +62,19 @@ public class GameManager : MonoBehaviour
         Messenger<float>.Broadcast(GameEvent.SET_RUN_SCALAR, runSpeedScalar);
         Messenger<int>.Broadcast(GameEvent.SET_HEALTH, defense);
     }
+
+    void OnEnable()
+    {
+        Messenger.AddListener(GameEvent.OBSTACLE_TOGGLE_AUDIO, Listen);
+    }
+
+    void OnDisable()
+    {
+        Messenger.RemoveListener(GameEvent.OBSTACLE_TOGGLE_AUDIO, Listen);
+    }
+
+    void Listen()
+    {
+        return;
+    }
 }

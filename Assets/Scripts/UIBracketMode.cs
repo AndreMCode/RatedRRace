@@ -197,10 +197,10 @@ public class UIBracketMode : MonoBehaviour
     {
         int countdown = 3;
         yield return _waitForSeconds1;
-        Messenger.Broadcast(GameEvent.PLAYER_READY);
         countdownTxt.enabled = true;
         countdownTxt.text = countdown.ToString();
         yield return _waitForSeconds0_5;
+        Messenger.Broadcast(GameEvent.PLAYER_READY);
         countdown--;
         countdownTxt.text = countdown.ToString();
         yield return _waitForSeconds0_5;
@@ -230,6 +230,7 @@ public class UIBracketMode : MonoBehaviour
         Messenger.Broadcast(GameEvent.PLAYER_TOGGLE_CONTROLS);
         Messenger.Broadcast(GameEvent.UI_AUDIO_ADJUST_VOL);
         Messenger.Broadcast(GameEvent.PLAYER_PAUSE_AUDIO);
+        Messenger.Broadcast(GameEvent.OBSTACLE_TOGGLE_AUDIO);
     }
 
     void ResumeGame()
@@ -244,6 +245,7 @@ public class UIBracketMode : MonoBehaviour
 
         Messenger.Broadcast(GameEvent.PLAYER_TOGGLE_CONTROLS);
         Messenger.Broadcast(GameEvent.UI_AUDIO_ADJUST_VOL);
+        Messenger.Broadcast(GameEvent.OBSTACLE_TOGGLE_AUDIO);
     }
 
     void EnablePause()

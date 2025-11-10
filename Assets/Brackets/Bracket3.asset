@@ -53,3 +53,43 @@ MonoBehaviour:
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 1
+  - triggerDistance: 90
+    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
+    yPosition: 6
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: -4
+    fireballY2: 1
+    fireballY3: 1
+    fireballSpeed: 1
+  - triggerDistance: 110
+    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
+    yPosition: 6
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: -4
+    fireballY2: 1
+    fireballY3: 1
+    fireballSpeed: 1
+  - triggerDistance: 130
+    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
+    yPosition: 6
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: -4
+    fireballY2: 1
+    fireballY3: 1
+    fireballSpeed: 1
+  - triggerDistance: 140
+    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
+    yPosition: 6
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: -4
+    fireballY2: 1
+    fireballY3: 1
+    fireballSpeed: 1
