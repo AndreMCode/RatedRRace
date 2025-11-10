@@ -25,6 +25,8 @@ public class UIMainMenu : MonoBehaviour
     [SerializeField] GameObject InstructionMenuPG1;
     [SerializeField] GameObject InstructionMenuPG2;
     [SerializeField] GameObject InstructionMenuPG3;
+    [SerializeField] GameObject InstructionMenuPG4;
+    [SerializeField] GameObject InstructionMenuPG5;
     public int levelAccess;
     public int shopAccess;
     private int instpage;
@@ -53,6 +55,8 @@ public class UIMainMenu : MonoBehaviour
         InstructionMenuPG1.SetActive(false);
         InstructionMenuPG2.SetActive(false);
         InstructionMenuPG3.SetActive(false);
+        InstructionMenuPG4.SetActive(false);
+        InstructionMenuPG5.SetActive(false);
     }
 
     void SetMenuAudio()
@@ -119,11 +123,6 @@ public class UIMainMenu : MonoBehaviour
         }
     }
 
-    public void OnClickPlayBack()
-    {
-        DisplayMainMenu();
-    }
-
     // Add Bubble Shield to player loadout
     public void OnClickAddBubble()
     {
@@ -187,19 +186,9 @@ public class UIMainMenu : MonoBehaviour
         StartCoroutine(LoadRunMode());
     }
 
-    public void OnClickBack()
-    {
-        DisplayMainMenu();
-    }
-
     public void OnClickShop()
     {
         DisplayShopMenu();
-    }
-
-    public void OnClickShopBack()
-    {
-        DisplayMainMenu();
     }
 
     public void OnClickInstruction()
@@ -241,11 +230,6 @@ public class UIMainMenu : MonoBehaviour
         PlayerPrefs.SetFloat("BestEndless", 0f);
         PlayerPrefs.SetInt("ShopAccess", 0);
         levelAccess = 1;
-        DisplayMainMenu();
-    }
-
-    public void OnClickSettingsBack()
-    {
         DisplayMainMenu();
     }
 
@@ -323,9 +307,20 @@ public class UIMainMenu : MonoBehaviour
             case 3:
                 InstructionMenuPG3.SetActive(true);
                 return;
+            case 4:
+                InstructionMenuPG4.SetActive(true);
+                return;
+            case 5:
+                InstructionMenuPG5.SetActive(true);
+                return;
             default:
                 break;
         }
+    }
+
+    void OnClickBack() 
+    {
+        DisplayMainMenu();
     }
 
     private IEnumerator FadeOutTracks(float fadeDuration)
