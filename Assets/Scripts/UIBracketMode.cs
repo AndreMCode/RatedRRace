@@ -17,6 +17,7 @@ public class UIBracketMode : MonoBehaviour
     [SerializeField] TextMeshProUGUI distanceTxt;
     [SerializeField] TextMeshProUGUI speedTxt;
     [SerializeField] TextMeshProUGUI countdownTxt;
+    [SerializeField] GameObject spamAlertIMG;
     [SerializeField] GameObject pauseWindow;
     [SerializeField] GameObject gameOverWindow;
     [SerializeField] GameObject earningsTxt;
@@ -37,6 +38,7 @@ public class UIBracketMode : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;       
 
+        spamAlertIMG.SetActive(false);
         pauseWindow.SetActive(false);
         countdownTxt.enabled = false;
         gameOverWindow.SetActive(false);
@@ -79,6 +81,7 @@ public class UIBracketMode : MonoBehaviour
         Messenger<int>.AddListener(GameEvent.SET_HEALTH, SetDefense);
         Messenger<float>.AddListener(GameEvent.UI_SET_RUN_RATE, UpdateRunRate);
         Messenger.AddListener(GameEvent.UI_DECREMENT_BUBBLE, DecrementBubbleCount);
+        Messenger.AddListener(GameEvent.SPAM_ALERT, InitSpamAlert);
         Messenger.AddListener(GameEvent.PLAYER_DIED, PlayerDied);
         Messenger<float>.AddListener(GameEvent.UI_UPDATE_EARNINGS, UpdateEarnings);
         Messenger<float>.AddListener(GameEvent.UI_UPDATE_BONUS, UpdateBonus);
@@ -93,6 +96,7 @@ public class UIBracketMode : MonoBehaviour
         Messenger<int>.RemoveListener(GameEvent.SET_HEALTH, SetDefense);
         Messenger<float>.RemoveListener(GameEvent.UI_SET_RUN_RATE, UpdateRunRate);
         Messenger.RemoveListener(GameEvent.UI_DECREMENT_BUBBLE, DecrementBubbleCount);
+        Messenger.RemoveListener(GameEvent.SPAM_ALERT, InitSpamAlert);
         Messenger.RemoveListener(GameEvent.PLAYER_DIED, PlayerDied);
         Messenger<float>.RemoveListener(GameEvent.UI_UPDATE_EARNINGS, UpdateEarnings);
         Messenger<float>.RemoveListener(GameEvent.UI_UPDATE_BONUS, UpdateBonus);
@@ -215,6 +219,24 @@ public class UIBracketMode : MonoBehaviour
 
         yield return _waitForSeconds1;
         countdownTxt.enabled = false;
+    }
+
+    private IEnumerator FlashSpamAlertIMG()
+    {
+        float interval = 0.2f;
+        float count = 8;
+        for (int i = 0; i < count; i++)
+        {
+            spamAlertIMG.SetActive(true);
+            yield return new WaitForSeconds(interval);
+            spamAlertIMG.SetActive(false);
+            yield return new WaitForSeconds(interval);
+        }
+    }
+
+    void InitSpamAlert()
+    {
+        StartCoroutine(FlashSpamAlertIMG());
     }
 
     void PauseGame()

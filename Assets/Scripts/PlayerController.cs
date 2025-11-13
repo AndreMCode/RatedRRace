@@ -117,7 +117,7 @@ public class PlayerController : MonoBehaviour
         Messenger.RemoveListener(GameEvent.PLAYER_TOGGLE_CONTROLS, ToggleControlsOnPause);
     }
 
-    // Perform environmental checks, apply buffers, verify slide input when slide buffer exists
+    // Perform environmental checks, apply buffers
     void CheckEnvironment()
     {
         // GROUND CHECK
@@ -125,7 +125,7 @@ public class PlayerController : MonoBehaviour
         if (!lastGroundState && grounded)
         {
             playerHealth.PlayerLanded();
-            playerSFX.PlayRunSFX();
+            if (!isSliding) playerSFX.PlayRunSFX();
 
             animator.SetBool("IsLanding", false);
             animator.SetBool("IsDiving", false);
@@ -311,6 +311,7 @@ public class PlayerController : MonoBehaviour
     void ApplySlideCancel()
     {
         playerSFX.StopSlideSFX();
+        if (grounded) playerSFX.PlayRunSFX();
 
         isSliding = false;
         boxCol.size = defaultSize;
@@ -374,12 +375,15 @@ public class PlayerController : MonoBehaviour
 
         animator.SetBool("IsRunning", true);
         animator.SetBool("IsReady", false);
+
+        playerSFX.PlayRunSFX();
     }
 
     void ToggleControlsOnPause()
     {
         isAlive = !isAlive;
         if (isSliding && isAlive && !crouchAction.IsPressed()) ApplySlideCancel();
+        if (!isSliding && isAlive && grounded) playerSFX.PlayRunSFX();
     }
 
     void SetRunAnimSpeed(float scalar)

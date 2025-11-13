@@ -18,12 +18,17 @@ public class EndlessAlgorithm : MonoBehaviour
     [Range(0f, 1f)] public float fireballSpawnChance = 0.2f;
 
     private float runSpeed = 5.0f;
+    private float storedBoxChance;
     private float storedSawChance;
     private float storedMineChance;
     private float storedTurretChance;
     private float storedFireballChance;
     private bool twoObstaclesNearby = false;
     private bool twoObstaclesFar = false;
+    private bool spamming = false;
+    private float spamPoint = 0f;
+
+    public bool difficult = false;
 
     public float groundLevel = 0f;
     public bool endless = false;
@@ -72,6 +77,7 @@ public class EndlessAlgorithm : MonoBehaviour
 
     void Start()
     {
+        storedBoxChance = boxSpawnChance;
         storedSawChance = sawSpawnChance;
         storedMineChance = mineSpawnChance;
         storedTurretChance = turretSpawnChance;
@@ -83,6 +89,8 @@ public class EndlessAlgorithm : MonoBehaviour
         fireballSpawnChance = 0f;
 
         nextSpeedupPoint += speedupDistance;
+
+        if (difficult) speedupIncrement = 0.01f;
     }
 
     void Update()
@@ -97,6 +105,8 @@ public class EndlessAlgorithm : MonoBehaviour
             }
             if (distance > nextSpawnPoint)
             {
+                if (!spamming) ChanceForTypeSpam();
+                if (spamming) EndTypeSpam();
                 SelectNextObstacle();
                 IDAndSpawnObstacle();
                 SetNextSpawnPoint();
@@ -124,8 +134,12 @@ public class EndlessAlgorithm : MonoBehaviour
         runScalar += speedupIncrement;
         Messenger<float>.Broadcast(GameEvent.ADJ_RUN_SPEED, runScalar);
 
-        nextSpawnMax += nextSpawnIncrement;
         speedupDistance += 100f;
+        if (difficult)
+        {
+            nextSpawnMax += nextSpawnIncrement;
+            speedupIncrement += speedupIncrement;
+        }
 
         yield return new WaitForSeconds(0.5f);
         SetNextSpawnPoint();
@@ -249,6 +263,103 @@ public class EndlessAlgorithm : MonoBehaviour
         }
     }
 
+    void EndTypeSpam()
+    {
+        if (distance > spamPoint)
+        {
+            boxSpawnChance = storedBoxChance;
+            sawSpawnChance = storedSawChance;
+            mineSpawnChance = storedMineChance;
+            turretSpawnChance = storedTurretChance;
+            fireballSpawnChance = storedFireballChance;
+
+            spamming = false;
+        }
+    }
+
+    void BoxSpam()
+    {
+        spamming = true;
+        spamPoint = distance + 50.0f;
+        sawSpawnChance = 0f;
+        mineSpawnChance = 0f;
+        turretSpawnChance = 0f;
+        fireballSpawnChance = 0f;
+
+        Debug.Log("Spamming Boxes for 50m!");
+    }
+
+    void SawSpam()
+    {
+        spamming = true;
+        spamPoint = distance + 50.0f;
+        boxSpawnChance = 0f;
+        mineSpawnChance = 0f;
+        turretSpawnChance = 0f;
+        fireballSpawnChance = 0f;
+
+        Debug.Log("Spamming Saws for 50m!");
+    }
+
+    void TurretSpam()
+    {
+        spamming = true;
+        spamPoint = distance + 50.0f;
+        boxSpawnChance = 0f;
+        sawSpawnChance = 0f;
+        mineSpawnChance = 0f;
+        fireballSpawnChance = 0f;
+
+        Debug.Log("Spamming Turrets for 50m!");
+    }
+
+    void FireballSpam()
+    {
+        spamming = true;
+        spamPoint = distance + 50.0f;
+        boxSpawnChance = 0f;
+        sawSpawnChance = 0f;
+        mineSpawnChance = 0f;
+        turretSpawnChance = 0f;
+
+        Debug.Log("Spamming Fireballs for 50m!");
+    }
+
+    void ChanceForTypeSpam()
+    {
+        if (distance > unlockSawDistance)
+        {
+            // Hard-coded probability
+            int fireballChance = Random.Range(0, 60);
+            int turretChance = Random.Range(0, 80);
+            int boxChance = Random.Range(0, 80);
+            int sawChance = Random.Range(0, 100);
+            if (fireballChance == 1)
+            {
+                FireballSpam();
+                Messenger.Broadcast(GameEvent.SPAM_ALERT);
+                return;
+            }
+            else if (turretChance == 1)
+            {
+                TurretSpam();
+                Messenger.Broadcast(GameEvent.SPAM_ALERT);
+                return;
+            }
+            else if (boxChance == 1)
+            {
+                BoxSpam();
+                Messenger.Broadcast(GameEvent.SPAM_ALERT);
+                return;
+            }
+            else if (sawChance == 1)
+            {
+                SawSpam();
+                Messenger.Broadcast(GameEvent.SPAM_ALERT);
+            }
+        }
+    }
+
     void SelectNextObstacle()
     {
         // Calculate the combined weight (sum of all spawn chances)
@@ -310,24 +421,27 @@ public class EndlessAlgorithm : MonoBehaviour
 
         // Unlock next obstacle depending on custom distance
 
-        if (distance > unlockSawDistance)
+        if (!spamming)
         {
-            sawSpawnChance = storedSawChance;
-        }
+            if (distance > unlockSawDistance)
+            {
+                sawSpawnChance = storedSawChance;
+            }
 
-        if (distance > unlockMineDistance)
-        {
-            mineSpawnChance = storedMineChance;
-        }
+            if (distance > unlockMineDistance)
+            {
+                mineSpawnChance = storedMineChance;
+            }
 
-        if (distance > unlockTurretDistance)
-        {
-            turretSpawnChance = storedTurretChance;
-        }
+            if (distance > unlockTurretDistance)
+            {
+                turretSpawnChance = storedTurretChance;
+            }
 
-        if (distance > unlockFireballDistance)
-        {
-            fireballSpawnChance = storedFireballChance;
+            if (distance > unlockFireballDistance)
+            {
+                fireballSpawnChance = storedFireballChance;
+            }
         }
     }
 

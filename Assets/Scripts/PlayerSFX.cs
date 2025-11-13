@@ -7,7 +7,6 @@ public class PlayerSFX : MonoBehaviour
     [SerializeField] AudioSource audioSourceSlide; // Because this sound can be canceled
     [SerializeField] AudioSource audioSourceStatic; // Unaffected by pitch changes
 
-    // [SerializeField] AudioClip runSFX;
     public float runVol;
     [SerializeField] AudioClip jumpSFX;
     public float jumpVol;

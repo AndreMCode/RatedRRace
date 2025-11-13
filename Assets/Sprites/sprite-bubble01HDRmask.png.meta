@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 9ba4c87fb203b474d9a6ae1250a746eb
+guid: 8af117bdf04daed439b058ffcb62ea47
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6764300759050885744
-    second: particle_drop1_0
+      213: 7500335681091578679
+    second: sprite-bubble01HDRmask_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -72,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 32
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: particle_drop1_0
+      name: sprite-bubble01HDRmask_0
       rect:
         serializedVersion: 2
-        x: 3
+        x: 0
         y: 0
-        width: 26
-        height: 32
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 095edd66c406022a0800000000000000
-      internalID: -6764300759050885744
+      spriteID: 73ba6af309b861860800000000000000
+      internalID: 7500335681091578679
       vertices: []
       indices: 
       edges: []
@@ -147,8 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      particle_drop1_0: -6764300759050885744
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

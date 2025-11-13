@@ -25,6 +25,9 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] GameObject mineBloodParticle;
     [SerializeField] GameObject explosionParticle;
     [SerializeField] GameObject explosionParticle2;
+    [SerializeField] GameObject explosionParticle3;
+    [SerializeField] GameObject sawHitShieldParticle;
+    [SerializeField] GameObject sawSparkParticle;
     [SerializeField] ParticleSystem windTrailParticle;
     [SerializeField] ParticleSystem slideDustParticle;
     [SerializeField] ParticleSystem diveEffectParticle;
@@ -160,7 +163,7 @@ public class PlayerHealth : MonoBehaviour
 
         // Additionally scale down the wind particle's emission shape x value
         var shapeModule = windTrailParticle.shape;
-        Vector3 shapeScale = shapeModule.scale; 
+        Vector3 shapeScale = shapeModule.scale;
         shapeScale.x = 0.8f;
         shapeModule.scale = shapeScale;
         Vector3 shapePosition = shapeModule.position;
@@ -176,7 +179,7 @@ public class PlayerHealth : MonoBehaviour
         bubbleHandle.transform.localScale = scale;
 
         var shapeModule = windTrailParticle.shape;
-        Vector3 shapeScale = shapeModule.scale; 
+        Vector3 shapeScale = shapeModule.scale;
         shapeScale.x = 1.6f;
         shapeModule.scale = shapeScale;
         Vector3 shapePosition = shapeModule.position;
@@ -218,7 +221,7 @@ public class PlayerHealth : MonoBehaviour
 
                     Instantiate(boxParticle, new Vector3(collision.ClosestPoint(playerPos).x, collision.ClosestPoint(playerPos).y, 0f), boxParticle.transform.rotation);
                     Instantiate(explosionParticle, collision.transform.position, explosionParticle.transform.rotation);
-                    Instantiate(explosionParticle2, collision.transform.position, explosionParticle2.transform.rotation);
+                    Instantiate(explosionParticle3, collision.transform.position, explosionParticle3.transform.rotation);
                     playerSFX.PlayBoxBreakSFX();
                     playerSFX.PlayMineExploSFX();
 
@@ -244,6 +247,11 @@ public class PlayerHealth : MonoBehaviour
                 {
                     Instantiate(sawBloodParticle, new Vector3(collision.ClosestPoint(playerPos).x, collision.ClosestPoint(playerPos).y, 0f), sawBloodParticle.transform.rotation);
                     playerSFX.PlaySawSliceSFX();
+                }
+                else
+                {
+                    Instantiate(sawHitShieldParticle, new Vector3(collision.ClosestPoint(playerPos).x, collision.ClosestPoint(playerPos).y, 0f), sawHitShieldParticle.transform.rotation);
+                    Instantiate(sawSparkParticle, new Vector3(collision.ClosestPoint(playerPos).x, collision.ClosestPoint(playerPos).y, 0f), sawSparkParticle.transform.rotation);
                 }
 
                 // Destroy(collision.gameObject);
@@ -283,7 +291,7 @@ public class PlayerHealth : MonoBehaviour
                 // Player blown up by Mine, lose defense
                 PlayerHit();
                 Instantiate(explosionParticle, collision.transform.position, explosionParticle.transform.rotation);
-                Instantiate(explosionParticle2, collision.transform.position, explosionParticle2.transform.rotation);
+                Instantiate(explosionParticle3, collision.transform.position, explosionParticle3.transform.rotation);
                 playerSFX.PlayMineExploSFX();
 
                 Vector2 playerPos = new(transform.position.x, transform.position.y);
@@ -306,6 +314,10 @@ public class PlayerHealth : MonoBehaviour
                 if (health < 1)
                 {
                     Instantiate(mineBloodParticle, new Vector3(collision.ClosestPoint(playerPos).x, transform.position.y + 0.8f, 0f), mineBloodParticle.transform.rotation);
+                }
+                else
+                {
+                    Instantiate(sawSparkParticle, new Vector3(collision.ClosestPoint(playerPos).x, collision.ClosestPoint(playerPos).y, 0f), sawSparkParticle.transform.rotation);
                 }
 
                 if (collision.TryGetComponent<BoxCollider2D>(out var collider))

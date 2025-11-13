@@ -33,6 +33,9 @@ public class TurretAction : MonoBehaviour
     [SerializeField] AudioClip turretFireSFX;
     public float turretFireVol;
 
+    [SerializeField] GameObject explosionParticle3;
+    private Vector2 hitPoint;
+
     void Start()
     {
         laser.SetActive(false);
@@ -87,6 +90,7 @@ public class TurretAction : MonoBehaviour
     private IEnumerator FireLaser()
     {
         laser.SetActive(true);
+        Instantiate(explosionParticle3, hitPoint, explosionParticle3.transform.rotation);
 
         // Remove the laser dot after firing
         if (activeDot != null)
@@ -137,6 +141,8 @@ public class TurretAction : MonoBehaviour
         if (hit.collider != null)
         {
             activeDot = Instantiate(laserDot, hit.point, Quaternion.identity);
+            // Store hit point for effect reference
+            hitPoint = hit.point;
         }
 
 #if UNITY_EDITOR

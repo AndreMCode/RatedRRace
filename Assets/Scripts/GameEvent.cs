@@ -22,6 +22,7 @@ public class GameEvent : MonoBehaviour
     public const string PLAYER_TOGGLE_CONTROLS = "PLAYER_TOGGLE_CONTROLS";
 
     public const string OBSTACLE_TOGGLE_AUDIO = "OBSTACLE_TOGGLE_AUDIO";
+    public const string SPAM_ALERT = "SPAM_ALERT";
 
     public const string UI_DECREMENT_BUBBLE = "UI_DECREMENT_BUBBLE";
     public const string UI_SET_RUN_RATE = "UI_SET_RUN_RATE";

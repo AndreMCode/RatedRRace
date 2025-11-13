@@ -130,13 +130,13 @@ public class UIMainMenu : MonoBehaviour
         {
             int count = PlayerPrefs.GetInt("BubbleShieldCountSilver", 0);
             float currentMoney = PlayerPrefs.GetFloat("Money", 0f);
-            float bubblePrice = 100f * (count + 1);
+            float bubblePrice = 50f * (count + 1);
 
             if (bubblePrice <= currentMoney)
             {
                 currentMoney -= bubblePrice;
                 count++;
-                bubblePrice = 100f * (count + 1);
+                bubblePrice = 50f * (count + 1);
                 PlayerPrefs.SetInt("BubbleShieldCountSilver", count);
                 PlayerPrefs.SetFloat("Money", currentMoney);
 
@@ -150,13 +150,13 @@ public class UIMainMenu : MonoBehaviour
         {
             int count = PlayerPrefs.GetInt("BubbleShieldCount", 0);
             float currentMoney = PlayerPrefs.GetFloat("Money", 0f);
-            float bubblePrice = 100f * (count + 1);
+            float bubblePrice = 50f * (count + 1);
 
             if (bubblePrice <= currentMoney)
             {
                 currentMoney -= bubblePrice;
                 count++;
-                bubblePrice = 100f * (count + 1);
+                bubblePrice = 50f * (count + 1);
                 PlayerPrefs.SetInt("BubbleShieldCount", count);
                 PlayerPrefs.SetFloat("Money", currentMoney);
 
@@ -262,7 +262,7 @@ public class UIMainMenu : MonoBehaviour
         {
             int count = PlayerPrefs.GetInt("BubbleShieldCountSilver", 0);
             float currentMoney = PlayerPrefs.GetFloat("Money", 0f);
-            float bubblePrice = 100f * (count + 1);
+            float bubblePrice = 50f * (count + 1);
 
             bubbleCountTxt.text = "Funds:" + currentMoney.ToString("F2") + " - Cost: $" + bubblePrice.ToString() + " - Owned: x" + count.ToString();
         }
@@ -271,7 +271,7 @@ public class UIMainMenu : MonoBehaviour
         {
             int count = PlayerPrefs.GetInt("BubbleShieldCount", 0);
             float currentMoney = PlayerPrefs.GetFloat("Money", 0f);
-            float bubblePrice = 100f * (count + 1);
+            float bubblePrice = 50f * (count + 1);
 
             bubbleCountTxt.text = "Funds:" + currentMoney.ToString("F2") + " - Cost: $" + bubblePrice.ToString() + " - Owned: x" + count.ToString();
         }
