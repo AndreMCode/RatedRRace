@@ -147,6 +147,7 @@ public class PlayerHealth : MonoBehaviour
         bubbleHandle.SetActive(true);
     }
 
+    // Compute bonus on landing
     public void PlayerLanded()
     {
         totalBonus += baseBoxBonus * jumpCombo * (jumpCombo + 1);

@@ -259,7 +259,7 @@ public class PlayerController : MonoBehaviour
             if (crouchAction.WasPressedThisFrame() && !grounded && canSlide)
             {
                 if (bufferedJump) return;
-                // Dive only if airborne and NOT within slide buffer proximity
+                // Dive only if airborne
                 else if (canDive)
                 {
                     ApplyDive();

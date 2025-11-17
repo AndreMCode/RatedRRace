@@ -49,7 +49,6 @@ public class MovementScroller : MonoBehaviour
             {
                 float offset = Mathf.Abs(layer.transform.position.x - xLimit);
                 layer.transform.position = new Vector2(startPos.x - offset, layer.transform.position.y);
-                // layer.transform.position = new Vector2(startPos.x, layer.transform.position.y);
             }
 
             // Translate with the layer-specific factor
