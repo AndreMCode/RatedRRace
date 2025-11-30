@@ -218,6 +218,12 @@ public class UIMainMenu : MonoBehaviour
 #endif
     }
 
+    void OnClickBack()
+    {
+        DisplayMainMenu();
+    }
+
+
     // Reset game progress
     public void OnClickResetProgress()
     {
@@ -316,11 +322,6 @@ public class UIMainMenu : MonoBehaviour
             default:
                 break;
         }
-    }
-
-    void OnClickBack() 
-    {
-        DisplayMainMenu();
     }
 
     private IEnumerator FadeOutTracks(float fadeDuration)
