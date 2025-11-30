@@ -13,7 +13,7 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] GameObject spriteHandle;
     [SerializeField] SpriteRenderer playerSprite;
     [SerializeField] GameObject bubbleHandle;
-    [SerializeField] BubbleAction bubbleAction;
+    // [SerializeField] BubbleAction bubbleAction;
 
     [SerializeField] BubbleShieldEffect bubbleEffect;
 

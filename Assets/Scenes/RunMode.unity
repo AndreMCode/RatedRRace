@@ -7956,7 +7956,6 @@ GameObject:
   - component: {fileID: 1670553335}
   - component: {fileID: 1670553337}
   - component: {fileID: 1670553336}
-  - component: {fileID: 1670553338}
   m_Layer: 0
   m_Name: Runner_full_sprite_sheet_8
   m_TagString: Untagged
@@ -8056,18 +8055,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1670553338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1670553334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e50cf2a851db0849a7899e21d71d255, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1673181486
 GameObject:
   m_ObjectHideFlags: 0
@@ -8618,7 +8605,6 @@ MonoBehaviour:
   spriteHandle: {fileID: 440029215}
   playerSprite: {fileID: 1670553337}
   bubbleHandle: {fileID: 1301380161}
-  bubbleAction: {fileID: 0}
   bubbleEffect: {fileID: 1541432812}
   boxParticle: {fileID: 4651090991736055050, guid: 00f72ea3ae3d4544f80fde88b3fdd23a, type: 3}
   sawBloodParticle: {fileID: 512869733892449517, guid: bbab596cbbbcbfe4095cf619e834f4ce, type: 3}
