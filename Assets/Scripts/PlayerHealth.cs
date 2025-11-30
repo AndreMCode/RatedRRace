@@ -14,6 +14,9 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] SpriteRenderer playerSprite;
     [SerializeField] GameObject bubbleHandle;
     [SerializeField] BubbleAction bubbleAction;
+
+    [SerializeField] BubbleShieldEffect bubbleEffect;
+
     private PlayerController playerController;
     private readonly int baseHealth = 1;
     private int health;
@@ -90,7 +93,8 @@ public class PlayerHealth : MonoBehaviour
     void PlayerHit()
     {
         health--;
-        if (health > 0) StartCoroutine(ShieldInvincibility(0.1f, 8)); // = 1.6 seconds
+        if (health > 0) StartCoroutine(ShieldEffect(0.2f, 8)); // = 1.6 seconds
+        // if (health > 0) StartCoroutine(ShieldInvincibility(0.1f, 8)); // = 1.6 seconds
         Messenger.Broadcast(GameEvent.UI_DECREMENT_BUBBLE);
     }
 
@@ -102,7 +106,7 @@ public class PlayerHealth : MonoBehaviour
         if (health > 1)
         {
             EnableBubbleShield();
-            bubbleAction.RestartSpin();
+            // bubbleAction.RestartSpin();
         }
     }
 
@@ -329,27 +333,45 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    private IEnumerator ShieldInvincibility(float interval, int count)
+    private IEnumerator ShieldEffect(float interval, int count)
     {
         invincible = true;
         playerSFX.PlayShieldHitSFX();
 
-        bubbleAction.isBroken = true;
-        StartCoroutine(bubbleAction.FlickerRoutine());
-
         for (int i = 0; i < count; i++)
         {
-            playerSprite.enabled = false;
-            yield return new WaitForSeconds(interval);
-            playerSprite.enabled = true;
+            bubbleEffect.Tween();
             yield return new WaitForSeconds(interval);
         }
 
         invincible = false;
         playerSFX.PlayShieldPopSFX();
+        bubbleEffect.BubbleParticle();
 
-        bubbleAction.isBroken = false;
-
-        if (health > 1) bubbleAction.RestartSpin(); else bubbleHandle.SetActive(false);
+        if (health <= 1) bubbleHandle.SetActive(false);
     }
+
+    //private IEnumerator ShieldInvincibility(float interval, int count)
+    //{
+    //    invincible = true;
+    //    playerSFX.PlayShieldHitSFX();
+
+    //    bubbleAction.isBroken = true;
+    //    StartCoroutine(bubbleAction.FlickerRoutine());
+
+    //    for (int i = 0; i < count; i++)
+    //    {
+    //        playerSprite.enabled = false;
+    //        yield return new WaitForSeconds(interval);
+    //        playerSprite.enabled = true;
+    //        yield return new WaitForSeconds(interval);
+    //    }
+
+    //    invincible = false;
+    //    playerSFX.PlayShieldPopSFX();
+
+    //    bubbleAction.isBroken = false;
+
+    //    if (health > 1) bubbleAction.RestartSpin(); else bubbleHandle.SetActive(false);
+    //}
 }

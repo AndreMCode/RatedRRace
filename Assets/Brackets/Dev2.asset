@@ -14,9 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sequence:
   - triggerDistance: 10
-    obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
-    yPosition: 1
+    obstaclePrefab: {fileID: 1288570722599265875, guid: 320bc154dcda2a64c813caa18c39e807, type: 3}
+    yPosition: 4
     speedOffsetScalar: 1
     sawScale: 1
     laserLength: 1
     turretXPos: 1
+    fireballY2: 4
+    fireballY3: 0
+    fireballSpeed: 0.3

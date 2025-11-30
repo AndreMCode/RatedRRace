@@ -17,8 +17,16 @@ public class UIBracketMode : MonoBehaviour
     [SerializeField] TextMeshProUGUI distanceTxt;
     [SerializeField] TextMeshProUGUI speedTxt;
     [SerializeField] TextMeshProUGUI countdownTxt;
+
+    [SerializeField] TextMeshProUGUI slideHelperTxt;
+
     [SerializeField] GameObject spamAlertIMG;
     [SerializeField] GameObject pauseWindow;
+
+    [SerializeField] GameObject controlsWindow;
+    [SerializeField] GameObject jumpWidget;
+    [SerializeField] GameObject slideWidget;
+
     [SerializeField] GameObject gameOverWindow;
     [SerializeField] GameObject earningsTxt;
     [SerializeField] GameObject totalTxt;
@@ -33,6 +41,8 @@ public class UIBracketMode : MonoBehaviour
     public InputAction restartRunAction;
     public InputAction goToMainMenuAction;
 
+    public InputAction testButton;
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -40,6 +50,11 @@ public class UIBracketMode : MonoBehaviour
 
         spamAlertIMG.SetActive(false);
         pauseWindow.SetActive(false);
+
+        controlsWindow.SetActive(false);
+        jumpWidget.SetActive(false);
+        slideWidget.SetActive(false);
+
         countdownTxt.enabled = false;
         gameOverWindow.SetActive(false);
 
@@ -85,6 +100,7 @@ public class UIBracketMode : MonoBehaviour
         Messenger.AddListener(GameEvent.PLAYER_DIED, PlayerDied);
         Messenger<float>.AddListener(GameEvent.UI_UPDATE_EARNINGS, UpdateEarnings);
         Messenger<float>.AddListener(GameEvent.UI_UPDATE_BONUS, UpdateBonus);
+        testButton.Enable();
     }
 
     void OnDisable()
@@ -100,6 +116,7 @@ public class UIBracketMode : MonoBehaviour
         Messenger.RemoveListener(GameEvent.PLAYER_DIED, PlayerDied);
         Messenger<float>.RemoveListener(GameEvent.UI_UPDATE_EARNINGS, UpdateEarnings);
         Messenger<float>.RemoveListener(GameEvent.UI_UPDATE_BONUS, UpdateBonus);
+        testButton.Disable();
     }
 
     void DisplayBestRun()
@@ -172,6 +189,31 @@ public class UIBracketMode : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+    }
+
+    public void OnClickControls()
+    {
+        pauseWindow.SetActive(false);
+        controlsWindow.SetActive(true);
+        jumpWidget.SetActive(true);
+        slideWidget.SetActive(false);
+
+        if (gameLevel == 2)
+        {
+            slideWidget.SetActive(true);
+            slideHelperTxt.text = "Slide (while grounded)";
+        }
+        else if (gameLevel >= 3)
+        {
+            slideWidget.SetActive(true);
+            slideHelperTxt.text = "Slide (while grounded)\nDive (while airborne)";
+        }
+    }
+
+    public void OnClickControlsReturn()
+    {
+        pauseWindow.SetActive(true);
+        controlsWindow.SetActive(false);
     }
 
     public void OnClickNextRun()
@@ -261,6 +303,7 @@ public class UIBracketMode : MonoBehaviour
         isPaused = false;
 
         pauseWindow.SetActive(false);
+        controlsWindow.SetActive(false);
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

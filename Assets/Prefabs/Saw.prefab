@@ -88,7 +88,7 @@ MonoBehaviour:
   baseSpeed: 5
   offsetScalar: 1
   scalar: 1
-  xBound: -10
+  xBound: -16
   yBound: 7
 --- !u!114 &776242237526573258
 MonoBehaviour:
