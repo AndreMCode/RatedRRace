@@ -22,7 +22,11 @@ public class SpawnManager : MonoBehaviour
     private float runSpeed = 0f;
     private float runSpeedScalar = 0f;
     private bool running = false;
+    private bool negateEarnings = false;
     private float groundLevel = 0f;
+
+    // Goal distance set by game level
+    private float goalDistance = 9000f;
 
     void Update()
     {
@@ -33,7 +37,21 @@ public class SpawnManager : MonoBehaviour
         {
             if (currentFixedBracket != null)
             {
-                SpawnObstacle();
+                if (distanceTraveled > goalDistance)
+                {
+                    EndRun();
+
+                    int lvlAccess = PlayerPrefs.GetInt("LevelAccess", 0);
+                    if (lvlAccess < 4) negateEarnings = true;
+
+                    Messenger.Broadcast(GameEvent.PLAYER_WON);
+
+                    return;
+                }
+                else
+                {
+                    SpawnObstacle();
+                } 
             }
             else
             {
@@ -140,10 +158,22 @@ public class SpawnManager : MonoBehaviour
 
     void UpdateBestScore()
     {
+        if (gameLevel == 1)
+        {
+            float previousBest = PlayerPrefs.GetFloat("BestBronze", 0f);
+            if (previousBest < distanceTraveled) PlayerPrefs.SetFloat("BestBronze", distanceTraveled);
+        }
+
         if (gameLevel == 2)
         {
             float previousBest = PlayerPrefs.GetFloat("BestSilver", 0f);
             if (previousBest < distanceTraveled) PlayerPrefs.SetFloat("BestSilver", distanceTraveled);
+        }
+
+        if (gameLevel == 3)
+        {
+            float previousBest = PlayerPrefs.GetFloat("BestGold", 0f);
+            if (previousBest < distanceTraveled) PlayerPrefs.SetFloat("BestGold", distanceTraveled);
         }
 
         if (gameLevel == 4)
@@ -160,15 +190,32 @@ public class SpawnManager : MonoBehaviour
         PlayerPrefs.SetFloat("Money", currentMoney + earnings);
     }
 
+    private void NegateEarnings()
+    {
+        PlayerPrefs.SetFloat("Money", 0f);
+    }
+
     // Set game level, -- from GameManager
     private void InitializeLevel(int number)
     {
         gameLevel = number;
 
         // Set current bracket
-        if (gameLevel == 1) currentFixedBracket = bracket1;
-        else if (gameLevel == 2) currentFixedBracket = bracket2;
-        else if (gameLevel == 3) currentFixedBracket = bracket3;
+        if (gameLevel == 1)
+        {
+            currentFixedBracket = bracket1;
+            goalDistance = 25f;
+        }
+        else if (gameLevel == 2)
+        { 
+            currentFixedBracket = bracket2;
+            goalDistance = 1000f;
+        }
+        else if (gameLevel == 3)
+        {
+            currentFixedBracket = bracket3;
+            goalDistance = 350f;
+        }
         else if (gameLevel == 4)
         {
             currentFixedBracket = null;
@@ -201,7 +248,17 @@ public class SpawnManager : MonoBehaviour
         yield return new WaitForSeconds(1.1f);
 
         UpdateBestScore();
-        Messenger<float>.Broadcast(GameEvent.UI_UPDATE_EARNINGS, distanceTraveled * 0.1f);
-        UpdateEarnings();
+        
+        if (!negateEarnings) 
+        {
+            Messenger<float>.Broadcast(GameEvent.UI_UPDATE_EARNINGS, distanceTraveled * 0.1f);
+            UpdateEarnings(); 
+        }
+        else 
+        {
+            Messenger<float>.Broadcast(GameEvent.UI_UPDATE_BONUS, 0f);
+            Messenger<float>.Broadcast(GameEvent.UI_UPDATE_EARNINGS, 0f);
+            NegateEarnings(); 
+        }
     }
 }

@@ -12,7 +12,7 @@ public class UIBracketMode : MonoBehaviour
     private static WaitForSeconds _waitForSeconds1 = new(1f);
     [SerializeField] SpawnManager distanceSource;
     [SerializeField] TextMeshProUGUI bubbleCountTxt;
-    [SerializeField] TextMeshProUGUI fundsTxt;
+    [SerializeField] TextMeshProUGUI fundsTxt; // Currently disabled via Inspector
     [SerializeField] TextMeshProUGUI bestRunTxt;
     [SerializeField] TextMeshProUGUI distanceTxt;
     [SerializeField] TextMeshProUGUI speedTxt;
@@ -30,12 +30,17 @@ public class UIBracketMode : MonoBehaviour
     [SerializeField] GameObject gameOverWindow;
     [SerializeField] GameObject earningsTxt;
     [SerializeField] GameObject totalTxt;
+    [SerializeField] GameObject goalWindow;
+    [SerializeField] GameObject goalEarningsTxt;
+    [SerializeField] GameObject goalTotalTxt;
+
     public int gameLevel;
     private int playerDefense;
     private float bonus;
     public bool isPaused = false;
     public bool isAlive = false;
     private bool earningsUpdated = false;
+    private bool levelComplete = false;
 
     public InputAction pauseAction;
     public InputAction restartRunAction;
@@ -57,6 +62,7 @@ public class UIBracketMode : MonoBehaviour
 
         countdownTxt.enabled = false;
         gameOverWindow.SetActive(false);
+        goalWindow.SetActive(false);
 
         DisplayFunds();
 
@@ -71,7 +77,7 @@ public class UIBracketMode : MonoBehaviour
             else PauseGame();
         }
 
-        if (restartRunAction.WasPressedThisFrame() && (isPaused || earningsUpdated))
+        if (restartRunAction.WasPressedThisFrame() && (isPaused || earningsUpdated && !levelComplete))
         {
             if (isPaused) Time.timeScale = 1f;
             ReloadScene();
@@ -98,6 +104,7 @@ public class UIBracketMode : MonoBehaviour
         Messenger.AddListener(GameEvent.UI_DECREMENT_BUBBLE, DecrementBubbleCount);
         Messenger.AddListener(GameEvent.SPAM_ALERT, InitSpamAlert);
         Messenger.AddListener(GameEvent.PLAYER_DIED, PlayerDied);
+        Messenger.AddListener(GameEvent.PLAYER_WON, PlayerWon);
         Messenger<float>.AddListener(GameEvent.UI_UPDATE_EARNINGS, UpdateEarnings);
         Messenger<float>.AddListener(GameEvent.UI_UPDATE_BONUS, UpdateBonus);
         testButton.Enable();
@@ -114,6 +121,7 @@ public class UIBracketMode : MonoBehaviour
         Messenger.RemoveListener(GameEvent.UI_DECREMENT_BUBBLE, DecrementBubbleCount);
         Messenger.RemoveListener(GameEvent.SPAM_ALERT, InitSpamAlert);
         Messenger.RemoveListener(GameEvent.PLAYER_DIED, PlayerDied);
+        Messenger.RemoveListener(GameEvent.PLAYER_WON, PlayerWon);
         Messenger<float>.RemoveListener(GameEvent.UI_UPDATE_EARNINGS, UpdateEarnings);
         Messenger<float>.RemoveListener(GameEvent.UI_UPDATE_BONUS, UpdateBonus);
         testButton.Disable();
@@ -121,9 +129,21 @@ public class UIBracketMode : MonoBehaviour
 
     void DisplayBestRun()
     {
+        if (gameLevel == 1)
+        {
+            float best = PlayerPrefs.GetFloat("BestBronze", 0f);
+            bestRunTxt.text = "Best Run: " + best.ToString("F2") + "m";
+        }
+
         if (gameLevel == 2)
         {
             float best = PlayerPrefs.GetFloat("BestSilver", 0f);
+            bestRunTxt.text = "Best Run: " + best.ToString("F2") + "m";
+        }
+
+        if (gameLevel == 3)
+        {
+            float best = PlayerPrefs.GetFloat("BestGold", 0f);
             bestRunTxt.text = "Best Run: " + best.ToString("F2") + "m";
         }
 
@@ -179,6 +199,14 @@ public class UIBracketMode : MonoBehaviour
         if (!totalTxt.TryGetComponent<TextMeshProUGUI>(out var totalMsg)) return;
 
         totalMsg.text = "+$" + (value + bonus).ToString("F2");
+
+        if (!goalEarningsTxt.TryGetComponent<TextMeshProUGUI>(out var goalRetryMsg)) return;
+
+        goalRetryMsg.text = "Earnings: $" + value.ToString("F2") + "  |  Bonus $" + bonus.ToString("F2");
+
+        if (!goalTotalTxt.TryGetComponent<TextMeshProUGUI>(out var goalTotalMsg)) return;
+
+        goalTotalMsg.text = "+$" + (value + bonus).ToString("F2");
     }
 
     // Display game over message
@@ -189,6 +217,23 @@ public class UIBracketMode : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+    }
+
+    void PlayerWon()
+    {
+        goalWindow.SetActive(true);
+        DisablePause();
+        levelComplete = true;
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        int lvlAccess = PlayerPrefs.GetInt("LevelAccess", 0);
+        if (lvlAccess < gameLevel + 1)
+        {
+            lvlAccess++;
+            PlayerPrefs.SetInt("LevelAccess", lvlAccess);
+        }
     }
 
     public void OnClickControls()

@@ -16,6 +16,7 @@ public class GameEvent : MonoBehaviour
     public const string ADJ_RUN_SPEED = "ADJ_RUN_SPEED";
     public const string START_RUN = "START_RUN";
     public const string PLAYER_DIED = "PLAYER_DIED";
+    public const string PLAYER_WON = "PLAYER_WON";
 
     public const string PLAYER_READY = "PLAYER_READY";
     public const string PLAYER_PAUSE_AUDIO = "PLAYER_PAUSE_AUDIO";

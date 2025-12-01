@@ -31,17 +31,26 @@ public class ObstacleTravel : MonoBehaviour
     {
         Messenger<float>.AddListener(GameEvent.ADJ_RUN_SPEED, ReactToGameSpeedChange);
         Messenger.AddListener(GameEvent.PLAYER_DIED, PlayerDied);
+        Messenger.AddListener(GameEvent.PLAYER_WON, PlayerDied);
     }
 
     void OnDisable()
     {
         Messenger<float>.RemoveListener(GameEvent.ADJ_RUN_SPEED, ReactToGameSpeedChange);
         Messenger.RemoveListener(GameEvent.PLAYER_DIED, PlayerDied);
+        Messenger.RemoveListener(GameEvent.PLAYER_WON, PlayerDied);
     }
 
-    // Slows this object to a stop when player dies, -- from PlayerHealth
+    // Slows this object to a stop when player dies or wins, -- from PlayerHealth
     private void PlayerDied()
     {
+        // Overwrite any active lerp
+        if (speedLerpRoutine != null)
+        {
+            StopCoroutine(speedLerpRoutine);
+            speedLerpRoutine = null;
+        }
+
         // Use the scalar as the duration since it will be around 1 to 1.4
         StartCoroutine(LerpToNewSpeed(scalar, 0f, scalar));
     }

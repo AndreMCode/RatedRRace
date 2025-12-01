@@ -19,6 +19,7 @@ public class MusicManager : MonoBehaviour
         Messenger.AddListener(GameEvent.START_RUN, PlayBGAudio);
         Messenger.AddListener(GameEvent.UI_AUDIO_ADJUST_VOL, ToggleVolume);
         Messenger.AddListener(GameEvent.PLAYER_DIED, PlayerDied);
+        Messenger.AddListener(GameEvent.PLAYER_WON, PlayerWon);
     }
 
     void OnDisable()
@@ -27,6 +28,7 @@ public class MusicManager : MonoBehaviour
         Messenger.RemoveListener(GameEvent.START_RUN, PlayBGAudio);
         Messenger.RemoveListener(GameEvent.UI_AUDIO_ADJUST_VOL, ToggleVolume);
         Messenger.RemoveListener(GameEvent.PLAYER_DIED, PlayerDied);
+        Messenger.RemoveListener(GameEvent.PLAYER_WON, PlayerWon);
     }
 
     // Set the current music track, from GameManager
@@ -67,6 +69,14 @@ public class MusicManager : MonoBehaviour
             StartCoroutine(PlayDeathAudio());
 
             StartCoroutine(FadeOutTracks(0.5f));
+        }
+    }
+
+    void PlayerWon()
+    {
+        if (!isFading)
+        {
+            StartCoroutine(FadeOutTracks(3f));
         }
     }
 

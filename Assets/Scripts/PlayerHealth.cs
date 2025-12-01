@@ -82,12 +82,31 @@ public class PlayerHealth : MonoBehaviour
     {
         Messenger<int>.AddListener(GameEvent.SET_HEALTH, SetHealth);
         Messenger.AddListener(GameEvent.START_RUN, StartWindTrailParticles);
+        Messenger.AddListener(GameEvent.PLAYER_WON, PlayerWon);
     }
 
     void OnDisable()
     {
         Messenger<int>.RemoveListener(GameEvent.SET_HEALTH, SetHealth);
         Messenger.RemoveListener(GameEvent.START_RUN, StartWindTrailParticles);
+        Messenger.RemoveListener(GameEvent.PLAYER_WON, PlayerWon);
+    }
+
+    void PlayerWon()
+    {
+        Debug.Log("Awarded +$" + totalBonus);
+        float money = PlayerPrefs.GetFloat("Money");
+        money += totalBonus;
+        PlayerPrefs.SetFloat("Money", money);
+
+        Messenger<float>.Broadcast(GameEvent.UI_UPDATE_BONUS, totalBonus);
+
+        StopWindTrailParticles();
+        StopSlideDustParticles();
+        StopDiveEffectParticles();
+        playerSFX.StopRunSFX();
+
+        isAlive = false;
     }
 
     void PlayerHit()

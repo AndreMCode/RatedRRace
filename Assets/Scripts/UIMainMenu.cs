@@ -126,21 +126,55 @@ public class UIMainMenu : MonoBehaviour
     // Add Bubble Shield to player loadout
     public void OnClickAddBubble()
     {
-        if (PlayerPrefs.GetInt("SelectedBracket", 0) == 2)
+        if (PlayerPrefs.GetInt("SelectedBracket", 0) == 1)
         {
-            int count = PlayerPrefs.GetInt("BubbleShieldCountSilver", 0);
+            int count = PlayerPrefs.GetInt("BubbleShieldCountBronze", 0);
             float currentMoney = PlayerPrefs.GetFloat("Money", 0f);
-            float bubblePrice = 50f * (count + 1);
+            float bubblePrice = 10f * (count + 1);
 
             if (bubblePrice <= currentMoney)
             {
                 currentMoney -= bubblePrice;
                 count++;
-                bubblePrice = 50f * (count + 1);
+                bubblePrice = 10f * (count + 1);
+                PlayerPrefs.SetInt("BubbleShieldCountBronze", count);
+                PlayerPrefs.SetFloat("Money", currentMoney);
+            }
+
+            bubbleCountTxt.text = "Funds:" + currentMoney.ToString("F2") + " - Cost: $" + bubblePrice.ToString() + " - Owned: x" + count.ToString();
+        }
+
+        if (PlayerPrefs.GetInt("SelectedBracket", 0) == 2)
+        {
+            int count = PlayerPrefs.GetInt("BubbleShieldCountSilver", 0);
+            float currentMoney = PlayerPrefs.GetFloat("Money", 0f);
+            float bubblePrice = 15f * (count + 1);
+
+            if (bubblePrice <= currentMoney)
+            {
+                currentMoney -= bubblePrice;
+                count++;
+                bubblePrice = 15f * (count + 1);
                 PlayerPrefs.SetInt("BubbleShieldCountSilver", count);
                 PlayerPrefs.SetFloat("Money", currentMoney);
+            }
 
-                Debug.Log("Added a Bubble Shield to the player! Remaining funds: " + currentMoney);
+            bubbleCountTxt.text = "Funds:" + currentMoney.ToString("F2") + " - Cost: $" + bubblePrice.ToString() + " - Owned: x" + count.ToString();
+        }
+
+        if (PlayerPrefs.GetInt("SelectedBracket", 0) == 3)
+        {
+            int count = PlayerPrefs.GetInt("BubbleShieldCountGold", 0);
+            float currentMoney = PlayerPrefs.GetFloat("Money", 0f);
+            float bubblePrice = 20f * (count + 1);
+
+            if (bubblePrice <= currentMoney)
+            {
+                currentMoney -= bubblePrice;
+                count++;
+                bubblePrice = 20f * (count + 1);
+                PlayerPrefs.SetInt("BubbleShieldCountGold", count);
+                PlayerPrefs.SetFloat("Money", currentMoney);
             }
 
             bubbleCountTxt.text = "Funds:" + currentMoney.ToString("F2") + " - Cost: $" + bubblePrice.ToString() + " - Owned: x" + count.ToString();
@@ -159,20 +193,10 @@ public class UIMainMenu : MonoBehaviour
                 bubblePrice = 50f * (count + 1);
                 PlayerPrefs.SetInt("BubbleShieldCount", count);
                 PlayerPrefs.SetFloat("Money", currentMoney);
-
-                Debug.Log("Added a Bubble Shield to the player! Remaining funds: " + currentMoney);
             }
 
             bubbleCountTxt.text = "Funds:" + currentMoney.ToString("F2") + " - Cost: $" + bubblePrice.ToString() + " - Owned: x" + count.ToString();
         }
-
-        // int count = PlayerPrefs.GetInt("BubbleShieldCount", 0);
-        // if (count < 10) count++;
-        // PlayerPrefs.SetInt("BubbleShieldCount", count);
-
-        // bubbleCountTxt.text = "+" + count.ToString();
-
-        // Debug.Log("Added a Bubble Shield to the player!");
     }
 
     // Start run
@@ -227,10 +251,16 @@ public class UIMainMenu : MonoBehaviour
     // Reset game progress
     public void OnClickResetProgress()
     {
-        // Also reset high scores?
-        PlayerPrefs.SetInt("LevelAccess", 4); // !! RESET TO 1 BEFORE BUILD !!
+        PlayerPrefs.SetFloat("BestBronze", 0f);
+        PlayerPrefs.SetFloat("BestSilver", 0f);
+        PlayerPrefs.SetFloat("BestGold", 0f);
+        PlayerPrefs.SetFloat("BestEndless", 0f);
+
+        PlayerPrefs.SetInt("LevelAccess", 1);
         PlayerPrefs.SetFloat("Money", 0f);
+        PlayerPrefs.SetInt("BubbleShieldCountBronze", 0);
         PlayerPrefs.SetInt("BubbleShieldCountSilver", 0);
+        PlayerPrefs.SetInt("BubbleShieldCountGold", 0);
         PlayerPrefs.SetInt("BubbleShieldCount", 0);
         PlayerPrefs.SetFloat("BestSilver", 0f);
         PlayerPrefs.SetFloat("BestEndless", 0f);
@@ -264,11 +294,29 @@ public class UIMainMenu : MonoBehaviour
 
         buffsMenu.SetActive(true);
 
+        if (PlayerPrefs.GetInt("SelectedBracket", 0) == 1)
+        {
+            int count = PlayerPrefs.GetInt("BubbleShieldCountBronze", 0);
+            float currentMoney = PlayerPrefs.GetFloat("Money", 0f);
+            float bubblePrice = 10f * (count + 1);
+
+            bubbleCountTxt.text = "Funds:" + currentMoney.ToString("F2") + " - Cost: $" + bubblePrice.ToString() + " - Owned: x" + count.ToString();
+        }
+
         if (PlayerPrefs.GetInt("SelectedBracket", 0) == 2)
         {
             int count = PlayerPrefs.GetInt("BubbleShieldCountSilver", 0);
             float currentMoney = PlayerPrefs.GetFloat("Money", 0f);
-            float bubblePrice = 50f * (count + 1);
+            float bubblePrice = 15f * (count + 1);
+
+            bubbleCountTxt.text = "Funds:" + currentMoney.ToString("F2") + " - Cost: $" + bubblePrice.ToString() + " - Owned: x" + count.ToString();
+        }
+
+        if (PlayerPrefs.GetInt("SelectedBracket", 0) == 3)
+        {
+            int count = PlayerPrefs.GetInt("BubbleShieldCountGold", 0);
+            float currentMoney = PlayerPrefs.GetFloat("Money", 0f);
+            float bubblePrice = 20f * (count + 1);
 
             bubbleCountTxt.text = "Funds:" + currentMoney.ToString("F2") + " - Cost: $" + bubblePrice.ToString() + " - Owned: x" + count.ToString();
         }

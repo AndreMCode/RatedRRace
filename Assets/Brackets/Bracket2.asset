@@ -23,7 +23,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 30
+  - triggerDistance: 26
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 0
     speedOffsetScalar: 0.9
@@ -33,7 +33,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 50
+  - triggerDistance: 43
     obstaclePrefab: {fileID: 1288570722599265875, guid: 320bc154dcda2a64c813caa18c39e807, type: 3}
     yPosition: 0
     speedOffsetScalar: 1
@@ -43,7 +43,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 73
+  - triggerDistance: 63
     obstaclePrefab: {fileID: 1288570722599265875, guid: 320bc154dcda2a64c813caa18c39e807, type: 3}
     yPosition: 0
     speedOffsetScalar: 1
@@ -53,7 +53,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 78
+  - triggerDistance: 68
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
     yPosition: 0.5
     speedOffsetScalar: 1
@@ -63,7 +63,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 81
+  - triggerDistance: 71
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
     yPosition: 2.5
     speedOffsetScalar: 1
@@ -73,7 +73,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 101
+  - triggerDistance: 91
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 0
     speedOffsetScalar: 1
@@ -83,7 +83,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 106
+  - triggerDistance: 96
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 3.5
     speedOffsetScalar: 1.2
@@ -93,7 +93,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 126
+  - triggerDistance: 116
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
     yPosition: 2
     speedOffsetScalar: 1
@@ -103,7 +103,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 129
+  - triggerDistance: 119
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 0
     speedOffsetScalar: 1.4
@@ -113,7 +113,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 131
+  - triggerDistance: 121
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 0
     speedOffsetScalar: 1.4
@@ -123,7 +123,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 133
+  - triggerDistance: 123
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 0
     speedOffsetScalar: 1.4
@@ -133,7 +133,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 135
+  - triggerDistance: 125
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 0
     speedOffsetScalar: 1.4
@@ -143,7 +143,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 148
+  - triggerDistance: 138
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 4.5
     speedOffsetScalar: 1.3
@@ -153,7 +153,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 148
+  - triggerDistance: 138
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 3.5
     speedOffsetScalar: 1.2
@@ -163,7 +163,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 148
+  - triggerDistance: 138
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 2.5
     speedOffsetScalar: 1.1
@@ -173,7 +173,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 148
+  - triggerDistance: 138
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 1.5
     speedOffsetScalar: 1
@@ -183,7 +183,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 158
+  - triggerDistance: 148
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
     yPosition: 2.5
     speedOffsetScalar: 1
@@ -193,7 +193,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 160
+  - triggerDistance: 150
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 0
     speedOffsetScalar: 1
@@ -203,7 +203,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 163
+  - triggerDistance: 153
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
     yPosition: 3.5
     speedOffsetScalar: 1
@@ -213,7 +213,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 164.5
+  - triggerDistance: 154.5
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
     yPosition: 1.5
     speedOffsetScalar: 1
@@ -223,7 +223,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 167
+  - triggerDistance: 157
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 4.5
     speedOffsetScalar: 1
@@ -233,7 +233,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 177
+  - triggerDistance: 167
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 1
     speedOffsetScalar: 1
@@ -243,7 +243,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 185
+  - triggerDistance: 175
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 5.5
     speedOffsetScalar: 1.8
@@ -253,11 +253,71 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 195
+  - triggerDistance: 185
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 2.5
     speedOffsetScalar: 1
     sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0
+  - triggerDistance: 188
+    obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
+    yPosition: 1
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0
+  - triggerDistance: 190.5
+    obstaclePrefab: {fileID: 1288570722599265875, guid: 320bc154dcda2a64c813caa18c39e807, type: 3}
+    yPosition: 0
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 3
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0
+  - triggerDistance: 190.5
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 6.5
+    speedOffsetScalar: 1
+    sawScale: 2
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0
+  - triggerDistance: 193
+    obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
+    yPosition: 1
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0
+  - triggerDistance: 195.5
+    obstaclePrefab: {fileID: 1288570722599265875, guid: 320bc154dcda2a64c813caa18c39e807, type: 3}
+    yPosition: 0
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 3
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0
+  - triggerDistance: 195.5
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 6.5
+    speedOffsetScalar: 1
+    sawScale: 2
     laserLength: 1
     turretXPos: 1
     fireballY2: 0
@@ -293,67 +353,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 203
-    obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
-    yPosition: 1
-    speedOffsetScalar: 1
-    sawScale: 1
-    laserLength: 1
-    turretXPos: 1
-    fireballY2: 0
-    fireballY3: 0
-    fireballSpeed: 0
-  - triggerDistance: 205.5
-    obstaclePrefab: {fileID: 1288570722599265875, guid: 320bc154dcda2a64c813caa18c39e807, type: 3}
-    yPosition: 0
-    speedOffsetScalar: 1
-    sawScale: 1
-    laserLength: 3
-    turretXPos: 1
-    fireballY2: 0
-    fireballY3: 0
-    fireballSpeed: 0
-  - triggerDistance: 205.5
-    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
-    yPosition: 6.5
-    speedOffsetScalar: 1
-    sawScale: 2
-    laserLength: 1
-    turretXPos: 1
-    fireballY2: 0
-    fireballY3: 0
-    fireballSpeed: 0
-  - triggerDistance: 208
-    obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
-    yPosition: 1
-    speedOffsetScalar: 1
-    sawScale: 1
-    laserLength: 1
-    turretXPos: 1
-    fireballY2: 0
-    fireballY3: 0
-    fireballSpeed: 0
-  - triggerDistance: 210.5
-    obstaclePrefab: {fileID: 1288570722599265875, guid: 320bc154dcda2a64c813caa18c39e807, type: 3}
-    yPosition: 0
-    speedOffsetScalar: 1
-    sawScale: 1
-    laserLength: 3
-    turretXPos: 1
-    fireballY2: 0
-    fireballY3: 0
-    fireballSpeed: 0
-  - triggerDistance: 210.5
-    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
-    yPosition: 6.5
-    speedOffsetScalar: 1
-    sawScale: 2
-    laserLength: 1
-    turretXPos: 1
-    fireballY2: 0
-    fireballY3: 0
-    fireballSpeed: 0
-  - triggerDistance: 217
+  - triggerDistance: 207
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 3
     speedOffsetScalar: 1
@@ -363,7 +363,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 227
+  - triggerDistance: 217
     obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
     yPosition: 5
     speedOffsetScalar: 1
@@ -373,7 +373,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 237
+  - triggerDistance: 227
     obstaclePrefab: {fileID: 1288570722599265875, guid: 320bc154dcda2a64c813caa18c39e807, type: 3}
     yPosition: 0
     speedOffsetScalar: 1
@@ -383,7 +383,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 237
+  - triggerDistance: 227
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 5
     speedOffsetScalar: 0.65
@@ -393,7 +393,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 241
+  - triggerDistance: 231
     obstaclePrefab: {fileID: 1288570722599265875, guid: 320bc154dcda2a64c813caa18c39e807, type: 3}
     yPosition: 0
     speedOffsetScalar: 1
@@ -403,7 +403,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 245
+  - triggerDistance: 235
     obstaclePrefab: {fileID: 1288570722599265875, guid: 320bc154dcda2a64c813caa18c39e807, type: 3}
     yPosition: 0
     speedOffsetScalar: 1
@@ -413,7 +413,17 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 249
+  - triggerDistance: 239
+    obstaclePrefab: {fileID: 1288570722599265875, guid: 320bc154dcda2a64c813caa18c39e807, type: 3}
+    yPosition: 0
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0
+  - triggerDistance: 243
     obstaclePrefab: {fileID: 1288570722599265875, guid: 320bc154dcda2a64c813caa18c39e807, type: 3}
     yPosition: 0
     speedOffsetScalar: 1
@@ -424,16 +434,6 @@ MonoBehaviour:
     fireballY3: 0
     fireballSpeed: 0
   - triggerDistance: 253
-    obstaclePrefab: {fileID: 1288570722599265875, guid: 320bc154dcda2a64c813caa18c39e807, type: 3}
-    yPosition: 0
-    speedOffsetScalar: 1
-    sawScale: 1
-    laserLength: 1
-    turretXPos: 1
-    fireballY2: 0
-    fireballY3: 0
-    fireballSpeed: 0
-  - triggerDistance: 263
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
     yPosition: 2.5
     speedOffsetScalar: 1
@@ -443,7 +443,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 266
+  - triggerDistance: 256
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
     yPosition: 2.5
     speedOffsetScalar: 1
@@ -453,7 +453,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 269
+  - triggerDistance: 259
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
     yPosition: 1.5
     speedOffsetScalar: 1
@@ -463,7 +463,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 270
+  - triggerDistance: 260
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
     yPosition: 4.5
     speedOffsetScalar: 1
@@ -473,7 +473,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 272
+  - triggerDistance: 262
     obstaclePrefab: {fileID: 1288570722599265875, guid: 320bc154dcda2a64c813caa18c39e807, type: 3}
     yPosition: 0
     speedOffsetScalar: 1
@@ -483,7 +483,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 272
+  - triggerDistance: 262
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 4.5
     speedOffsetScalar: 1
@@ -493,7 +493,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 273
+  - triggerDistance: 263
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 4
     speedOffsetScalar: 1.4
@@ -503,7 +503,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 283
+  - triggerDistance: 273
     obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
     yPosition: 6
     speedOffsetScalar: 1
@@ -513,7 +513,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 293
+  - triggerDistance: 283
     obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
     yPosition: 5
     speedOffsetScalar: 2
@@ -523,7 +523,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 303
+  - triggerDistance: 293
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 2
     speedOffsetScalar: 0.6
@@ -533,7 +533,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 303
+  - triggerDistance: 293
     obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
     yPosition: 7
     speedOffsetScalar: 0.28
@@ -543,7 +543,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 311
+  - triggerDistance: 301
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 2
     speedOffsetScalar: 0.6
@@ -553,7 +553,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 330
+  - triggerDistance: 320
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
     yPosition: 4
     speedOffsetScalar: 1
@@ -563,7 +563,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 335
+  - triggerDistance: 325
     obstaclePrefab: {fileID: 1288570722599265875, guid: 320bc154dcda2a64c813caa18c39e807, type: 3}
     yPosition: 0
     speedOffsetScalar: 1
@@ -573,7 +573,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 350
+  - triggerDistance: 340
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 0.5
     speedOffsetScalar: 1.4
@@ -583,7 +583,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 354
+  - triggerDistance: 344
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 3
     speedOffsetScalar: 1.8
@@ -593,7 +593,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 357
+  - triggerDistance: 347
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 5
     speedOffsetScalar: 2.4
@@ -603,7 +603,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 367
+  - triggerDistance: 357
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 1
     speedOffsetScalar: 0.89
@@ -613,7 +613,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 367
+  - triggerDistance: 357
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 2
     speedOffsetScalar: 0.78
@@ -623,7 +623,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 367
+  - triggerDistance: 357
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 3
     speedOffsetScalar: 0.67
@@ -633,7 +633,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 367
+  - triggerDistance: 357
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 4
     speedOffsetScalar: 0.56
@@ -643,7 +643,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 381
+  - triggerDistance: 371
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 1.5
     speedOffsetScalar: 1.4
@@ -653,7 +653,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 391
+  - triggerDistance: 381
     obstaclePrefab: {fileID: 1288570722599265875, guid: 320bc154dcda2a64c813caa18c39e807, type: 3}
     yPosition: 0
     speedOffsetScalar: 1
@@ -663,7 +663,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 395
+  - triggerDistance: 385
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 2
     speedOffsetScalar: 1
@@ -673,7 +673,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 399
+  - triggerDistance: 389
     obstaclePrefab: {fileID: 1288570722599265875, guid: 320bc154dcda2a64c813caa18c39e807, type: 3}
     yPosition: 0
     speedOffsetScalar: 1
@@ -683,7 +683,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 399
+  - triggerDistance: 389
     obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
     yPosition: 4
     speedOffsetScalar: 0.7
@@ -693,7 +693,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 409.5
+  - triggerDistance: 399.5
     obstaclePrefab: {fileID: 1288570722599265875, guid: 320bc154dcda2a64c813caa18c39e807, type: 3}
     yPosition: 0
     speedOffsetScalar: 1
@@ -703,7 +703,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 417
+  - triggerDistance: 407
     obstaclePrefab: {fileID: 1288570722599265875, guid: 320bc154dcda2a64c813caa18c39e807, type: 3}
     yPosition: 0
     speedOffsetScalar: 1
@@ -713,7 +713,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 425
+  - triggerDistance: 415
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 0
     speedOffsetScalar: 0.8
@@ -723,7 +723,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 425
+  - triggerDistance: 415
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 3
     speedOffsetScalar: 0.8
@@ -733,7 +733,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 425
+  - triggerDistance: 415
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 6
     speedOffsetScalar: 0.8
@@ -743,7 +743,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 429
+  - triggerDistance: 419
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 1
     speedOffsetScalar: 1.6
@@ -753,7 +753,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 429
+  - triggerDistance: 419
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 5
     speedOffsetScalar: 1.6
@@ -763,7 +763,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 435
+  - triggerDistance: 425
     obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
     yPosition: 7
     speedOffsetScalar: 1
@@ -773,7 +773,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 439
+  - triggerDistance: 429
     obstaclePrefab: {fileID: 1288570722599265875, guid: 320bc154dcda2a64c813caa18c39e807, type: 3}
     yPosition: 0
     speedOffsetScalar: 1
@@ -783,7 +783,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 451
+  - triggerDistance: 441
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 2
     speedOffsetScalar: 1.8
@@ -793,7 +793,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 451
+  - triggerDistance: 441
     obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
     yPosition: 7
     speedOffsetScalar: 1
@@ -803,7 +803,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 455
+  - triggerDistance: 445
     obstaclePrefab: {fileID: 1288570722599265875, guid: 320bc154dcda2a64c813caa18c39e807, type: 3}
     yPosition: 0
     speedOffsetScalar: 1
@@ -813,7 +813,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 467
+  - triggerDistance: 457
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 4
     speedOffsetScalar: 2.6
@@ -823,7 +823,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 474
+  - triggerDistance: 464
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
     yPosition: 1.2
     speedOffsetScalar: 1
@@ -833,7 +833,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 474
+  - triggerDistance: 464
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
     yPosition: 2.8
     speedOffsetScalar: 1
@@ -843,7 +843,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 474
+  - triggerDistance: 464
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 6.7
     speedOffsetScalar: 1
@@ -853,7 +853,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 475.3
+  - triggerDistance: 465.3
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
     yPosition: 2.7
     speedOffsetScalar: 1
@@ -863,7 +863,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 477
+  - triggerDistance: 467
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
     yPosition: 2.5
     speedOffsetScalar: 1
@@ -873,7 +873,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 480
+  - triggerDistance: 470
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 3
     speedOffsetScalar: 1
@@ -883,7 +883,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 487
+  - triggerDistance: 477
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 3
     speedOffsetScalar: 1
@@ -893,7 +893,7 @@ MonoBehaviour:
     fireballY2: 0
     fireballY3: 0
     fireballSpeed: 0
-  - triggerDistance: 497
+  - triggerDistance: 487
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
     yPosition: 2
     speedOffsetScalar: 1
@@ -903,7 +903,7 @@ MonoBehaviour:
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 1
-  - triggerDistance: 501
+  - triggerDistance: 491
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
     yPosition: 4
     speedOffsetScalar: 1
@@ -913,7 +913,7 @@ MonoBehaviour:
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 1
-  - triggerDistance: 501
+  - triggerDistance: 491
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 0.5
     speedOffsetScalar: 1
@@ -923,7 +923,7 @@ MonoBehaviour:
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 1
-  - triggerDistance: 511
+  - triggerDistance: 501
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
     yPosition: 1.5
     speedOffsetScalar: 1
@@ -933,7 +933,7 @@ MonoBehaviour:
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 1
-  - triggerDistance: 515
+  - triggerDistance: 505
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
     yPosition: 3
     speedOffsetScalar: 1
@@ -943,7 +943,7 @@ MonoBehaviour:
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 1
-  - triggerDistance: 515
+  - triggerDistance: 505
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 0.5
     speedOffsetScalar: 1
@@ -953,7 +953,7 @@ MonoBehaviour:
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 1
-  - triggerDistance: 525
+  - triggerDistance: 515
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
     yPosition: 2
     speedOffsetScalar: 1
@@ -963,7 +963,7 @@ MonoBehaviour:
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 1
-  - triggerDistance: 529
+  - triggerDistance: 519
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
     yPosition: 4
     speedOffsetScalar: 1
@@ -973,7 +973,7 @@ MonoBehaviour:
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 1
-  - triggerDistance: 529
+  - triggerDistance: 519
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 0.5
     speedOffsetScalar: 1
@@ -983,7 +983,7 @@ MonoBehaviour:
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 1
-  - triggerDistance: 539
+  - triggerDistance: 529
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
     yPosition: 1.5
     speedOffsetScalar: 1
@@ -993,7 +993,7 @@ MonoBehaviour:
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 1
-  - triggerDistance: 543
+  - triggerDistance: 533
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
     yPosition: 4
     speedOffsetScalar: 1
@@ -1003,7 +1003,7 @@ MonoBehaviour:
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 1
-  - triggerDistance: 543
+  - triggerDistance: 533
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 0.5
     speedOffsetScalar: 0.8
@@ -1013,7 +1013,7 @@ MonoBehaviour:
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 1
-  - triggerDistance: 565
+  - triggerDistance: 555
     obstaclePrefab: {fileID: 733035214477214270, guid: 92b5bf223a110a34eb4b8a0bb2da4a7d, type: 3}
     yPosition: 4
     speedOffsetScalar: 1
@@ -1023,73 +1023,93 @@ MonoBehaviour:
     fireballY2: 6
     fireballY3: -4
     fireballSpeed: 0.2
-  - triggerDistance: 565
+  - triggerDistance: 555
     obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
     yPosition: 4
     speedOffsetScalar: 4
     sawScale: 1
     laserLength: 1
     turretXPos: -3.5
+    fireballY2: 1
+    fireballY3: 1
+    fireballSpeed: 1
+  - triggerDistance: 557
+    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
+    yPosition: 5
+    speedOffsetScalar: 4
+    sawScale: 1
+    laserLength: 1
+    turretXPos: -2.5
+    fireballY2: 1
+    fireballY3: 1
+    fireballSpeed: 1
+  - triggerDistance: 559
+    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
+    yPosition: 6
+    speedOffsetScalar: 4
+    sawScale: 1
+    laserLength: 1
+    turretXPos: -1.5
+    fireballY2: 1
+    fireballY3: 1
+    fireballSpeed: 1
+  - triggerDistance: 563
+    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
+    yPosition: 4
+    speedOffsetScalar: 4
+    sawScale: 1
+    laserLength: 1
+    turretXPos: -3.5
+    fireballY2: 1
+    fireballY3: 1
+    fireballSpeed: 1
+  - triggerDistance: 565
+    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
+    yPosition: 5
+    speedOffsetScalar: 4
+    sawScale: 1
+    laserLength: 1
+    turretXPos: -2.5
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 1
   - triggerDistance: 567
     obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
-    yPosition: 5
-    speedOffsetScalar: 4
-    sawScale: 1
-    laserLength: 1
-    turretXPos: -2.5
-    fireballY2: 1
-    fireballY3: 1
-    fireballSpeed: 1
-  - triggerDistance: 569
-    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
     yPosition: 6
     speedOffsetScalar: 4
     sawScale: 1
     laserLength: 1
     turretXPos: -1.5
-    fireballY2: 1
-    fireballY3: 1
-    fireballSpeed: 1
-  - triggerDistance: 573
-    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
-    yPosition: 4
-    speedOffsetScalar: 4
-    sawScale: 1
-    laserLength: 1
-    turretXPos: -3.5
-    fireballY2: 1
-    fireballY3: 1
-    fireballSpeed: 1
-  - triggerDistance: 575
-    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
-    yPosition: 5
-    speedOffsetScalar: 4
-    sawScale: 1
-    laserLength: 1
-    turretXPos: -2.5
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 1
   - triggerDistance: 577
     obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
-    yPosition: 6
-    speedOffsetScalar: 4
-    sawScale: 1
-    laserLength: 1
-    turretXPos: -1.5
-    fireballY2: 1
-    fireballY3: 1
-    fireballSpeed: 1
-  - triggerDistance: 587
-    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
     yPosition: 4
     speedOffsetScalar: 4
     sawScale: 1
     laserLength: 1
     turretXPos: -3.5
+    fireballY2: 1
+    fireballY3: 1
+    fireballSpeed: 1
+  - triggerDistance: 579
+    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
+    yPosition: 5
+    speedOffsetScalar: 4
+    sawScale: 1
+    laserLength: 1
+    turretXPos: -2.5
+    fireballY2: 1
+    fireballY3: 1
+    fireballSpeed: 1
+  - triggerDistance: 581
+    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
+    yPosition: 6
+    speedOffsetScalar: 4
+    sawScale: 1
+    laserLength: 1
+    turretXPos: -1.5
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 1
@@ -1099,31 +1119,11 @@ MonoBehaviour:
     speedOffsetScalar: 4
     sawScale: 1
     laserLength: 1
-    turretXPos: -2.5
-    fireballY2: 1
-    fireballY3: 1
-    fireballSpeed: 1
-  - triggerDistance: 591
-    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
-    yPosition: 6
-    speedOffsetScalar: 4
-    sawScale: 1
-    laserLength: 1
-    turretXPos: -1.5
-    fireballY2: 1
-    fireballY3: 1
-    fireballSpeed: 1
-  - triggerDistance: 599
-    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
-    yPosition: 5
-    speedOffsetScalar: 4
-    sawScale: 1
-    laserLength: 1
     turretXPos: -3.5
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 1
-  - triggerDistance: 607
+  - triggerDistance: 597
     obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
     yPosition: 5
     speedOffsetScalar: 4
@@ -1133,7 +1133,7 @@ MonoBehaviour:
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 1
-  - triggerDistance: 615
+  - triggerDistance: 605
     obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
     yPosition: 5
     speedOffsetScalar: 4
@@ -1143,7 +1143,7 @@ MonoBehaviour:
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 1
-  - triggerDistance: 625
+  - triggerDistance: 615
     obstaclePrefab: {fileID: 733035214477214270, guid: 92b5bf223a110a34eb4b8a0bb2da4a7d, type: 3}
     yPosition: 4
     speedOffsetScalar: 1
@@ -1153,9 +1153,49 @@ MonoBehaviour:
     fireballY2: -2
     fireballY3: -2
     fireballSpeed: 0.25
-  - triggerDistance: 625
+  - triggerDistance: 615
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
     yPosition: 2
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 1
+    fireballY3: 1
+    fireballSpeed: 0.1
+  - triggerDistance: 620
+    obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
+    yPosition: 0.5
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 1
+    fireballY3: 1
+    fireballSpeed: 0.1
+  - triggerDistance: 622
+    obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
+    yPosition: 1.5
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 1
+    fireballY3: 1
+    fireballSpeed: 0.1
+  - triggerDistance: 625
+    obstaclePrefab: {fileID: 733035214477214270, guid: 92b5bf223a110a34eb4b8a0bb2da4a7d, type: 3}
+    yPosition: 4
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 3
+    fireballY3: -1
+    fireballSpeed: 0.3
+  - triggerDistance: 625
+    obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
+    yPosition: 3
     speedOffsetScalar: 1
     sawScale: 1
     laserLength: 1
@@ -1173,37 +1213,7 @@ MonoBehaviour:
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 0.1
-  - triggerDistance: 632
-    obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
-    yPosition: 1.5
-    speedOffsetScalar: 1
-    sawScale: 1
-    laserLength: 1
-    turretXPos: 1
-    fireballY2: 1
-    fireballY3: 1
-    fireballSpeed: 0.1
-  - triggerDistance: 635
-    obstaclePrefab: {fileID: 733035214477214270, guid: 92b5bf223a110a34eb4b8a0bb2da4a7d, type: 3}
-    yPosition: 4
-    speedOffsetScalar: 1
-    sawScale: 1
-    laserLength: 1
-    turretXPos: 1
-    fireballY2: 3
-    fireballY3: -1
-    fireballSpeed: 0.3
-  - triggerDistance: 635
-    obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
-    yPosition: 3
-    speedOffsetScalar: 1
-    sawScale: 1
-    laserLength: 1
-    turretXPos: 1
-    fireballY2: 1
-    fireballY3: 1
-    fireballSpeed: 0.1
-  - triggerDistance: 640
+  - triggerDistance: 631.5
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
     yPosition: 0.5
     speedOffsetScalar: 1
@@ -1213,7 +1223,7 @@ MonoBehaviour:
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 0.1
-  - triggerDistance: 641.5
+  - triggerDistance: 633
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
     yPosition: 0.5
     speedOffsetScalar: 1
@@ -1223,17 +1233,7 @@ MonoBehaviour:
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 0.1
-  - triggerDistance: 643
-    obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
-    yPosition: 0.5
-    speedOffsetScalar: 1
-    sawScale: 1
-    laserLength: 1
-    turretXPos: 1
-    fireballY2: 1
-    fireballY3: 1
-    fireballSpeed: 0.1
-  - triggerDistance: 647
+  - triggerDistance: 637
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
     yPosition: 2.5
     speedOffsetScalar: 1
@@ -1243,7 +1243,7 @@ MonoBehaviour:
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 0.1
-  - triggerDistance: 647
+  - triggerDistance: 637
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 5
     speedOffsetScalar: 1.6
@@ -1253,7 +1253,7 @@ MonoBehaviour:
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 0.1
-  - triggerDistance: 651
+  - triggerDistance: 641
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
     yPosition: 4.5
     speedOffsetScalar: 1
@@ -1263,23 +1263,33 @@ MonoBehaviour:
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 0.1
-  - triggerDistance: 655
-    obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
-    yPosition: 6.5
-    speedOffsetScalar: 1
-    sawScale: 1
+  - triggerDistance: 645
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 3
+    speedOffsetScalar: 1.2
+    sawScale: 4
     laserLength: 1
     turretXPos: 1
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 0.1
   - triggerDistance: 659
-    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
-    yPosition: 4
-    speedOffsetScalar: 1.2
-    sawScale: 6
-    laserLength: 1
+    obstaclePrefab: {fileID: 1288570722599265875, guid: 320bc154dcda2a64c813caa18c39e807, type: 3}
+    yPosition: 0
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1.5
     turretXPos: 1
+    fireballY2: 1
+    fireballY3: 1
+    fireballSpeed: 0.1
+  - triggerDistance: 664
+    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
+    yPosition: 7
+    speedOffsetScalar: 2
+    sawScale: 1
+    laserLength: 1
+    turretXPos: -3
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 0.1
@@ -1288,7 +1298,7 @@ MonoBehaviour:
     yPosition: 0
     speedOffsetScalar: 1
     sawScale: 1
-    laserLength: 1.5
+    laserLength: 2.5
     turretXPos: 1
     fireballY2: 1
     fireballY3: 1
@@ -1299,31 +1309,11 @@ MonoBehaviour:
     speedOffsetScalar: 2
     sawScale: 1
     laserLength: 1
-    turretXPos: -2.5
-    fireballY2: 1
-    fireballY3: 1
-    fireballSpeed: 0.1
-  - triggerDistance: 679
-    obstaclePrefab: {fileID: 1288570722599265875, guid: 320bc154dcda2a64c813caa18c39e807, type: 3}
-    yPosition: 0
-    speedOffsetScalar: 1
-    sawScale: 1
-    laserLength: 2.5
-    turretXPos: 1
+    turretXPos: -4
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 0.1
   - triggerDistance: 684
-    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
-    yPosition: 7
-    speedOffsetScalar: 2
-    sawScale: 1
-    laserLength: 1
-    turretXPos: -3.5
-    fireballY2: 1
-    fireballY3: 1
-    fireballSpeed: 0.1
-  - triggerDistance: 694
     obstaclePrefab: {fileID: 1288570722599265875, guid: 320bc154dcda2a64c813caa18c39e807, type: 3}
     yPosition: 0
     speedOffsetScalar: 1
@@ -1333,7 +1323,7 @@ MonoBehaviour:
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 0.1
-  - triggerDistance: 697
+  - triggerDistance: 687
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
     yPosition: 3
     speedOffsetScalar: 1
@@ -1343,7 +1333,7 @@ MonoBehaviour:
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 0.1
-  - triggerDistance: 700
+  - triggerDistance: 690
     obstaclePrefab: {fileID: 1288570722599265875, guid: 320bc154dcda2a64c813caa18c39e807, type: 3}
     yPosition: 0
     speedOffsetScalar: 1
@@ -1353,7 +1343,7 @@ MonoBehaviour:
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 0.1
-  - triggerDistance: 702
+  - triggerDistance: 692
     obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
     yPosition: 0.5
     speedOffsetScalar: 1
@@ -1363,7 +1353,7 @@ MonoBehaviour:
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 0.1
-  - triggerDistance: 704
+  - triggerDistance: 694
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 5
     speedOffsetScalar: 1
@@ -1373,7 +1363,7 @@ MonoBehaviour:
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 0.1
-  - triggerDistance: 709
+  - triggerDistance: 699
     obstaclePrefab: {fileID: 1288570722599265875, guid: 320bc154dcda2a64c813caa18c39e807, type: 3}
     yPosition: 0
     speedOffsetScalar: 1
@@ -1383,7 +1373,7 @@ MonoBehaviour:
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 0.1
-  - triggerDistance: 714
+  - triggerDistance: 704
     obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
     yPosition: 7.5
     speedOffsetScalar: 2
@@ -1393,7 +1383,7 @@ MonoBehaviour:
     fireballY2: 1
     fireballY3: 1
     fireballSpeed: 0.1
-  - triggerDistance: 724
+  - triggerDistance: 714
     obstaclePrefab: {fileID: 733035214477214270, guid: 92b5bf223a110a34eb4b8a0bb2da4a7d, type: 3}
     yPosition: 4
     speedOffsetScalar: 1
@@ -1403,7 +1393,7 @@ MonoBehaviour:
     fireballY2: 4
     fireballY3: 0
     fireballSpeed: 0.3
-  - triggerDistance: 728
+  - triggerDistance: 718
     obstaclePrefab: {fileID: 733035214477214270, guid: 92b5bf223a110a34eb4b8a0bb2da4a7d, type: 3}
     yPosition: 4
     speedOffsetScalar: 1
@@ -1413,7 +1403,7 @@ MonoBehaviour:
     fireballY2: 4
     fireballY3: -1
     fireballSpeed: 0.3
-  - triggerDistance: 732
+  - triggerDistance: 722
     obstaclePrefab: {fileID: 733035214477214270, guid: 92b5bf223a110a34eb4b8a0bb2da4a7d, type: 3}
     yPosition: 4
     speedOffsetScalar: 1
@@ -1423,7 +1413,7 @@ MonoBehaviour:
     fireballY2: 4
     fireballY3: -2
     fireballSpeed: 0.3
-  - triggerDistance: 736
+  - triggerDistance: 726
     obstaclePrefab: {fileID: 733035214477214270, guid: 92b5bf223a110a34eb4b8a0bb2da4a7d, type: 3}
     yPosition: 4
     speedOffsetScalar: 1
@@ -1433,7 +1423,7 @@ MonoBehaviour:
     fireballY2: 4
     fireballY3: -3
     fireballSpeed: 0.3
-  - triggerDistance: 740
+  - triggerDistance: 730
     obstaclePrefab: {fileID: 733035214477214270, guid: 92b5bf223a110a34eb4b8a0bb2da4a7d, type: 3}
     yPosition: 4
     speedOffsetScalar: 1
@@ -1443,7 +1433,7 @@ MonoBehaviour:
     fireballY2: 4
     fireballY3: -4
     fireballSpeed: 0.3
-  - triggerDistance: 744
+  - triggerDistance: 734
     obstaclePrefab: {fileID: 733035214477214270, guid: 92b5bf223a110a34eb4b8a0bb2da4a7d, type: 3}
     yPosition: 4
     speedOffsetScalar: 1
@@ -1453,7 +1443,7 @@ MonoBehaviour:
     fireballY2: 4
     fireballY3: -5
     fireballSpeed: 0.3
-  - triggerDistance: 754
+  - triggerDistance: 744
     obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
     yPosition: 2
     speedOffsetScalar: 1.4
@@ -1462,4 +1452,804 @@ MonoBehaviour:
     turretXPos: 1
     fireballY2: 1
     fireballY3: 1
+    fireballSpeed: 0.1
+  - triggerDistance: 754
+    obstaclePrefab: {fileID: 733035214477214270, guid: 92b5bf223a110a34eb4b8a0bb2da4a7d, type: 3}
+    yPosition: 4
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 8
+    fireballSpeed: 0.3
+  - triggerDistance: 754
+    obstaclePrefab: {fileID: 733035214477214270, guid: 92b5bf223a110a34eb4b8a0bb2da4a7d, type: 3}
+    yPosition: 4
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: -2
+    fireballSpeed: 0.3
+  - triggerDistance: 763
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 2.5
+    speedOffsetScalar: 1.2
+    sawScale: 3
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 763
+    obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
+    yPosition: 3
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 766
+    obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
+    yPosition: 4
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 766
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 1
+    speedOffsetScalar: 0.8
+    sawScale: 1.5
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 769
+    obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
+    yPosition: 5
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 772
+    obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
+    yPosition: 5
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 776
+    obstaclePrefab: {fileID: 1288570722599265875, guid: 320bc154dcda2a64c813caa18c39e807, type: 3}
+    yPosition: 0
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 3
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 777
+    obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
+    yPosition: 2
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 781
+    obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
+    yPosition: 4
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 788
+    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
+    yPosition: 7
+    speedOffsetScalar: 2
+    sawScale: 1
+    laserLength: 1
+    turretXPos: -3
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 789
+    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
+    yPosition: 5
+    speedOffsetScalar: 2
+    sawScale: 1
+    laserLength: 1
+    turretXPos: -1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 790
+    obstaclePrefab: {fileID: 733035214477214270, guid: 92b5bf223a110a34eb4b8a0bb2da4a7d, type: 3}
+    yPosition: 4
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 7
+    fireballSpeed: 0.3
+  - triggerDistance: 790
+    obstaclePrefab: {fileID: 733035214477214270, guid: 92b5bf223a110a34eb4b8a0bb2da4a7d, type: 3}
+    yPosition: 4
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: -3
+    fireballSpeed: 0.3
+  - triggerDistance: 800
+    obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
+    yPosition: 2.5
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 808
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 3
+    speedOffsetScalar: 0.45
+    sawScale: 2
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 808
+    obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
+    yPosition: 1.5
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 808
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 1
+    speedOffsetScalar: 2
+    sawScale: 2
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 810
+    obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
+    yPosition: 1.5
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 811
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 5
+    speedOffsetScalar: 2
+    sawScale: 2
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 818
+    obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
+    yPosition: 3.5
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 818
+    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
+    yPosition: 6
+    speedOffsetScalar: 1.2
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 0
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 820
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 3
+    speedOffsetScalar: 2
+    sawScale: 1.5
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 821
+    obstaclePrefab: {fileID: 1288570722599265875, guid: 320bc154dcda2a64c813caa18c39e807, type: 3}
+    yPosition: 0
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 2
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 821
+    obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
+    yPosition: 5
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 825
+    obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
+    yPosition: 4
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 827
+    obstaclePrefab: {fileID: 733035214477214270, guid: 92b5bf223a110a34eb4b8a0bb2da4a7d, type: 3}
+    yPosition: 4.5
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: -1.5
+    fireballSpeed: 0.3
+  - triggerDistance: 828
+    obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
+    yPosition: 4.5
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 832
+    obstaclePrefab: {fileID: 733035214477214270, guid: 92b5bf223a110a34eb4b8a0bb2da4a7d, type: 3}
+    yPosition: 4.5
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 7
+    fireballSpeed: 0.3
+  - triggerDistance: 834
+    obstaclePrefab: {fileID: 733035214477214270, guid: 92b5bf223a110a34eb4b8a0bb2da4a7d, type: 3}
+    yPosition: 4.5
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 6
+    fireballSpeed: 0.3
+  - triggerDistance: 844
+    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
+    yPosition: 2.5
+    speedOffsetScalar: 3
+    sawScale: 1
+    laserLength: 1
+    turretXPos: -4
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 854
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 1.5
+    speedOffsetScalar: 0.9
+    sawScale: 2
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 855
+    obstaclePrefab: {fileID: 733035214477214270, guid: 92b5bf223a110a34eb4b8a0bb2da4a7d, type: 3}
+    yPosition: 4
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: -3
+    fireballY3: 2
+    fireballSpeed: 0.3
+  - triggerDistance: 857
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 3
+    speedOffsetScalar: 0.8
+    sawScale: 1.5
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 862
+    obstaclePrefab: {fileID: 733035214477214270, guid: 92b5bf223a110a34eb4b8a0bb2da4a7d, type: 3}
+    yPosition: 4
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 4
+    fireballY3: -4.5
+    fireballSpeed: 0.3
+  - triggerDistance: 863
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 0.5
+    speedOffsetScalar: 0.8
+    sawScale: 1.5
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 864
+    obstaclePrefab: {fileID: 733035214477214270, guid: 92b5bf223a110a34eb4b8a0bb2da4a7d, type: 3}
+    yPosition: 4
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: -8
+    fireballY3: 2
+    fireballSpeed: 0.3
+  - triggerDistance: 865
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 4.5
+    speedOffsetScalar: 0.7
+    sawScale: 2.5
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 876
+    obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
+    yPosition: 1.5
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 881
+    obstaclePrefab: {fileID: 6643161186765864340, guid: ec35d93b80f48894e93b53e0d3d2003f, type: 3}
+    yPosition: 2
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 882
+    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
+    yPosition: 6.5
+    speedOffsetScalar: 2
+    sawScale: 1
+    laserLength: 1
+    turretXPos: -1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 883
+    obstaclePrefab: {fileID: 1288570722599265875, guid: 320bc154dcda2a64c813caa18c39e807, type: 3}
+    yPosition: 0
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 895
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 5
+    speedOffsetScalar: 3
+    sawScale: 3
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 905
+    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
+    yPosition: 7
+    speedOffsetScalar: 0.4
+    sawScale: 1
+    laserLength: 1
+    turretXPos: -1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 905
+    obstaclePrefab: {fileID: 733035214477214270, guid: 92b5bf223a110a34eb4b8a0bb2da4a7d, type: 3}
+    yPosition: 4
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 8
+    fireballY3: -2
+    fireballSpeed: 0.6
+  - triggerDistance: 909
+    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
+    yPosition: 6.5
+    speedOffsetScalar: 0.45
+    sawScale: 1
+    laserLength: 1
+    turretXPos: -1.125
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 909
+    obstaclePrefab: {fileID: 733035214477214270, guid: 92b5bf223a110a34eb4b8a0bb2da4a7d, type: 3}
+    yPosition: 4
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: -8
+    fireballY3: 3
+    fireballSpeed: 0.6
+  - triggerDistance: 913
+    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
+    yPosition: 6
+    speedOffsetScalar: 0.35
+    sawScale: 1
+    laserLength: 1
+    turretXPos: -0.0875
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 913
+    obstaclePrefab: {fileID: 733035214477214270, guid: 92b5bf223a110a34eb4b8a0bb2da4a7d, type: 3}
+    yPosition: 4
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: -2
+    fireballY3: -4
+    fireballSpeed: 0.6
+  - triggerDistance: 917
+    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
+    yPosition: 5.5
+    speedOffsetScalar: 0.5
+    sawScale: 1
+    laserLength: 1
+    turretXPos: -1.25
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 917
+    obstaclePrefab: {fileID: 733035214477214270, guid: 92b5bf223a110a34eb4b8a0bb2da4a7d, type: 3}
+    yPosition: 4
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 6
+    fireballY3: 0
+    fireballSpeed: 0.6
+  - triggerDistance: 921
+    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
+    yPosition: 5
+    speedOffsetScalar: 0.42
+    sawScale: 1
+    laserLength: 1
+    turretXPos: -0.105
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 921
+    obstaclePrefab: {fileID: 733035214477214270, guid: 92b5bf223a110a34eb4b8a0bb2da4a7d, type: 3}
+    yPosition: 4
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 1
+    fireballY3: 2
+    fireballSpeed: 0.6
+  - triggerDistance: 924
+    obstaclePrefab: {fileID: 733035214477214270, guid: 92b5bf223a110a34eb4b8a0bb2da4a7d, type: 3}
+    yPosition: 4
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: -4
+    fireballY3: 0
+    fireballSpeed: 0.6
+  - triggerDistance: 925
+    obstaclePrefab: {fileID: 733035214477214270, guid: 92b5bf223a110a34eb4b8a0bb2da4a7d, type: 3}
+    yPosition: 4
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: -4
+    fireballY3: 0
+    fireballSpeed: 0.6
+  - triggerDistance: 955
+    obstaclePrefab: {fileID: 1288570722599265875, guid: 320bc154dcda2a64c813caa18c39e807, type: 3}
+    yPosition: 0
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 3
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 956
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 3
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 956.5
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 2
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 957
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 1
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 958
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 6
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 958.5
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 5
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 959
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 4
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 959.5
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 3
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 960
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 4
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 961
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 5
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 963
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 6.5
+    speedOffsetScalar: 1
+    sawScale: 2
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 963.5
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 1
+    speedOffsetScalar: 1
+    sawScale: 3
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 965
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 6.5
+    speedOffsetScalar: 1
+    sawScale: 2
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 966.5
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 5
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 967
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 4
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 967
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 3
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 970.5
+    obstaclePrefab: {fileID: 1288570722599265875, guid: 320bc154dcda2a64c813caa18c39e807, type: 3}
+    yPosition: 0
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 4
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 973.5
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 5
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 974
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 4
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 974.5
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 3
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 975
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 2
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 976
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 1.5
+    speedOffsetScalar: 1
+    sawScale: 1
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 979
+    obstaclePrefab: {fileID: 6549578162087934379, guid: 9c5f0dbe484db9548809f9bbd342a087, type: 3}
+    yPosition: 7.5
+    speedOffsetScalar: 2
+    sawScale: 2.75
+    laserLength: 1
+    turretXPos: 1
+    fireballY2: 0
+    fireballY3: 0
+    fireballSpeed: 0.1
+  - triggerDistance: 987
+    obstaclePrefab: {fileID: 2944352363105524842, guid: d3a6c90bae86bd948bd654bd6dc99e29, type: 3}
+    yPosition: 2
+    speedOffsetScalar: 4
+    sawScale: 2.5
+    laserLength: 1
+    turretXPos: -5
+    fireballY2: 0
+    fireballY3: 0
     fireballSpeed: 0.1
