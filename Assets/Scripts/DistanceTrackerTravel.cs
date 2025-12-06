@@ -25,6 +25,7 @@ public class DistanceTrackerTravel : MonoBehaviour
         Messenger<float>.AddListener(GameEvent.SET_RUN_SCALAR, InitializeRunScalar);
         Messenger<float>.AddListener(GameEvent.ADJ_RUN_SPEED, ReactToGameSpeedChange);
         Messenger.AddListener(GameEvent.PLAYER_DIED, PlayerDied);
+        Messenger.AddListener(GameEvent.PLAYER_WON, PlayerDied);
     }
 
     void OnDisable()
@@ -34,6 +35,7 @@ public class DistanceTrackerTravel : MonoBehaviour
         Messenger<float>.RemoveListener(GameEvent.SET_RUN_SCALAR, InitializeRunScalar);
         Messenger<float>.RemoveListener(GameEvent.ADJ_RUN_SPEED, ReactToGameSpeedChange);
         Messenger.RemoveListener(GameEvent.PLAYER_DIED, PlayerDied);
+        Messenger.RemoveListener(GameEvent.PLAYER_WON, PlayerDied);
     }
 
     // Toggle running, -- from UIBracketMode

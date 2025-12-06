@@ -49,7 +49,6 @@ public class MovementScroller : MonoBehaviour
             {
                 float offset = Mathf.Abs(layer.transform.position.x - xLimit);
                 layer.transform.position = new Vector2(startPos.x - offset, layer.transform.position.y);
-                // layer.transform.position = new Vector2(startPos.x, layer.transform.position.y);
             }
 
             // Translate with the layer-specific factor
@@ -65,6 +64,7 @@ public class MovementScroller : MonoBehaviour
         Messenger<float>.AddListener(GameEvent.SET_RUN_SCALAR, InitializeRunScalar);
         Messenger<float>.AddListener(GameEvent.ADJ_RUN_SPEED, ReactToGameSpeedChange);
         Messenger.AddListener(GameEvent.PLAYER_DIED, PlayerDied);
+        Messenger.AddListener(GameEvent.PLAYER_WON, PlayerDied);
     }
 
     void OnDisable()
@@ -74,6 +74,7 @@ public class MovementScroller : MonoBehaviour
         Messenger<float>.RemoveListener(GameEvent.SET_RUN_SCALAR, InitializeRunScalar);
         Messenger<float>.RemoveListener(GameEvent.ADJ_RUN_SPEED, ReactToGameSpeedChange);
         Messenger.RemoveListener(GameEvent.PLAYER_DIED, PlayerDied);
+        Messenger.RemoveListener(GameEvent.PLAYER_WON, PlayerDied);
     }
 
     // Toggle running, -- from UIBracketMode
@@ -83,9 +84,16 @@ public class MovementScroller : MonoBehaviour
         else running = true;
     }
 
-    // Slows this object to a stop when player dies, -- from PlayerHealth
+    // Slows this object to a stop when player dies or wins, -- from PlayerHealth
     private void PlayerDied()
     {
+        // Overwrite any active lerp
+        if (speedLerpRoutine != null)
+        {
+            StopCoroutine(speedLerpRoutine);
+            speedLerpRoutine = null;
+        }
+
         StartCoroutine(LerpToNewSpeed(runSpeedScalar, 0f, runSpeedScalar));
     }
 

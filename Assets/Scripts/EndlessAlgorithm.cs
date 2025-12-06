@@ -95,14 +95,17 @@ public class EndlessAlgorithm : MonoBehaviour
 
     void Update()
     {
+        // Game loop
         if (endless)
         {
+            // Check for speed increase
             if (distance > nextSpeedupPoint)
             {
                 nextSpawnPoint += nextSpeedupPoint;
                 StartCoroutine(IncrementRunSpeed());
                 nextSpeedupPoint += speedupDistance;
             }
+            // Check for next spawn point
             if (distance > nextSpawnPoint)
             {
                 if (!spamming) ChanceForTypeSpam();
@@ -129,15 +132,21 @@ public class EndlessAlgorithm : MonoBehaviour
         Messenger<float>.RemoveListener(GameEvent.SET_RUN_SCALAR, InitializeRunScalar);
     }
 
+    // Speed adjust coroutine
     private IEnumerator IncrementRunSpeed()
     {
         runScalar += speedupIncrement;
         Messenger<float>.Broadcast(GameEvent.ADJ_RUN_SPEED, runScalar);
 
+        // Increase the distance to the next speed up point
         speedupDistance += 100f;
+
+        // Prototype increased difficulty
         if (difficult)
         {
+            // Increase spawn range
             nextSpawnMax += nextSpawnIncrement;
+            // Increase the spawn increment
             speedupIncrement += speedupIncrement;
         }
 
@@ -265,6 +274,7 @@ public class EndlessAlgorithm : MonoBehaviour
 
     void EndTypeSpam()
     {
+        // Restore probabilities
         if (distance > spamPoint)
         {
             boxSpawnChance = storedBoxChance;
@@ -334,25 +344,26 @@ public class EndlessAlgorithm : MonoBehaviour
             int turretChance = Random.Range(0, 80);
             int boxChance = Random.Range(0, 80);
             int sawChance = Random.Range(0, 100);
-            if (fireballChance == 1)
+
+            if (fireballChance == 2)
             {
                 FireballSpam();
                 Messenger.Broadcast(GameEvent.SPAM_ALERT);
                 return;
             }
-            else if (turretChance == 1)
+            else if (turretChance == 2)
             {
                 TurretSpam();
                 Messenger.Broadcast(GameEvent.SPAM_ALERT);
                 return;
             }
-            else if (boxChance == 1)
+            else if (boxChance == 2)
             {
                 BoxSpam();
                 Messenger.Broadcast(GameEvent.SPAM_ALERT);
                 return;
             }
-            else if (sawChance == 1)
+            else if (sawChance == 2)
             {
                 SawSpam();
                 Messenger.Broadcast(GameEvent.SPAM_ALERT);
@@ -401,6 +412,7 @@ public class EndlessAlgorithm : MonoBehaviour
 
     void SetNextSpawnPoint()
     {
+        // Check constraints before choosing a spawn point
         if (twoObstaclesNearby)
         {
             nextSpawnPoint = distance + Random.Range(nextSpawnMax * 0.5f, nextSpawnMax);
@@ -416,11 +428,11 @@ public class EndlessAlgorithm : MonoBehaviour
             nextSpawnPoint = distance + Random.Range(nextSpawnMin, nextSpawnMax);
         }
 
+        // Apply constraints, if applicable
         if (nextSpawnPoint - distance < lowEndThreshold) twoObstaclesNearby = true;
         if (nextSpawnPoint - distance > highEndThreshold) twoObstaclesFar = true;
 
-        // Unlock next obstacle depending on custom distance
-
+        // Unlock next obstacle if requirement met
         if (!spamming)
         {
             if (distance > unlockSawDistance)

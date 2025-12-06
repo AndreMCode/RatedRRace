@@ -98,6 +98,7 @@ public class PlayerController : MonoBehaviour
         Messenger.AddListener(GameEvent.PLAYER_READY, ReadyAnim);
         Messenger.AddListener(GameEvent.START_RUN, SetRunning);
         Messenger.AddListener(GameEvent.PLAYER_DIED, PlayerDied);
+        Messenger.AddListener(GameEvent.PLAYER_WON, PlayerWon);
         Messenger<bool>.AddListener(GameEvent.SET_ABILITY_SLIDE, CanSlide);
         Messenger<bool>.AddListener(GameEvent.SET_ABILITY_DIVE, CanDive);
         Messenger<float>.AddListener(GameEvent.SET_RUN_SCALAR, SetRunAnimSpeed);
@@ -111,10 +112,50 @@ public class PlayerController : MonoBehaviour
         Messenger.RemoveListener(GameEvent.PLAYER_READY, ReadyAnim);
         Messenger.RemoveListener(GameEvent.START_RUN, SetRunning);
         Messenger.RemoveListener(GameEvent.PLAYER_DIED, PlayerDied);
+        Messenger.RemoveListener(GameEvent.PLAYER_WON, PlayerWon);
         Messenger<bool>.RemoveListener(GameEvent.SET_ABILITY_SLIDE, CanSlide);
         Messenger<bool>.RemoveListener(GameEvent.SET_ABILITY_DIVE, CanDive);
         Messenger<float>.RemoveListener(GameEvent.SET_RUN_SCALAR, SetRunAnimSpeed);
         Messenger.RemoveListener(GameEvent.PLAYER_TOGGLE_CONTROLS, ToggleControlsOnPause);
+    }
+
+    void PlayerWon()
+    {
+        isAlive = false;
+
+        if (animator.GetBool("IsRunning"))
+        {
+            animator.SetBool("IsRunning", false);
+            animator.SetBool("IsIdle", true);
+
+            return;
+        }
+        else if (animator.GetBool("IsSliding"))
+        {
+            animator.SetBool("IsSliding", false);
+            animator.SetBool("IsIdle", true);
+
+            return;
+        }
+        else if (animator.GetBool("IsJumping"))
+        {
+            animator.SetBool("IsJumping", false);
+            animator.SetBool("IsIdle", true);
+
+            return;
+        }
+        else if (animator.GetBool("IsLanding"))
+        {
+            animator.SetBool("IsLanding", false);
+            animator.SetBool("IsIdle", true);
+
+            return;
+        }
+        else if (animator.GetBool("IsDiving"))
+        {
+            animator.SetBool("IsDiving", false);
+            animator.SetBool("IsIdle", true);
+        }
     }
 
     // Perform environmental checks, apply buffers
@@ -259,7 +300,7 @@ public class PlayerController : MonoBehaviour
             if (crouchAction.WasPressedThisFrame() && !grounded && canSlide)
             {
                 if (bufferedJump) return;
-                // Dive only if airborne and NOT within slide buffer proximity
+                // Dive only if airborne
                 else if (canDive)
                 {
                     ApplyDive();

@@ -6,6 +6,7 @@ public class CubicBZFireball : MonoBehaviour
     [SerializeField] BezierMovement bzMovement;
     public GameObject secondPoint;
     public GameObject thirdPoint;
+    public float inflectionRange = 8.0f;
 
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip fireballWarnSFX;
@@ -26,8 +27,8 @@ public class CubicBZFireball : MonoBehaviour
 
     public void SetFireballCurvePoints(float second, float third)
     {
-        second = Mathf.Clamp(second, -4f, 4f);
-        third = Mathf.Clamp(third, -4f, 4f);
+        second = Mathf.Clamp(second, -inflectionRange, inflectionRange);
+        third = Mathf.Clamp(third, -inflectionRange, inflectionRange);
         
         // Adjust y-position for second and third points
         Vector3 secondPos = secondPoint.transform.localPosition;

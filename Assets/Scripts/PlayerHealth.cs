@@ -13,7 +13,10 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] GameObject spriteHandle;
     [SerializeField] SpriteRenderer playerSprite;
     [SerializeField] GameObject bubbleHandle;
-    [SerializeField] BubbleAction bubbleAction;
+    // [SerializeField] BubbleAction bubbleAction;
+
+    [SerializeField] BubbleShieldEffect bubbleEffect;
+
     private PlayerController playerController;
     private readonly int baseHealth = 1;
     private int health;
@@ -79,18 +82,38 @@ public class PlayerHealth : MonoBehaviour
     {
         Messenger<int>.AddListener(GameEvent.SET_HEALTH, SetHealth);
         Messenger.AddListener(GameEvent.START_RUN, StartWindTrailParticles);
+        Messenger.AddListener(GameEvent.PLAYER_WON, PlayerWon);
     }
 
     void OnDisable()
     {
         Messenger<int>.RemoveListener(GameEvent.SET_HEALTH, SetHealth);
         Messenger.RemoveListener(GameEvent.START_RUN, StartWindTrailParticles);
+        Messenger.RemoveListener(GameEvent.PLAYER_WON, PlayerWon);
+    }
+
+    void PlayerWon()
+    {
+        Debug.Log("Awarded +$" + totalBonus);
+        float money = PlayerPrefs.GetFloat("Money");
+        money += totalBonus;
+        PlayerPrefs.SetFloat("Money", money);
+
+        Messenger<float>.Broadcast(GameEvent.UI_UPDATE_BONUS, totalBonus);
+
+        StopWindTrailParticles();
+        StopSlideDustParticles();
+        StopDiveEffectParticles();
+        playerSFX.StopRunSFX();
+
+        isAlive = false;
     }
 
     void PlayerHit()
     {
         health--;
-        if (health > 0) StartCoroutine(ShieldInvincibility(0.1f, 8)); // = 1.6 seconds
+        if (health > 0) StartCoroutine(ShieldEffect(0.2f, 8)); // = 1.6 seconds
+        // if (health > 0) StartCoroutine(ShieldInvincibility(0.1f, 8)); // = 1.6 seconds
         Messenger.Broadcast(GameEvent.UI_DECREMENT_BUBBLE);
     }
 
@@ -102,7 +125,7 @@ public class PlayerHealth : MonoBehaviour
         if (health > 1)
         {
             EnableBubbleShield();
-            bubbleAction.RestartSpin();
+            // bubbleAction.RestartSpin();
         }
     }
 
@@ -147,6 +170,7 @@ public class PlayerHealth : MonoBehaviour
         bubbleHandle.SetActive(true);
     }
 
+    // Compute bonus on landing
     public void PlayerLanded()
     {
         totalBonus += baseBoxBonus * jumpCombo * (jumpCombo + 1);
@@ -328,27 +352,45 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    private IEnumerator ShieldInvincibility(float interval, int count)
+    private IEnumerator ShieldEffect(float interval, int count)
     {
         invincible = true;
         playerSFX.PlayShieldHitSFX();
 
-        bubbleAction.isBroken = true;
-        StartCoroutine(bubbleAction.FlickerRoutine());
-
         for (int i = 0; i < count; i++)
         {
-            playerSprite.enabled = false;
-            yield return new WaitForSeconds(interval);
-            playerSprite.enabled = true;
+            bubbleEffect.Tween();
             yield return new WaitForSeconds(interval);
         }
 
         invincible = false;
         playerSFX.PlayShieldPopSFX();
+        bubbleEffect.BubbleParticle();
 
-        bubbleAction.isBroken = false;
-
-        if (health > 1) bubbleAction.RestartSpin(); else bubbleHandle.SetActive(false);
+        if (health <= 1) bubbleHandle.SetActive(false);
     }
+
+    //private IEnumerator ShieldInvincibility(float interval, int count)
+    //{
+    //    invincible = true;
+    //    playerSFX.PlayShieldHitSFX();
+
+    //    bubbleAction.isBroken = true;
+    //    StartCoroutine(bubbleAction.FlickerRoutine());
+
+    //    for (int i = 0; i < count; i++)
+    //    {
+    //        playerSprite.enabled = false;
+    //        yield return new WaitForSeconds(interval);
+    //        playerSprite.enabled = true;
+    //        yield return new WaitForSeconds(interval);
+    //    }
+
+    //    invincible = false;
+    //    playerSFX.PlayShieldPopSFX();
+
+    //    bubbleAction.isBroken = false;
+
+    //    if (health > 1) bubbleAction.RestartSpin(); else bubbleHandle.SetActive(false);
+    //}
 }

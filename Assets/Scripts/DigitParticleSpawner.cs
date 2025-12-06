@@ -14,6 +14,7 @@ public class DigitParticleSpawner : MonoBehaviour
         currentValue++;
         currentValue = Mathf.Clamp(currentValue, 0, 9);
 
+        // Display a specific digit 1-9
         if (currentValue > 0)
         {
             if (particlePrefab == null) return;
@@ -28,6 +29,7 @@ public class DigitParticleSpawner : MonoBehaviour
             float lifetime = digitParticle.main.duration + digitParticle.main.startLifetime.constantMax;
             Destroy(digitParticle.gameObject, lifetime + 0.1f);
 
+            // Apply specific sound pitch for each digit
             float bonusPitch = 0.9f + (0.16f * currentValue);
             audioSource.pitch = bonusPitch;
             audioSource.PlayOneShot(bonusSFX, bonusVol);
