@@ -41,7 +41,7 @@ public class SpawnManager : MonoBehaviour
                 {
                     EndRun();
 
-                    int lvlAccess = PlayerPrefs.GetInt("LevelAccess", 0);
+                    int lvlAccess = PlayerPrefs.GetInt("LevelAccess", 1);
                     if (lvlAccess < 4) negateEarnings = true;
 
                     Messenger.Broadcast(GameEvent.PLAYER_WON);
@@ -113,8 +113,7 @@ public class SpawnManager : MonoBehaviour
             // Apply parameters specific to Turret
             if (evt.obstaclePrefab.name == "Turret")
             {
-                TurretAction turretAction = nextObstacle.GetComponent<TurretAction>();
-                if (turretAction != null)
+                if (nextObstacle.TryGetComponent<TurretAction>(out var turretAction))
                 {
                     turretAction.xPosForAction = evt.turretXPos;
                 }
@@ -204,7 +203,7 @@ public class SpawnManager : MonoBehaviour
         if (gameLevel == 1)
         {
             currentFixedBracket = bracket1;
-            goalDistance = 25f;
+            goalDistance = 500f;
         }
         else if (gameLevel == 2)
         { 
@@ -214,7 +213,7 @@ public class SpawnManager : MonoBehaviour
         else if (gameLevel == 3)
         {
             currentFixedBracket = bracket3;
-            goalDistance = 350f;
+            goalDistance = 1400f;
         }
         else if (gameLevel == 4)
         {

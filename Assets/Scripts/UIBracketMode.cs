@@ -1,7 +1,8 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System.Collections;
+using static UnityEngine.Rendering.DebugUI;
 
 public class UIBracketMode : MonoBehaviour
 {
@@ -33,6 +34,8 @@ public class UIBracketMode : MonoBehaviour
     [SerializeField] GameObject goalWindow;
     [SerializeField] GameObject goalEarningsTxt;
     [SerializeField] GameObject goalTotalTxt;
+    [SerializeField] GameObject unlockWindow;
+    [SerializeField] GameObject unlockTxt;
 
     public int gameLevel;
     private int playerDefense;
@@ -40,6 +43,7 @@ public class UIBracketMode : MonoBehaviour
     public bool isPaused = false;
     public bool isAlive = false;
     private bool earningsUpdated = false;
+    private bool otherWindowOpen = false;
     private bool levelComplete = false;
 
     public InputAction pauseAction;
@@ -63,6 +67,7 @@ public class UIBracketMode : MonoBehaviour
         countdownTxt.enabled = false;
         gameOverWindow.SetActive(false);
         goalWindow.SetActive(false);
+        unlockWindow.SetActive(false);
 
         DisplayFunds();
 
@@ -77,13 +82,13 @@ public class UIBracketMode : MonoBehaviour
             else PauseGame();
         }
 
-        if (restartRunAction.WasPressedThisFrame() && (isPaused || earningsUpdated && !levelComplete))
+        if (restartRunAction.WasPressedThisFrame() && !otherWindowOpen && (isPaused || earningsUpdated && !levelComplete))
         {
             if (isPaused) Time.timeScale = 1f;
             ReloadScene();
         }
 
-        if (goToMainMenuAction.WasPressedThisFrame() && (isPaused || earningsUpdated))
+        if (goToMainMenuAction.WasPressedThisFrame() && !otherWindowOpen && (isPaused || earningsUpdated))
         {
             if (isPaused) Time.timeScale = 1f;
             UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
@@ -156,7 +161,7 @@ public class UIBracketMode : MonoBehaviour
 
     void DisplayFunds()
     {
-        fundsTxt.text = "$ " + PlayerPrefs.GetFloat("Money", 0).ToString("F2");
+        fundsTxt.text = "$" + PlayerPrefs.GetFloat("Money", 0).ToString("F2");
     }
 
     private void InitializeLevel(int number)
@@ -228,12 +233,38 @@ public class UIBracketMode : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        int lvlAccess = PlayerPrefs.GetInt("LevelAccess", 0);
+        int lvlAccess = PlayerPrefs.GetInt("LevelAccess", 1);
         if (lvlAccess < gameLevel + 1)
         {
             lvlAccess++;
             PlayerPrefs.SetInt("LevelAccess", lvlAccess);
+
+            if (lvlAccess == 2)
+            {
+                unlockWindow.SetActive(true);
+                otherWindowOpen = true;
+
+                if (!unlockTxt.TryGetComponent<TextMeshProUGUI>(out var unlockMsg)) return;
+
+                unlockMsg.text = "Unlocked Slide ability!";
+            }
+            else if (lvlAccess == 3)
+            {
+                unlockWindow.SetActive(true);
+                otherWindowOpen = true;
+
+                if (!unlockTxt.TryGetComponent<TextMeshProUGUI>(out var unlockMsg)) return;
+
+                unlockMsg.text = "Unlocked Dive ability!";
+            }
         }
+    }
+
+    public void OnClickUnlockOK()
+    {
+        unlockWindow.SetActive(false);
+
+        otherWindowOpen = false;
     }
 
     public void OnClickControls()
@@ -242,6 +273,8 @@ public class UIBracketMode : MonoBehaviour
         controlsWindow.SetActive(true);
         jumpWidget.SetActive(true);
         slideWidget.SetActive(false);
+
+        otherWindowOpen = true;
 
         if (gameLevel == 2)
         {
@@ -259,6 +292,8 @@ public class UIBracketMode : MonoBehaviour
     {
         pauseWindow.SetActive(true);
         controlsWindow.SetActive(false);
+
+        otherWindowOpen = false;
     }
 
     public void OnClickNextRun()
@@ -332,7 +367,8 @@ public class UIBracketMode : MonoBehaviour
         isPaused = true;
 
         pauseWindow.SetActive(true);
-        
+        otherWindowOpen = false;
+
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 

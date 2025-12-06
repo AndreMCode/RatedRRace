@@ -10,7 +10,7 @@ public class UIMainMenu : MonoBehaviour
 
     public AudioSource menuIntro; // plays once, from time 0
     public AudioSource menuLoop;  // looped source; its clip should be the loop section and set to loop = true
-    private static WaitForSeconds _waitForSeconds0_5 = new(0.5f);
+    private static readonly WaitForSeconds _waitForSeconds0_5 = new(0.5f);
     [SerializeField] GameObject mainMenu;
     [SerializeField] GameObject playMenu;
     [SerializeField] GameObject buffsMenu;
@@ -33,8 +33,6 @@ public class UIMainMenu : MonoBehaviour
 
     void Start()
     {
-        // PlayerPrefs.SetInt("BubbleShieldCount", 0);
-
         instpage = 0;
 
         HideAllMenus();
