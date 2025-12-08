@@ -2668,7 +2668,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: a492b03931a8b1547a28de6e0510dd5e, type: 3}
   m_Resource: {fileID: 8300000, guid: a492b03931a8b1547a28de6e0510dd5e, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.4
+  m_Volume: 0.04
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -3278,7 +3278,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: a492b03931a8b1547a28de6e0510dd5e, type: 3}
   m_Resource: {fileID: 8300000, guid: a492b03931a8b1547a28de6e0510dd5e, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.4
+  m_Volume: 0.04
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -4173,7 +4173,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: a492b03931a8b1547a28de6e0510dd5e, type: 3}
   m_Resource: {fileID: 8300000, guid: a492b03931a8b1547a28de6e0510dd5e, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.4
+  m_Volume: 0.04
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -5434,7 +5434,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: e858077079d89b1429980b5b2ac915ca, type: 3}
   m_Resource: {fileID: 8300000, guid: e858077079d89b1429980b5b2ac915ca, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.7
+  m_Volume: 0.07
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -10265,7 +10265,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: a492b03931a8b1547a28de6e0510dd5e, type: 3}
   m_Resource: {fileID: 8300000, guid: a492b03931a8b1547a28de6e0510dd5e, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.4
+  m_Volume: 0.04
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -10941,7 +10941,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distanceTracker: {fileID: 7891859}
   endlessMode: {fileID: 1941942873}
-  bracket1: {fileID: 11400000, guid: bff05f1a5a99d2f41832bfd89b8c7ece, type: 2}
+  bracket1: {fileID: 11400000, guid: fccd8dea916a0134f9f0eb7ca3d7827e, type: 2}
   bracket2: {fileID: 11400000, guid: b2929ea7b32e3064b9624584225a39c6, type: 2}
   bracket3: {fileID: 11400000, guid: 2450a6a1d0269d746bd3c8ef9e13e45e, type: 2}
   distanceTraveled: 0
@@ -11548,7 +11548,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2075742325
 MonoBehaviour:
   m_ObjectHideFlags: 0

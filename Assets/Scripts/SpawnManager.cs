@@ -203,7 +203,7 @@ public class SpawnManager : MonoBehaviour
         if (gameLevel == 1)
         {
             currentFixedBracket = bracket1;
-            goalDistance = 500f;
+            goalDistance = 430f;
         }
         else if (gameLevel == 2)
         { 
@@ -213,7 +213,7 @@ public class SpawnManager : MonoBehaviour
         else if (gameLevel == 3)
         {
             currentFixedBracket = bracket3;
-            goalDistance = 1400f;
+            goalDistance = 1000f;
         }
         else if (gameLevel == 4)
         {
