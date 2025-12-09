@@ -27,6 +27,7 @@ public class UIMainMenu : MonoBehaviour
     [SerializeField] GameObject InstructionMenuPG3;
     [SerializeField] GameObject InstructionMenuPG4;
     [SerializeField] GameObject InstructionMenuPG5;
+    [SerializeField] GameObject InstructionMenuPG6;
     public int levelAccess;
     public int shopAccess;
     private int instpage;
@@ -55,6 +56,7 @@ public class UIMainMenu : MonoBehaviour
         InstructionMenuPG3.SetActive(false);
         InstructionMenuPG4.SetActive(false);
         InstructionMenuPG5.SetActive(false);
+        InstructionMenuPG6.SetActive(false);
     }
 
     void SetMenuAudio()
@@ -239,12 +241,10 @@ public class UIMainMenu : MonoBehaviour
             Application.Quit();
 #endif
     }
-
-    void OnClickBack()
+    public void OnClickBack()
     {
         DisplayMainMenu();
     }
-
 
     // Reset game progress
     public void OnClickResetProgress()
@@ -364,6 +364,9 @@ public class UIMainMenu : MonoBehaviour
                 return;
             case 5:
                 InstructionMenuPG5.SetActive(true);
+                return;
+            case 6:
+                InstructionMenuPG6.SetActive(true);
                 return;
             default:
                 break;
