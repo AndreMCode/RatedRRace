@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEditor;
 using TMPro;
+using UnityEngine.UI;
 
 public class UIMainMenu : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class UIMainMenu : MonoBehaviour
     [SerializeField] GameObject buffsMenu;
 
     [SerializeField] TextMeshProUGUI bubbleCountTxt;
+    [SerializeField] Button SilverBtn;
+    [SerializeField] Button GoldBtn;
 
     [SerializeField] GameObject endlessMenu;
     [SerializeField] GameObject shopButton;
@@ -281,6 +284,19 @@ public class UIMainMenu : MonoBehaviour
     void DisplayPlayMenu()
     {
         HideAllMenus();
+
+        SilverBtn.interactable = false;
+        GoldBtn.interactable = false;
+
+        if (levelAccess == 2)
+        {
+            SilverBtn.interactable = true;
+        }
+        else if (levelAccess > 2)
+        {
+            SilverBtn.interactable = true;
+            GoldBtn.interactable = true;
+        }
 
         playMenu.SetActive(true);
         if (levelAccess > 3) endlessMenu.SetActive(true);
