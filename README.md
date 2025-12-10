@@ -18,25 +18,33 @@ clips.
 
 Visuals:
 
-    Player character design - StoutScout37
-    Main Menu game title and background - StoutScout37
-    Most other visual elements - AndreMCode (GIMP 3.0)
-    Obstacles, environments - gen-AI + AndreMCode (GIMP 3.0)
+    Player character design - [Owen L.]
+    Main Menu game title and background - [Owen L.]
+    Most other visual elements - AndreMCode[Andre M.] (GIMP 3.0)
+    Obstacles, environments - gen-AI + AndreMCode[Andre M.] (GIMP 3.0)
 
 Sound:
 
-    Music by Faded Lullaby
-    Audio sfx editing/processing - AndreMCode (Audacity 2.4)
+    Music by [Faded Lullaby]
+    Audio sfx editing/processing - AndreMCode[Andre M.] (Audacity 2.4)
 
 Level Design:
 
-    Bronze Bracket - Complexfrost
-    Silver, Gold Bracket - AndreMCode
-    Endless - AndreMCode
+    Bronze Bracket - Complexfrost[Nicholas A.]
+    Silver, Gold Bracket - AndreMCode[Andre M.]
+    Endless - AndreMCode[Andre M.]
 
 User Interface:
 
-    Main Menu - D-Wijayayayeet
+    Main Menu - D-Wijayayayeet[Devean W.]
+    How-to interface - D-Wijayayayeet[Devean W.]
+
+Game:
+
+    Core concept/writer - [Christopher Q.]
+    Obstacle, background design - Complexfrost[Nicholas A.], [Christopher Q.]
+    Audio sfx design - [William S.]
+    Game testing - [William S.], [Owen L.]
 
 Third-party assets:
 
